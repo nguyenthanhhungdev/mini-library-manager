@@ -2,6 +2,7 @@ package ThuVien;
 import java.io.*;
 import java.util.Scanner;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 
 public class DangNhap implements DocGhiFile {
@@ -140,7 +141,13 @@ public class DangNhap implements DocGhiFile {
      * Ghi mật khẩu mới vào file*/
     @Override
     public void ghiFile(Object o) {
-
+        try {
+            FileWriter fileWriter = new FileWriter("quanlythuvien/data/DanhSachNhanVien.csv");
+            CSVWriter csvWriter = new CSVWriter(fileWriter);
+        } catch (IOException e)
+        {
+            System.out.println("Khong tim thay file");
+        }
     }
 
 
