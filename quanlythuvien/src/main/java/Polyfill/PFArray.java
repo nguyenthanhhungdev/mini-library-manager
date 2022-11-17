@@ -2,12 +2,12 @@ package Polyfill;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class Array<T> implements Iterable<T> {
-    public Array() {
+public class PFArray<T> implements Iterable<T> {
+    public PFArray() {
         this(1);
     }
 
-    public Array(int initialCapacity) {
+    public PFArray(int initialCapacity) {
         if (initialCapacity < 1) {
             throw new RuntimeException("This implementation requires initialCapacity of at least 1");
         }
@@ -15,7 +15,7 @@ public class Array<T> implements Iterable<T> {
         reserve(initialCapacity);
     }
 
-    public Array(T[] primitiveArray) {
+    public PFArray(T[] primitiveArray) {
         elements = primitiveArray.clone();
         size = elements.length;
     }

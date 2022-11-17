@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import Polyfill.Array;
+import Polyfill.PFArray;
 
 /**
  * Unit test for simple App.
@@ -24,18 +24,18 @@ public class AppTest
     }
     @Test
     public void polyfillArrayTest() {
-        Array<Integer> array = new Array<Integer>();
+        PFArray<Integer> pfarray = new PFArray<Integer>();
         List<String> strs = new ArrayList<String>();
-        array.push_back(1);
-        array.push_back(2);
-        array.push_front(3);
-        array.push_front(4);
-        array.insert(1, 5);
-        for(int i: array) {
+        pfarray.push_back(1);
+        pfarray.push_back(2);
+        pfarray.push_front(3);
+        pfarray.push_front(4);
+        pfarray.insert(1, 5);
+        for(int i: pfarray) {
             strs.add(Integer.toString(i));
         }
-        strs.add(Integer.toString(array.length()));
-        strs.add(Integer.toString(array.capacity()));
+        strs.add(Integer.toString(pfarray.length()));
+        strs.add(Integer.toString(pfarray.capacity()));
         assertTrue(String.join(" ", strs).equals("4 5 3 1 2 5 8"));
     }
 }
