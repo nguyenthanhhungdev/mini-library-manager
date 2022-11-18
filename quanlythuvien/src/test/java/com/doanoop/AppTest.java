@@ -37,5 +37,16 @@ public class AppTest
         strs.add(Integer.toString(pfarray.length()));
         strs.add(Integer.toString(pfarray.capacity()));
         assertTrue(String.join(" ", strs).equals("4 5 3 1 2 5 8"));
+        strs.clear();;
+        pfarray.pop_back();
+        pfarray.pop_front();
+        pfarray.erase(1);
+        for(int i: pfarray) {
+            strs.add(Integer.toString(i));
+        }
+        strs.add(Integer.toString(pfarray.length()));
+        strs.add(Integer.toString(pfarray.capacity()));
+        assertTrue(String.join(" ", strs).equals("5 1 2 8"));
+
     }
 }

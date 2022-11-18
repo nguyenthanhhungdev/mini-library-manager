@@ -1,5 +1,4 @@
 package Polyfill;
-import java.util.Arrays;
 import java.util.Iterator;
 
 public class PFArray<T> implements Iterable<T> {
@@ -39,7 +38,7 @@ public class PFArray<T> implements Iterable<T> {
 
     public T at(int index) {
         indexCheck(index);
-        return (T) elements[index];
+        return elements[index];
     }
 
     public void set(int index, T element) {
@@ -57,9 +56,7 @@ public class PFArray<T> implements Iterable<T> {
     public T erase(int index) {
         indexCheck(index);
         T ret = at(index);
-        for (int i = index; i < size - 1; i++) {
-            set(i, at(i + 1));
-        }
+        System.arraycopy(elements, index+1, elements, index, size - index - 1);
         updateSize(size - 1);
         return ret;
     }
@@ -104,13 +101,26 @@ public class PFArray<T> implements Iterable<T> {
     public int capacity() {
         return elements.length;
     }
+    
+    public int length() {
+        return size;
+    }
 
-    public void reserve(int reservedCapacity) {
+    private void reserve(int reservedCapacity) {
         if (reservedCapacity > capacity()) {
-            T[] newArray = (T[]) new Object[reservedCapacity];
+            if (capacity() >= maxElements) {
+                throw new RuntimeException("Max elements limit reached");
+            }
+            long newCapacity = Math.round(Math.ceil(capacity() * growthFactor));
+            T[] newArray = (T[]) new Object[newCapacity > maxElements ? maxElements : (int) newCapacity];
             System.arraycopy(elements, 0, newArray, 0, size);
             elements = newArray;
         }
+    }
+
+    private void updateSize(int newSize) {
+        reserve(newSize);
+        size = newSize;
     }
 
     private void indexCheck(int index) {
@@ -119,22 +129,8 @@ public class PFArray<T> implements Iterable<T> {
         }
     }
 
-    private void updateSize(int newSize) {
-        if (newSize > size && newSize > capacity()) {
-            if (capacity() >= maxElements) {
-                throw new RuntimeException("Max elements limit reached");
-            }
-            long newCapacity = Math.round(Math.ceil(capacity() * growthFactor));
-            elements = Arrays.copyOf(elements, newCapacity > maxElements ? maxElements : (int) newCapacity);
-        }
-        size = newSize;
-    }
-    
-    public int length() {
-        return size;
-    }
     private int size = 0;
     private static final float growthFactor = 2;
     private static final int maxElements = 2_000_000_000;
-    private T elements[] = (T[]) new Object[0];
+    private T elements[] = (T[]) new Object[1];
 }
