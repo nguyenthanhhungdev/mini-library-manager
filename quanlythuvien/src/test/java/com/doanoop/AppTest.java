@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import Polyfill.PFArray;
-import ThuVien.ThoiGian;
+import Polyfill.ThoiGian;
 
 /**
  * Unit test for simple App.
@@ -68,5 +68,6 @@ public class AppTest
         assertTrue(thoigian3.compareTo(thoigian2) > 0);
         ThoiGian thoigian4 = new ThoiGian(LocalDateTime.of(2022, 10, 29, 2, 7, 10));
         assertTrue(thoigian4.compareTo(thoigian2) == 0);
+        System.out.println(ThoiGian.now().toString());
     }
 }

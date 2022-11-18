@@ -1,4 +1,4 @@
-package ThuVien;
+package Polyfill;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -32,6 +32,9 @@ public class ThoiGian {
         return instance.format(formatter);
     }
 
+    public static ThoiGian now() {
+        return new ThoiGian(LocalDateTime.now());
+    }
     private final LocalDateTime instance;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 }
