@@ -2,14 +2,21 @@ package com.doanoop;
 
 import static org.junit.Assert.assertTrue;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import ThuVien.DangNhap;
+import ThuVien.DocGia;
+import ThuVien.NhanVien;
 import org.junit.Test;
 
 import Polyfill.PFArray;
 import Polyfill.ThoiGian;
+
+import javax.print.Doc;
 
 /**
  * Unit test for simple App.
@@ -69,5 +76,21 @@ public class AppTest
         ThoiGian thoigian4 = new ThoiGian(LocalDateTime.of(2022, 10, 29, 2, 7, 10));
         assertTrue(thoigian4.compareTo(thoigian2) == 0);
         System.out.println(ThoiGian.now().toString());
+    }
+
+    @Test
+    public void dangNhapTest()
+    {
+        Path path = Paths.get("data");
+
+        NhanVien nhanVien = new NhanVien();
+        DangNhap dangNhap = new DangNhap(nhanVien, 3121410241L, "14052003");
+        dangNhap.docFile(nhanVien, path);
+        assertTrue(dangNhap.isDangNhapThanhCong());
+
+        DocGia docGia = new DocGia();
+        DangNhap dangNhap1 = new DangNhap(docGia, 3121410241L, "14052003");
+        dangNhap1.docFile(docGia, path);
+        assertTrue(dangNhap1.isDangNhapThanhCong());
     }
 }
