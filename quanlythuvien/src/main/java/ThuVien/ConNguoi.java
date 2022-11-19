@@ -1,4 +1,5 @@
 package ThuVien;
+import Polyfill.ThoiGian;
 public abstract class ConNguoi {
     private String hoTen;
     private Ngay ngaySinh;
