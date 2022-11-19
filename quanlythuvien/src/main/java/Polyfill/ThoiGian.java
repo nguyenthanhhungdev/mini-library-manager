@@ -27,14 +27,18 @@ public class ThoiGian {
         return new ThoiGian(ngay > 0 ? instance.plusDays(ngay) : instance.minusDays(Math.abs(ngay)));
     }
     
-    @Override
-    public String toString() {
+    public String str() {
         return instance.format(formatter);
     }
 
     public static ThoiGian now() {
         return new ThoiGian(LocalDateTime.now());
     }
+
+    protected LocalDateTime getInstance() {
+        return instance;
+    }
+    
     private final LocalDateTime instance;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 }
