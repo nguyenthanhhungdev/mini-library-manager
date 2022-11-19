@@ -1,5 +1,6 @@
 package com.doanoop;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import Polyfill.KhoangThoiGian;
 import Polyfill.PFArray;
 import Polyfill.ThoiGian;
 
@@ -68,7 +70,19 @@ public class AppTest
         assertTrue(thoigian3.compareTo(thoigian2) > 0);
         ThoiGian thoigian4 = new ThoiGian(LocalDateTime.of(2022, 10, 29, 2, 7, 10));
         assertTrue(thoigian4.compareTo(thoigian2) == 0);
-        
         System.out.println(ThoiGian.now().toString());
+    }
+
+    @Test
+    public void khoangThoiGianTest() {
+        ThoiGian tg1 = new ThoiGian("08/12/2022 21:13:49");
+        ThoiGian tg2 = new ThoiGian("29/10/2022 02:07:10");
+        ThoiGian tg3 = new ThoiGian("11/09/2023 11:19:19");
+        KhoangThoiGian ktg1 = KhoangThoiGian.between(tg2, tg1);
+        KhoangThoiGian ktg2 = KhoangThoiGian.between(tg3, tg2);
+        KhoangThoiGian ktg3 = KhoangThoiGian.between(tg3, tg3);
+        assertEquals(ktg1.str(), "40 ngay, 19 gio, 6 phut, 39 giay ago");
+        assertEquals(ktg2.str(), "in 317 ngay, 9 gio, 12 phut, 9 giay");
+        assertTrue(ktg3.str().startsWith("no difference"));
     }
 }
