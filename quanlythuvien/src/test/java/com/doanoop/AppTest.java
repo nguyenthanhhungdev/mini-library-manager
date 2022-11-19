@@ -16,8 +16,6 @@ import org.junit.Test;
 import Polyfill.PFArray;
 import Polyfill.ThoiGian;
 
-import javax.print.Doc;
-
 /**
  * Unit test for simple App.
  */
@@ -81,16 +79,16 @@ public class AppTest
     @Test
     public void dangNhapTest()
     {
-        Path path = Paths.get("data");
+        Path currentPath = Paths.get("data");
 
         NhanVien nhanVien = new NhanVien();
         DangNhap dangNhap = new DangNhap(nhanVien, 3121410241L, "14052003");
-        dangNhap.docFile(nhanVien, path);
+        dangNhap.docFile(nhanVien, currentPath);
         assertTrue(dangNhap.isDangNhapThanhCong());
 
         DocGia docGia = new DocGia();
         DangNhap dangNhap1 = new DangNhap(docGia, 3121410241L, "14052003");
-        dangNhap1.docFile(docGia, path);
+        dangNhap1.docFile(docGia, currentPath);
         assertTrue(dangNhap1.isDangNhapThanhCong());
     }
 }
