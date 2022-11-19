@@ -68,6 +68,7 @@ public class AppTest
         assertTrue(thoigian3.compareTo(thoigian2) > 0);
         ThoiGian thoigian4 = new ThoiGian(LocalDateTime.of(2022, 10, 29, 2, 7, 10));
         assertTrue(thoigian4.compareTo(thoigian2) == 0);
+        
         System.out.println(ThoiGian.now().toString());
     }
 }

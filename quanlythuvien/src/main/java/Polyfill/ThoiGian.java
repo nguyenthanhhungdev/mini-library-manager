@@ -35,6 +35,11 @@ public class ThoiGian {
     public static ThoiGian now() {
         return new ThoiGian(LocalDateTime.now());
     }
+
+    protected LocalDateTime getInstance() {
+        return instance;
+    }
+    
     private final LocalDateTime instance;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 }
