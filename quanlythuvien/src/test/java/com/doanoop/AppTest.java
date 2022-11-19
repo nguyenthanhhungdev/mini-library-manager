@@ -3,15 +3,22 @@ package com.doanoop;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import ThuVien.DangNhap;
+import ThuVien.DocGia;
+import ThuVien.NhanVien;
 import org.junit.Test;
 
 import Polyfill.KhoangThoiGian;
 import Polyfill.PFArray;
 import Polyfill.ThoiGian;
+
+import javax.print.Doc;
 
 /**
  * Unit test for simple App.
@@ -84,5 +91,21 @@ public class AppTest
         assertEquals(ktg1.str(), "40 ngay, 19 gio, 6 phut, 39 giay ago");
         assertEquals(ktg2.str(), "in 317 ngay, 9 gio, 12 phut, 9 giay");
         assertTrue(ktg3.str().startsWith("no difference"));
+    }
+    
+    @Test
+    public void dangNhapTest()
+    {
+        Path path = Paths.get("data");
+
+        NhanVien nhanVien = new NhanVien();
+        DangNhap dangNhap = new DangNhap(nhanVien, 3121410241L, "14052003");
+        dangNhap.docFile(nhanVien, path);
+        assertTrue(dangNhap.isDangNhapThanhCong());
+
+        DocGia docGia = new DocGia();
+        DangNhap dangNhap1 = new DangNhap(docGia, 3121410241L, "14052003");
+        dangNhap1.docFile(docGia, path);
+        assertTrue(dangNhap1.isDangNhapThanhCong());
     }
 }

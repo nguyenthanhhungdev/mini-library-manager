@@ -1,5 +1,7 @@
 package ThuVien;
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
@@ -11,6 +13,15 @@ public class DangNhap implements DocGhiFile {
     private String matKhau;
 
     private boolean dangNhapThanhCong;
+
+    public DangNhap(ConNguoi nguoiDung, long maSoThe, String matKhau) {
+        this.nguoiDung = nguoiDung;
+        this.maSoThe = maSoThe;
+        this.matKhau = matKhau;
+    }
+
+    public DangNhap() {
+    }
 
     public long getMaSoThe() {
         return maSoThe;
@@ -53,25 +64,22 @@ public class DangNhap implements DocGhiFile {
             setMaSoThe(Long.parseLong(scanner.nextLine()));
         } catch (NumberFormatException e) {
             System.out.println("Nhap Sai");
-            return;
         }
         System.out.println("Nhap mat khau: ");
         try {
             setMatKhau(scanner.nextLine());
         } catch (NumberFormatException e) {
             System.out.println("Nhap Sai");
-            return;
         }
     }
 
     public int menuNhapSai() {
-        System.out.println("Nhap sai ma so hoac mat khau");
         System.out.println("1.Nhap Lai");
         System.out.println("0.Thoat");
         return luaChonNguoiDung = Integer.parseInt(scanner.nextLine());
     }
 
-    public void dangNhap() {
+    public void dangNhap(Path path) {
         switch (menuDangNhap()) {
             case 1 -> {
                 this.nguoiDung = (NhanVien) new NhanVien();
@@ -86,11 +94,17 @@ public class DangNhap implements DocGhiFile {
         }
         while (!this.dangNhapThanhCong) {
             menuNhapTT();
-            docFile(this.nguoiDung);
+            docFile(this.nguoiDung, path);
             if (this.dangNhapThanhCong)
+            {
+                System.out.println("Dang nhap thanh cong");
                 break;
-            else if (menuNhapSai() == 1)
-                continue;
+            }
+            else if (menuNhapSai() == 0)
+            {
+                System.out.println("Nhap sai ma so hoac mat khau");
+                break;
+            }
         }
     }
 
@@ -106,13 +120,19 @@ public class DangNhap implements DocGhiFile {
      * Dùng docFile để đọc mã số thẻ và mật khẩu người dùng
      * */
     @Override
-    public void docFile(Object o) {
+    public void docFile(Object o, Path path) {
         FileReader fileReader = null;
         try {
             if (o instanceof NhanVien)
-                fileReader = new FileReader("data/DanhSachNhanVien.csv");
+            {
+                String s = path.toAbsolutePath().toString() + "\\DanhSachNhanVien.csv";
+                fileReader = new FileReader(s);
+            }
             else if (o instanceof DocGia)
-                fileReader = new FileReader("data/DanhSachDocGia.csv");
+            {
+                String s = path.toAbsolutePath().toString() + "\\DanhSachDocGia.csv";
+                fileReader = new FileReader(path.toAbsolutePath().toString() + "\\DanhSachDocGia.csv");
+            }
 
             CSVReader csvReader = new CSVReader(fileReader);
             try {
@@ -124,7 +144,6 @@ public class DangNhap implements DocGhiFile {
                         fileReader.close();
                         break;
                     }
-
                 }
             } catch (IOException | CsvValidationException e) {
                 System.out.println("Xay ra loi");
@@ -140,8 +159,6 @@ public class DangNhap implements DocGhiFile {
      * Dùng ghiFile để thay đổi mật khẩu
      * Ghi mật khẩu mới vào file*/
     @Override
-    public void ghiFile(Object o) {
+    public void ghiFile(Object o, Path path) {
     }
-
-
 }
