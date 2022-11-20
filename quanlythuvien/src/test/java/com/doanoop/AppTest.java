@@ -97,12 +97,12 @@ public class AppTest
         Path currentPath = Paths.get("data");
 
         NhanVien nhanVien = new NhanVien();
-        DangNhap dangNhap = new DangNhap(nhanVien, 3121410241L, "14052003");
+        DangNhap dangNhap = new DangNhap(nhanVien, 1L, "lien");
         dangNhap.docFile(nhanVien, currentPath);
         assertTrue(dangNhap.isDangNhapThanhCong());
 
         DocGia docGia = new DocGia();
-        DangNhap dangNhap1 = new DangNhap(docGia, 3121410241L, "14052003");
+        DangNhap dangNhap1 = new DangNhap(docGia, 1L, "cong");
         dangNhap1.docFile(docGia, currentPath);
         assertTrue(dangNhap1.isDangNhapThanhCong());
     }
