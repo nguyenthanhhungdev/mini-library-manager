@@ -47,17 +47,13 @@ public class DangNhap implements DocGhiFile {
 
     static Scanner scanner = new Scanner(System.in);
 
-    private int luaChonNguoiDung = -1;
 
-    public int getLuaChonNguoiDung() {
-        return luaChonNguoiDung;
-    }
 
     public int menuDangNhap() {
         System.out.println("Ban la: ");
         System.out.println("1. Nhan vien");
         System.out.println("2. Doc Gia");
-        return luaChonNguoiDung = Integer.parseInt(scanner.nextLine());
+        return Integer.parseInt(scanner.nextLine());
     }
 
     public void menuNhapTT() {
@@ -78,7 +74,7 @@ public class DangNhap implements DocGhiFile {
     public int menuNhapSai() {
         System.out.println("1.Nhap Lai");
         System.out.println("0.Thoat");
-        return luaChonNguoiDung = Integer.parseInt(scanner.nextLine());
+        return Integer.parseInt(scanner.nextLine());
     }
 
     public void dangNhap(Path path) {
@@ -123,18 +119,19 @@ public class DangNhap implements DocGhiFile {
         FileReader fileReader = null;
         try {
             if (o instanceof NhanVien) {
-                String s = path.toAbsolutePath().toString() + "\\DanhSachNhanVien.csv";
+                String s = path.toAbsolutePath().toString() + "\\List_NhanVien.csv";
                 fileReader = new FileReader(s);
             } else if (o instanceof DocGia) {
-                String s = path.toAbsolutePath().toString() + "\\DanhSachDocGia.csv";
-                fileReader = new FileReader(path.toAbsolutePath().toString() + "\\DanhSachDocGia.csv");
+                String s = path.toAbsolutePath().toString() + "\\List_DocGia.csv";
+                fileReader = new FileReader(s);
             }
 
             CSVReader csvReader = new CSVReader(fileReader);
             try {
                 String nextLine[];
+                csvReader.readNext();
                 while ((nextLine = csvReader.readNext()) != null) {
-                    if (kiemTraMaSo(Long.parseLong(nextLine[0])) && kiemTraMatKhau(nextLine[4])) {
+                    if (kiemTraMaSo(Long.parseLong(nextLine[0])) && kiemTraMatKhau(nextLine[2])) {
                         this.dangNhapThanhCong = true;
                         csvReader.close();
                         fileReader.close();
@@ -151,9 +148,6 @@ public class DangNhap implements DocGhiFile {
         }
     }
 
-    /*
-     * Dùng ghiFile để thay đổi mật khẩu
-     * Ghi mật khẩu mới vào file*/
     @Override
     public void ghiFile(Object o, Path path) {
     }
