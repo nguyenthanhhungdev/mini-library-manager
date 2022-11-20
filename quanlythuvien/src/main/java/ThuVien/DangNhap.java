@@ -1,8 +1,10 @@
 package ThuVien;
+
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
+
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
@@ -95,13 +97,10 @@ public class DangNhap implements DocGhiFile {
         while (!this.dangNhapThanhCong) {
             menuNhapTT();
             docFile(this.nguoiDung, path);
-            if (this.dangNhapThanhCong)
-            {
+            if (this.dangNhapThanhCong) {
                 System.out.println("Dang nhap thanh cong");
                 break;
-            }
-            else if (menuNhapSai() == 0)
-            {
+            } else if (menuNhapSai() == 0) {
                 System.out.println("Nhap sai ma so hoac mat khau");
                 break;
             }
@@ -123,13 +122,10 @@ public class DangNhap implements DocGhiFile {
     public void docFile(Object o, Path path) {
         FileReader fileReader = null;
         try {
-            if (o instanceof NhanVien)
-            {
+            if (o instanceof NhanVien) {
                 String s = path.toAbsolutePath().toString() + "\\DanhSachNhanVien.csv";
                 fileReader = new FileReader(s);
-            }
-            else if (o instanceof DocGia)
-            {
+            } else if (o instanceof DocGia) {
                 String s = path.toAbsolutePath().toString() + "\\DanhSachDocGia.csv";
                 fileReader = new FileReader(path.toAbsolutePath().toString() + "\\DanhSachDocGia.csv");
             }
