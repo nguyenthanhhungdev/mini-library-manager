@@ -2,5 +2,7 @@
 package ThuVien;
 public enum NgonNgu {
     ENG,
-    FRAN
+    FRAN,
+    Italy,
+    Russia
 }
