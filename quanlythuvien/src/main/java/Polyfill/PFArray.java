@@ -102,7 +102,7 @@ public class PFArray<T> implements Iterable<T> {
         return elements.length;
     }
     
-    public int length() {
+    public int size() {
         return size;
     }
 

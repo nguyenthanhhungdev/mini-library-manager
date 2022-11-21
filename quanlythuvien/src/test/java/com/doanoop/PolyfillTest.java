@@ -6,14 +6,15 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Test;
 
 import Polyfill.KhoangThoiGian;
 import Polyfill.PFArray;
 import Polyfill.PFFileReader;
+import Polyfill.PFFileWriter;
 import Polyfill.ThoiGian;
 
 public class PolyfillTest {
@@ -30,7 +31,7 @@ public class PolyfillTest {
         for(int i: pfarray) {
             strs.add(Integer.toString(i));
         }
-        strs.add(Integer.toString(pfarray.length()));
+        strs.add(Integer.toString(pfarray.size()));
         strs.add(Integer.toString(pfarray.capacity()));
         assertTrue(String.join(" ", strs).equals("4 5 3 1 2 5 8"));
         strs.clear();;
@@ -40,7 +41,7 @@ public class PolyfillTest {
         for(int i: pfarray) {
             strs.add(Integer.toString(i));
         }
-        strs.add(Integer.toString(pfarray.length()));
+        strs.add(Integer.toString(pfarray.size()));
         strs.add(Integer.toString(pfarray.capacity()));
         assertTrue(String.join(" ", strs).equals("5 1 2 8"));
     }
@@ -81,9 +82,21 @@ public class PolyfillTest {
     public void PFFileTest() {
         PFFileReader fr = new PFFileReader("data", "List_NhanVien.csv");
         // can throws exceptions and fail
-        var data = fr.read();
+        PFArray<String[]> datain = fr.read();
         // REMEMBER: DELETE BOM FROM CSV FILE IF IT's SAVED WITH BOM
-        assertArrayEquals(data.front(), new String[] {"id","username","password","name","regtime","borntime",
+        assertArrayEquals(datain.front(), new String[] {"id","username","password","name","regtime","borntime",
         "phone","email","address"});
+        PFArray<String[]> dataout = new PFArray<>();
+        Random r = new Random();
+        for(int i=0; i<10; i++) {
+            dataout.push_back(datain.at(r.nextInt(datain.size())));
+        }
+        PFFileWriter fw = new PFFileWriter("data", "List_NhanVien_out.csv");
+        fw.write(dataout);
+        PFFileReader fr2 = new PFFileReader("data", "List_NhanVien_out.csv");
+        PFArray<String[]> datain2 = fr2.read();
+        for(int i=0; i<10; i++) {
+            assertArrayEquals(dataout.at(i), datain2.at(i));
+        }
     }
 }
