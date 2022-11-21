@@ -1,6 +1,9 @@
 package ThuVien;
+
+import Polyfill.ThoiGian;
+
 public class TacGia {
     private String hoTen;
     private String ma;
-    private Ngay ngaySinh;
+    private ThoiGian ngaySinh;
 }
