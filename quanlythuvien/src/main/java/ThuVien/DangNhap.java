@@ -152,7 +152,8 @@ public class DangNhap implements DocGhiFile {
     public void ghiFile(Object o, Path path) {
     }
 
-    public String str() {
+    @Override
+    public String toString() {
         if (this.dangNhapThanhCong)
             return "Dang nhap thanh cong";
         else
