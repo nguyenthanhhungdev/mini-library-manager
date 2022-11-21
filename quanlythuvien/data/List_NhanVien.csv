@@ -1,4 +1,4 @@
-﻿id,username,password,name,regtime,borntime,phone,email,address
+id,username,password,name,regtime,borntime,phone,email,address
 1,chu_mai_lien,lien,Chu Mai Lien,22/05/2003 16:14:56,26/02/1995 01:30:44,(08) 38463526,ChuMaiLien@gmail.com,"176/9A Le Văn Sy, 10 ward, Ba Dinh Dist., Ca Mau"
 2,dau_minh_hong,hong,Dau Minh Hong,22/03/2003 23:40:50,23/12/1989 16:12:02,(08) 38120584,DauMinhHong@gmail.com,"Unit 2, E.Town Building, 364 Cong Hoa, Da Lat, Hanoi"
 3,vo_minh_phuong,phuong,Vo Minh Phuong,08/04/2005 15:53:41,01/12/1987 03:22:50,84-4-2734022,VoMinhPhuong@gmail.com,"52 Tue Tinh Street, Tan Binh Ward, Lam Dong"

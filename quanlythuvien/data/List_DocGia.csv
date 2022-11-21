@@ -1,4 +1,4 @@
-﻿id,username,password,name,regtime,borntime,phone,email,address
+id,username,password,name,regtime,borntime,phone,email,address
 1,van_thanh_cong,cong,Van Thanh Cong,16/03/2006 10:26:12,30/09/1981 13:35:32,(84-8) 3829 9028,VanThanhCong@gmail.com,"43 Mac Thi Buoi Street, Ben Nghe Ward, District 1, Ho Chi Minh City, Ho Chi Minh City"
 2,ly_hong_duc,duc,Ly Hong Duc,12/10/1998 02:31:06,21/11/1991 11:13:21,04. 3791 5667,LyHongDuc@gmail.com,"365 - 367 Hoang Quoc Viet, Ward Nghia Tan, District Cau Giay, Ha Noi, Hanoi"
 3,thao_ngoc_dung,dung,Thao Ngoc Dung,30/03/1993 09:29:37,19/03/1983 01:52:07,03203. 586 522,ThaoNgocDung@gmail.com,"Building Buu dien Chi Linh, 233 Pho Nguyen Trai 2, Sao Do, Hai Duong"

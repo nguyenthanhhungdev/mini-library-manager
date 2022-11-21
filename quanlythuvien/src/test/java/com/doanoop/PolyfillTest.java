@@ -1,22 +1,25 @@
 package com.doanoop;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
 
 import Polyfill.KhoangThoiGian;
 import Polyfill.PFArray;
+import Polyfill.PFFileReader;
 import Polyfill.ThoiGian;
 
 public class PolyfillTest {
     
     @Test
-    public void polyfillArrayTest() {
+    public void PFArrayTest() {
         PFArray<Integer> pfarray = new PFArray<Integer>();
         List<String> strs = new ArrayList<String>();
         pfarray.push_back(1);
@@ -74,4 +77,13 @@ public class PolyfillTest {
         assertTrue(ktg3.toString().startsWith("no difference"));
     }
     
+    @Test
+    public void PFFileTest() {
+        PFFileReader fr = new PFFileReader("data", "List_NhanVien.csv");
+        // can throws exceptions and fail
+        var data = fr.read();
+        // REMEMBER: DELETE BOM FROM CSV FILE IF IT's SAVED WITH BOM
+        assertArrayEquals(data.front(), new String[] {"id","username","password","name","regtime","borntime",
+        "phone","email","address"});
+    }
 }
