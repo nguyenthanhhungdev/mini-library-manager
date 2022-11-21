@@ -102,7 +102,7 @@ public class PFArray<T> implements Iterable<T> {
         return elements.length;
     }
     
-    public int length() {
+    public int size() {
         return size;
     }
 
@@ -112,7 +112,8 @@ public class PFArray<T> implements Iterable<T> {
                 throw new RuntimeException("Max elements limit reached");
             }
             long newCapacity = Math.round(Math.ceil(capacity() * growthFactor));
-            T[] newArray = (T[]) new Object[newCapacity > maxElements ? maxElements : (int) newCapacity];
+            // T[] newArray = (T[]) new Object[newCapacity > maxElements ? maxElements : (int) newCapacity];
+            T[] newArray = initOne4Me(newCapacity > maxElements ? maxElements : (int) newCapacity);
             System.arraycopy(elements, 0, newArray, 0, size);
             elements = newArray;
         }
@@ -129,8 +130,13 @@ public class PFArray<T> implements Iterable<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    private T[] initOne4Me(int n) {
+        return (T[]) new Object[n];
+    }
+
     private int size = 0;
     private static final float growthFactor = 2;
     private static final int maxElements = 2_000_000_000;
-    private T elements[] = (T[]) new Object[1];
+    private T elements[] = initOne4Me(1);
 }

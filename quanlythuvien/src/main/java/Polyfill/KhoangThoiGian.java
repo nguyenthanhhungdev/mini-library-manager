@@ -26,7 +26,8 @@ public class KhoangThoiGian {
         return KhoangThoiGian.between(tg, ThoiGian.now());
     }
 
-    public String str() {
+    @Override
+    public String toString() {
         return Stream.of(formatterList).filter(__ -> __.value.get() != 0)
         .map(__ -> String.join(" ", String.valueOf(Math.abs(__.value.get())), __.unit))
         .collect(Collectors.collectingAndThen(Collectors.joining(", "),
