@@ -27,7 +27,8 @@ public class ThoiGian {
         return new ThoiGian(ngay > 0 ? instance.plusDays(ngay) : instance.minusDays(Math.abs(ngay)));
     }
     
-    public String str() {
+    @Override
+    public String toString() {
         return instance.format(formatter);
     }
 

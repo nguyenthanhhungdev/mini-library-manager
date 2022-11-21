@@ -48,7 +48,7 @@ public class PFFile {
         // no OpenOptions: combination of CREATE | TRUNCATE_EXISTING | WRITE
         try (Writer w = Files.newBufferedWriter(path, charset)) {
             try (CSVWriter cw = new CSVWriter(w)) {
-                // I made it iterable lol dw
+                // don't worry PFArray is iterable
                 cw.writeAll(lines);
             }
             return true; //success
