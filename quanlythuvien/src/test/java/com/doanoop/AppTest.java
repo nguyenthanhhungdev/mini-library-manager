@@ -99,11 +99,21 @@ public class AppTest
         NhanVien nhanVien = new NhanVien();
         DangNhap dangNhap = new DangNhap(nhanVien, 1L, "lien");
         dangNhap.docFile(nhanVien, currentPath);
-        assertTrue(dangNhap.isDangNhapThanhCong());
+        assertTrue(dangNhap.toString().equals("Dang nhap thanh cong"));
 
         DocGia docGia = new DocGia();
         DangNhap dangNhap1 = new DangNhap(docGia, 1L, "cong");
         dangNhap1.docFile(docGia, currentPath);
-        assertTrue(dangNhap1.isDangNhapThanhCong());
+        assertTrue(dangNhap1.toString().equals("Dang nhap thanh cong"));
+
+        DocGia docGia1 = new DocGia();
+        DangNhap dangNhap2 = new DangNhap(docGia1, 118L, "bang");
+        dangNhap2.docFile(docGia1, currentPath);
+        assertTrue(dangNhap2.toString().equals("Dang nhap thanh cong"));
+
+        NhanVien nhanVien1 = new NhanVien();
+        DangNhap dangNhap3 = new DangNhap(nhanVien1, 23L, "hung");
+        dangNhap.docFile(nhanVien1, currentPath);
+        assertTrue(dangNhap3.toString().equals("Dang nhap khong thanh cong"));
     }
 }
