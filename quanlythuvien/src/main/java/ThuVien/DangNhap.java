@@ -72,6 +72,7 @@ public class DangNhap implements DocGhiFile {
     }
 
     public int menuNhapSai() {
+        System.out.println("Nhap sai ma so hoac mat khau");
         System.out.println("1.Nhap Lai");
         System.out.println("0.Thoat");
         return Integer.parseInt(scanner.nextLine());
@@ -94,10 +95,8 @@ public class DangNhap implements DocGhiFile {
             menuNhapTT();
             docFile(this.nguoiDung, path);
             if (this.dangNhapThanhCong) {
-                System.out.println("Dang nhap thanh cong");
                 break;
             } else if (menuNhapSai() == 0) {
-                System.out.println("Nhap sai ma so hoac mat khau");
                 break;
             }
         }
