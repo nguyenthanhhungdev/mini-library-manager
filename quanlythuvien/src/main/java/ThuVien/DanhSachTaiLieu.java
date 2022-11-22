@@ -1,9 +1,11 @@
 package ThuVien;
 
+import Polyfill.PFArray;
+
 import java.nio.file.Path;
 
 public class DanhSachTaiLieu implements DocGhiFile,ThaoTacFile {
-    static TaiLieu[] danhSach = new TaiLieu[0];
+    PFArray<TaiLieu> danhSachTaiLieu = new PFArray<>();
 
 
     @Override
