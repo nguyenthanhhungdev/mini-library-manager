@@ -1,17 +1,20 @@
 package Polyfill;
+
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 public class PFArray<T> implements Iterable<T> {
     public PFArray() {
         this(1);
     }
 
-    public PFArray(int initialCapacity) {
-        if (initialCapacity < 1) {
-            throw new RuntimeException("This implementation requires initialCapacity of at least 1");
+    public PFArray(int initialLength) {
+        if (initialLength < 1) {
+            throw new IllegalArgumentException("This implementation requires initialLength of at least 1");
         }
         size = 0;
-        reserve(initialCapacity);
+        reserve(initialLength);
     }
 
     public PFArray(T[] primitiveArray) {
@@ -56,7 +59,7 @@ public class PFArray<T> implements Iterable<T> {
     public T erase(int index) {
         indexCheck(index);
         T ret = at(index);
-        System.arraycopy(elements, index+1, elements, index, size - index - 1);
+        System.arraycopy(elements, index + 1, elements, index, size - index - 1);
         updateSize(size - 1);
         return ret;
     }
@@ -98,21 +101,22 @@ public class PFArray<T> implements Iterable<T> {
         updateSize(0);
     }
 
-    public int capacity() {
+    public int internalLength() {
         return elements.length;
     }
-    
+
     public int size() {
         return size;
     }
 
     private void reserve(int reservedCapacity) {
-        if (reservedCapacity > capacity()) {
-            if (capacity() >= maxElements) {
-                throw new RuntimeException("Max elements limit reached");
+        if (reservedCapacity > internalLength()) {
+            if (internalLength() >= maxElements) {
+                throw new UnsupportedOperationException("Max elements limit reached");
             }
-            long newCapacity = Math.round(Math.ceil(capacity() * growthFactor));
-            // T[] newArray = (T[]) new Object[newCapacity > maxElements ? maxElements : (int) newCapacity];
+            long newCapacity = Math.round(Math.ceil(internalLength() * growthFactor));
+            // T[] newArray = (T[]) new Object[newCapacity > maxElements ? maxElements :
+            // (int) newCapacity];
             T[] newArray = initOne4Me(newCapacity > maxElements ? maxElements : (int) newCapacity);
             System.arraycopy(elements, 0, newArray, 0, size);
             elements = newArray;
@@ -130,6 +134,12 @@ public class PFArray<T> implements Iterable<T> {
         }
     }
 
+    public void fillCapacity(T element) {
+        for (int i = size(); i < internalLength(); i++) {
+            set(i, element);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     private T[] initOne4Me(int n) {
         return (T[]) new Object[n];
@@ -139,4 +149,9 @@ public class PFArray<T> implements Iterable<T> {
     private static final float growthFactor = 2;
     private static final int maxElements = 2_000_000_000;
     private T elements[] = initOne4Me(1);
+
+    // additional implementations
+    public Stream<T> stream() {
+        return Arrays.stream(elements);
+    }
 }

@@ -15,6 +15,7 @@ import Polyfill.KhoangThoiGian;
 import Polyfill.PFArray;
 import Polyfill.PFFileReader;
 import Polyfill.PFFileWriter;
+import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
 public class PolyfillTest {
@@ -32,7 +33,7 @@ public class PolyfillTest {
             strs.add(Integer.toString(i));
         }
         strs.add(Integer.toString(pfarray.size()));
-        strs.add(Integer.toString(pfarray.capacity()));
+        strs.add(Integer.toString(pfarray.internalLength()));
         assertTrue(String.join(" ", strs).equals("4 5 3 1 2 5 8"));
         strs.clear();;
         pfarray.pop_back();
@@ -42,7 +43,7 @@ public class PolyfillTest {
             strs.add(Integer.toString(i));
         }
         strs.add(Integer.toString(pfarray.size()));
-        strs.add(Integer.toString(pfarray.capacity()));
+        strs.add(Integer.toString(pfarray.internalLength()));
         assertTrue(String.join(" ", strs).equals("5 1 2 8"));
     }
 

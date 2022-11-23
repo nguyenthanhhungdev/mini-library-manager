@@ -1,46 +1,72 @@
 package ThuVien;
 
+import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
-public class People {
+public class People extends AnyId {
+    // Set it like this:
+    // People p = new
+    // People().setName(name).setEmail(email).setPhone(phone).setAddress(address)
+    // ...
+    public People(long id) {
+        super(id);
+    }
+
+    protected String getName() {
+        return name;
+    }
+
+    protected People setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    protected String getEmail() {
+        return email;
+    }
+
+    protected People setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    protected String getPhone() {
+        return phone;
+    }
+
+    protected People setPhone(String phone) {
+        this.phone = phone;
+        return this;
+    }
+
+    protected String getAddress() {
+        return address;
+    }
+
+    protected People setAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+    protected ThoiGian getBirth() {
+        return birth;
+    }
+
+    protected People setBirth(ThoiGian birth) {
+        this.birth = birth;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return StringHelper.liner(super.toString(),
+                StringHelper.itemer("Name", name),
+                StringHelper.itemer("Phone", phone),
+                StringHelper.itemer("Email", email),
+                StringHelper.itemer("Address", address),
+                StringHelper.itemer("Birthdate", birth));
+    }
+
     protected String name, email, phone, address;
     protected ThoiGian birth;
-    // // Mirroring Builder pattern
-    // // Set it like this:
-    // // People p = new People().setName(name).setEmail(email).setPhone(phone).setAddress(address) ...
-    // public String getName() {
-    //     return name;
-    // }
-    // public People setName(String name) {
-    //     this.name = name;
-    //     return this;
-    // }
-    // public String getEmail() {
-    //     return email;
-    // }
-    // public People setEmail(String email) {
-    //     this.email = email;
-    //     return this;
-    // }
-    // public String getPhone() {
-    //     return phone;
-    // }
-    // public People setPhone(String phone) {
-    //     this.phone = phone;
-    //     return this;
-    // }
-    // public String getAddress() {
-    //     return address;
-    // }
-    // public People setAddress(String address) {
-    //     this.address = address;
-    //     return this;
-    // }
-    // public ThoiGian getBirth() {
-    //     return birth;
-    // }
-    // public People setBirth(ThoiGian birth) {
-    //     this.birth = birth;
-    //     return this;
-    // }
 }
