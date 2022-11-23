@@ -4,9 +4,8 @@ import Polyfill.PFArray;
 
 import java.nio.file.Path;
 
-public class DanhSachTaiLieu implements DocGhiFile,ThaoTacFile {
+public class DanhSachTaiLieu implements DocGhiFile, ThaoTacFile {
     PFArray<TaiLieu> danhSachTaiLieu = new PFArray<>();
-
 
     @Override
     public void them() {

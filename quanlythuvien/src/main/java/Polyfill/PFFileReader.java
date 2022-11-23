@@ -20,14 +20,15 @@ public class PFFileReader extends PFFile {
     public PFFileReader(Path csvPath) {
         super(csvPath);
     }
-    
+
     public PFArray<String[]> read() {
         PFArray<String[]> lines = new PFArray<>();
         try (Reader r = Files.newBufferedReader(path, charset)) {
             try (CSVReader cr = new CSVReader(r)) {
-                // As List usage is not allowed we cannot use CSV.readAll() as it returns a List<String[]>
+                // As List usage is not allowed we cannot use CSV.readAll() as it returns a
+                // List<String[]>
                 String[] record;
-                while((record = cr.readNext()) != null) {
+                while ((record = cr.readNext()) != null) {
                     lines.push_back(record);
                 }
             }

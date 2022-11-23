@@ -16,6 +16,7 @@ public class Employee extends Reader {
     public void setWage(long wage) {
         this.wage = wage;
     }
+
     // TODO: employee methods
     private long wage;
     private static long id_counter = 0;

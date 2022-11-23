@@ -17,7 +17,7 @@ public abstract class PFFile {
     public Path getPath() {
         return path;
     }
-    
+
     protected Path path;
     protected static final Charset charset = StandardCharsets.UTF_8;
 }

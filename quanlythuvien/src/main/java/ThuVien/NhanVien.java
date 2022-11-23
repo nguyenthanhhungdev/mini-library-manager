@@ -1,4 +1,5 @@
 package ThuVien;
+
 public class NhanVien extends ConNguoi implements TraCuuTaiLieu, MuonTaiLieu {
     private long maNhanVien;
     private DanhSachTaiLieu danhSachTaiLieu;
@@ -31,7 +32,7 @@ public class NhanVien extends ConNguoi implements TraCuuTaiLieu, MuonTaiLieu {
     /*
      * Kiểm tra sách trước khi cho mượn
      * kiễm tra xem sách đã cho mượn chưa thông qua thuộc tính trạng thái
-     * */
+     */
     public boolean kiemTraSach() {
         return true;
     }
@@ -40,21 +41,24 @@ public class NhanVien extends ConNguoi implements TraCuuTaiLieu, MuonTaiLieu {
      * Kiểm tra thẻ khi cho mượn sách
      * Kiểm tra thẻ có trong danhSachThe hay không thông qua thuộc tính maThe
      * Kiểm tra thẻ có phù hợp hay không qua thuộc tính ngayHetHan trong
-     * Nếu đã hết hạn thì gia hạn thẻ*/
+     * Nếu đã hết hạn thì gia hạn thẻ
+     */
     public boolean kiemTraThe() {
         return true;
     }
 
-    /*Nhập dữ liệu cho độc giả
+    /*
+     * Nhập dữ liệu cho độc giả
      * Tạo ra thẻ mới chứa thong6 tin độc giả
-     * */
+     */
     public void lapThe() {
 
     }
 
     /*
      * Gia hạn thẻ tìm thông tin thẻ cần gia hạn trong file
-     * Thay đổi ngày lập thẻ và ngày hết hạn*/
+     * Thay đổi ngày lập thẻ và ngày hết hạn
+     */
     public The giaHanThe() {
         return null;
     }

@@ -2,9 +2,8 @@ package ThuVien;
 
 import java.nio.file.Path;
 
-public class DanhSachThe implements DocGhiFile, ThaoTacFile{
+public class DanhSachThe implements DocGhiFile, ThaoTacFile {
     static The[] danhSach = new The[0];
-
 
     @Override
     public void them() {

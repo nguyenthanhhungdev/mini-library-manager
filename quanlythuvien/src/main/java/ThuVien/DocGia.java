@@ -1,7 +1,9 @@
 package ThuVien;
-public class DocGia extends ConNguoi implements TraCuuTaiLieu, MuonTaiLieu{
+
+public class DocGia extends ConNguoi implements TraCuuTaiLieu, MuonTaiLieu {
     private The the;
     private DanhSachTaiLieuDKMuon danhSachTaiLieuDKMuon;
+
     @Override
     public void traCuu() {
 

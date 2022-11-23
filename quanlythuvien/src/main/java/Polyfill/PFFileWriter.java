@@ -19,7 +19,7 @@ public class PFFileWriter extends PFFile {
     public PFFileWriter(Path csvPath) {
         super(csvPath);
     }
-    
+
     public boolean write(PFArray<String[]> lines) {
         // no OpenOptions: combination of CREATE | TRUNCATE_EXISTING | WRITE
         try (Writer w = Files.newBufferedWriter(path, charset)) {
@@ -27,10 +27,10 @@ public class PFFileWriter extends PFFile {
                 // don't worry PFArray is iterable
                 cw.writeAll(lines);
             }
-            return true; //success
+            return true; // success
         } catch (IOException e) {
             LOGGER.log(Level.WARNING, "Error writing " + path, e);
         }
-        return false; //failure
+        return false; // failure
     }
 }

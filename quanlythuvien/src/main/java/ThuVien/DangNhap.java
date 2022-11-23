@@ -47,8 +47,6 @@ public class DangNhap implements DocGhiFile {
 
     static Scanner scanner = new Scanner(System.in);
 
-
-
     public int menuDangNhap() {
         System.out.println("Ban la: ");
         System.out.println("1. Nhan vien");
@@ -112,7 +110,7 @@ public class DangNhap implements DocGhiFile {
 
     /*
      * Dùng docFile để đọc mã số thẻ và mật khẩu người dùng
-     * */
+     */
     @Override
     public void docFile(Object o, Path path) {
         FileReader fileReader = null;
@@ -156,6 +154,6 @@ public class DangNhap implements DocGhiFile {
         if (this.dangNhapThanhCong)
             return "Dang nhap thanh cong";
         else
-            return  "Dang nhap khong thanh cong";
+            return "Dang nhap khong thanh cong";
     }
 }
