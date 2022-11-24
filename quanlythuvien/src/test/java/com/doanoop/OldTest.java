@@ -13,8 +13,7 @@ import ThuVien.NhanVien;
 
 public class OldTest {
     @Test
-    public void dangNhapTest()
-    {
+    public void dangNhapTest() {
         Path currentPath = Paths.get("data");
 
         NhanVien nhanVien = new NhanVien();

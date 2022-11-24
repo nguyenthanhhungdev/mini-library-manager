@@ -2,7 +2,7 @@ package ThuVien;
 
 import java.nio.file.Path;
 
-public class The implements DocGhiFile{
+public class The implements DocGhiFile {
     private DocGia docGia;
     private LoaiThe loaiThe;
 

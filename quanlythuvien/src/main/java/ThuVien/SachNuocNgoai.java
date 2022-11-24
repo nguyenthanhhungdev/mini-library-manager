@@ -1,5 +1,6 @@
 package ThuVien;
-public class SachNuocNgoai extends TaiLieu{
+
+public class SachNuocNgoai extends TaiLieu {
     private NgonNgu ngonNgu;
     private String tenNguoiDich;
 
@@ -19,7 +20,8 @@ public class SachNuocNgoai extends TaiLieu{
         this.tenNguoiDich = tenNguoiDich;
     }
 
-    public SachNuocNgoai(long ma, String ten, int soLuongBanSao, boolean trangThai, TacGia tacGia, int namXuatBan, NgonNgu ngonNgu, String tenNguoiDich) {
+    public SachNuocNgoai(long ma, String ten, int soLuongBanSao, boolean trangThai, TacGia tacGia, int namXuatBan,
+            NgonNgu ngonNgu, String tenNguoiDich) {
         super(ma, ten, soLuongBanSao, trangThai, tacGia, namXuatBan);
         this.ngonNgu = ngonNgu;
         this.tenNguoiDich = tenNguoiDich;

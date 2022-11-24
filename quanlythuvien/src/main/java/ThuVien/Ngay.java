@@ -115,11 +115,12 @@ public class Ngay {
     }
 
     /*
-    * Chuyển từ chuỗi sang ngày tháng năm*/
-    static public Ngay toNgay(String ngaySinh)
-    {
+     * Chuyển từ chuỗi sang ngày tháng năm
+     */
+    static public Ngay toNgay(String ngaySinh) {
         String[] strings = ngaySinh.split("/");
-        Ngay ngayThangNam = new Ngay(Integer.parseInt(strings[0]), Integer.parseInt(strings[1]), Integer.parseInt(strings[2]));
+        Ngay ngayThangNam = new Ngay(Integer.parseInt(strings[0]), Integer.parseInt(strings[1]),
+                Integer.parseInt(strings[2]));
         return ngayThangNam;
     }
 }

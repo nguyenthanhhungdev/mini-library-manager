@@ -1,4 +1,5 @@
 package ThuVien;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,7 +17,6 @@ public class DanhSachNhanVien implements DocGhiFile, ThaoTacFile {
         DanhSachNhanVien.danhSach = danhSach;
     }
 
-
     @Override
     public void docFile(Object o, Path path) {
 
@@ -25,14 +25,13 @@ public class DanhSachNhanVien implements DocGhiFile, ThaoTacFile {
     @Override
     public void ghiFile(Object o, Path path) {
         o = (Object) new NhanVien();
-        NhanVien nhanVien = (NhanVien) o;//Downcasting
+        NhanVien nhanVien = (NhanVien) o;// Downcasting
         try (FileWriter fileWriter = new FileWriter("DanhSachNhanVien.txt", true);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
             bufferedWriter.write(nhanVien.toString());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
 
     }
 

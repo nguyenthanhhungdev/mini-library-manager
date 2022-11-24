@@ -1,4 +1,5 @@
 package Polyfill;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -26,7 +27,7 @@ public class ThoiGian {
     public ThoiGian modNgay(int ngay) {
         return new ThoiGian(ngay > 0 ? instance.plusDays(ngay) : instance.minusDays(Math.abs(ngay)));
     }
-    
+
     @Override
     public String toString() {
         return instance.format(formatter);
@@ -39,7 +40,7 @@ public class ThoiGian {
     protected LocalDateTime getInstance() {
         return instance;
     }
-    
+
     private final LocalDateTime instance;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 }
