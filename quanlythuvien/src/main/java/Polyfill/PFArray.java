@@ -1,8 +1,10 @@
 package Polyfill;
 
-import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class PFArray<T> implements Iterable<T> {
     public PFArray() {
@@ -20,23 +22,6 @@ public class PFArray<T> implements Iterable<T> {
     public PFArray(T[] primitiveArray) {
         elements = primitiveArray.clone();
         size = elements.length;
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return new Iterator<T>() {
-            @Override
-            public boolean hasNext() {
-                return index < size && elements[index] != null;
-            }
-
-            @Override
-            public T next() {
-                return at(index++);
-            }
-
-            private int index = 0;
-        };
     }
 
     public T at(int index) {
@@ -101,7 +86,7 @@ public class PFArray<T> implements Iterable<T> {
         updateSize(0);
     }
 
-    public int internalLength() {
+    public int capacity() {
         return elements.length;
     }
 
@@ -110,11 +95,11 @@ public class PFArray<T> implements Iterable<T> {
     }
 
     private void reserve(int reservedCapacity) {
-        if (reservedCapacity > internalLength()) {
-            if (internalLength() >= maxElements) {
+        if (reservedCapacity > capacity()) {
+            if (capacity() >= maxElements) {
                 throw new UnsupportedOperationException("Max elements limit reached");
             }
-            long newCapacity = Math.round(Math.ceil(internalLength() * growthFactor));
+            long newCapacity = Math.round(Math.ceil(capacity() * growthFactor));
             // T[] newArray = (T[]) new Object[newCapacity > maxElements ? maxElements :
             // (int) newCapacity];
             T[] newArray = initOne4Me(newCapacity > maxElements ? maxElements : (int) newCapacity);
@@ -135,7 +120,7 @@ public class PFArray<T> implements Iterable<T> {
     }
 
     public void fillCapacity(T element) {
-        for (int i = size(); i < internalLength(); i++) {
+        for (int i = size(); i < capacity(); i++) {
             set(i, element);
         }
     }
@@ -145,13 +130,74 @@ public class PFArray<T> implements Iterable<T> {
         return (T[]) new Object[n];
     }
 
+    // Iterable implementation
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            @Override
+            public boolean hasNext() {
+                return index < size && elements[index] != null;
+            }
+
+            @Override
+            public T next() {
+                return at(index++);
+            }
+
+            private int index = 0;
+        };
+    }
+
+    // Spliterator implementation
+    public Spliterator<T> spliterator() {
+        return new TaggedSpliterator<T>(elements, 0, size);
+    }
+
+    private static class TaggedSpliterator<T> implements Spliterator<T> {
+        public TaggedSpliterator(T[] elements, int start, int fence) {
+            this.elements = elements;
+            this.start = start;
+            this.fence = fence;
+        }
+
+        public boolean tryAdvance(Consumer<? super T> action) {
+            if (start < fence) {
+                action.accept(elements[start++]);
+                return true;
+            }
+            return false;
+        }
+
+        public Spliterator<T> trySplit() {
+            int mid = (start + fence) / 2;
+            if (mid - start < splitLimit) { // not worth splitting
+                return null;
+            }
+            int childStart = start; // new child starts from where I am
+            start = mid; // I jumps to second half
+            return new TaggedSpliterator<>(elements, childStart, mid);
+        }
+
+        public long estimateSize() {
+            return fence - start;
+        }
+
+        public int characteristics() {
+            return SIZED | SUBSIZED | NONNULL | IMMUTABLE;
+        }
+
+        private final T[] elements;
+        private int start;
+        private final int fence;
+        private static final int splitLimit = 16;
+    }
+
+    public Stream<T> stream() {
+        return StreamSupport.stream(spliterator(), false);
+    }
+
     private int size = 0;
     private static final float growthFactor = 2;
     private static final int maxElements = 2_000_000_000;
     private T elements[] = initOne4Me(1);
-
-    // additional implementations
-    public Stream<T> stream() {
-        return Arrays.stream(elements);
-    }
 }
