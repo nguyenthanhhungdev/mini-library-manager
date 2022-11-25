@@ -33,11 +33,15 @@ public class Language extends AnyId implements IDataProcess<Language> {
         return new String[] { String.valueOf(getId()), code, name, tname };
     }
 
-    @Override
-    public String toString() {
+    public String toScreen() {
         return StringHelper.liner(super.toString(),
                 StringHelper.itemer("Name", StringHelper.spacer(tname, name, code)));
     }
-    
+
+    @Override
+    public String toString() {
+        return StringHelper.spacer(tname, name, code);
+    }
+
     private String code, name, tname;
 }

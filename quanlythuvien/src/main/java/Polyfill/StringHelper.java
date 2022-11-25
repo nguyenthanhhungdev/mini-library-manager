@@ -7,6 +7,15 @@ public final class StringHelper {
         return str == null || str.isBlank();
     }
 
+    // this project's general single field seperator
+    public static String[] lineSplit(String line) {
+        return splitThenTrim("|", line);
+    }
+
+    public static String[] splitThenTrim(String sep, String line) {
+        return Stream.of(line.split(sep)).map(String::trim).toArray(String[]::new);
+    }
+
     // lol why
     public static String liner(Object... lines) {
         return concater("\n", lines);
@@ -23,7 +32,7 @@ public final class StringHelper {
     }
 
     // it's kinda weird tho
-    public static String concater(CharSequence delim, Object... strings) {
+    public static String concater(String delim, Object... strings) {
         return String.join(delim, obj2str(strings));
     }
 

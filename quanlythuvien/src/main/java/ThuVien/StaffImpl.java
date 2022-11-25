@@ -1,14 +1,37 @@
 package ThuVien;
 
 import Polyfill.StringHelper;
+import Polyfill.ThoiGian;
 
 public abstract class StaffImpl extends Account {
-    StaffImpl(int id, String username) {
+    public StaffImpl(int id, String username) {
         super(id, username);
+    }
+
+    protected StaffImpl(int id, String username, ThoiGian registration) {
+        super(id, username, registration);
     }
 
     public long getPureLuong() {
         return luong.getHienTai();
+    }
+
+    public CaTruc getTruc() {
+        return truc;
+    }
+
+    protected StaffImpl setTruc(CaTruc truc) {
+        this.truc = truc;
+        return this;
+    }
+
+    public Luong getLuong() {
+        return luong;
+    }
+
+    protected StaffImpl setLuong(Luong luong) {
+        this.luong = luong;
+        return this;
     }
 
     @Override
@@ -18,8 +41,8 @@ public abstract class StaffImpl extends Account {
                 StringHelper.itemer("Luong", luong));
     }
 
-    protected abstract long traLuong();
+    protected abstract long calcSocialCredit();
 
-    protected CaTruc truc;
-    protected Luong luong;
+    private CaTruc truc;
+    private Luong luong;
 }

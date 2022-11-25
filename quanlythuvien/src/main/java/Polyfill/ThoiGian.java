@@ -12,9 +12,9 @@ public class ThoiGian {
         instance = LocalDateTime.of(nam, thang, ngay, gio, phut, giay);
     }
 
-    public ThoiGian(String formattedString) {
-        instance = LocalDateTime.parse(formattedString, formatter);
-    }
+    // public ThoiGian(String formattedString) {
+    //     instance = LocalDateTime.parse(formattedString, formatter);
+    // }
 
     public ThoiGian(LocalDateTime instance) {
         this.instance = instance;
@@ -31,7 +31,9 @@ public class ThoiGian {
     public ThoiGian plusKhoangThoiGian(KhoangThoiGian ktg) {
         return new ThoiGian(instance.plus(ktg.getInstance()));
     }
-
+    public static ThoiGian parseTG(String inp) {
+        return new ThoiGian(LocalDateTime.parse(inp, formatter));
+    }
     @Override
     public String toString() {
         return instance.format(formatter);

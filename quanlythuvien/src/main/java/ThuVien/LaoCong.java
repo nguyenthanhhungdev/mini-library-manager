@@ -5,7 +5,7 @@ public class LaoCong extends StaffImpl {
         super(id, username);
     }
 
-    protected long traLuong() {
+    protected long calcSocialCredit() {
         return getPureLuong();
     }
 }

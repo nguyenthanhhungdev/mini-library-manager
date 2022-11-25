@@ -15,7 +15,6 @@ import org.junit.Test;
 
 import Polyfill.KhoangThoiGian;
 import Polyfill.PFArray;
-import Polyfill.PFFile;
 import Polyfill.PFFileReader;
 import Polyfill.PFFileWriter;
 import Polyfill.StringHelper;
@@ -62,7 +61,7 @@ public class PolyfillTest {
     public void thoiGianTest() {
         ThoiGian thoigian1 = new ThoiGian(18, 11, 2022);
         ThoiGian thoigian2 = new ThoiGian(18, 11, 2022, 2, 7, 10);
-        ThoiGian thoigian3 = new ThoiGian("18/11/2022 02:07:10");
+        ThoiGian thoigian3 = ThoiGian.parseTG("18/11/2022 02:07:10");
         assertTrue("18/11/2022 00:00:00".equals(thoigian1.toString()));
         assertTrue("18/11/2022 02:07:10".equals(thoigian2.toString()));
         assertTrue("18/11/2022 02:07:10".equals(thoigian3.toString()));
@@ -79,9 +78,9 @@ public class PolyfillTest {
 
     @Test
     public void khoangThoiGianTest() {
-        ThoiGian tg1 = new ThoiGian("08/12/2022 21:13:49");
-        ThoiGian tg2 = new ThoiGian("29/10/2022 02:07:10");
-        ThoiGian tg3 = new ThoiGian("11/09/2023 11:19:19");
+        ThoiGian tg1 = ThoiGian.parseTG("08/12/2022 21:13:49");
+        ThoiGian tg2 = ThoiGian.parseTG("29/10/2022 02:07:10");
+        ThoiGian tg3 = ThoiGian.parseTG("11/09/2023 11:19:19");
         KhoangThoiGian ktg1 = KhoangThoiGian.between(tg2, tg1);
         KhoangThoiGian ktg2 = KhoangThoiGian.between(tg3, tg2);
         KhoangThoiGian ktg3 = KhoangThoiGian.between(tg3, tg3);

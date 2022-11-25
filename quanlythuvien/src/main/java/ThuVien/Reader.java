@@ -35,8 +35,8 @@ public class Reader extends Account implements IDataProcess<Reader> {
         String username = inp[1];
         String password = inp[2];
         String name = inp[3];
-        ThoiGian regtime = new ThoiGian(inp[4]);
-        ThoiGian borntime = new ThoiGian(inp[5]);
+        ThoiGian regtime = ThoiGian.parseTG(inp[4]);
+        ThoiGian borntime = ThoiGian.parseTG(inp[5]);
         String phone = inp[6];
         String email = inp[7];
         String address = inp[8];

@@ -28,7 +28,7 @@ public class Author extends People implements IDataProcess<Author> {
 
     public Author fromBlob(String[] inp) {
         int id = Integer.parseInt(inp[0]);
-        ThoiGian borntime = new ThoiGian(inp[1]);
+        ThoiGian borntime = ThoiGian.parseTG(inp[1]);
         String phone = inp[2];
         String email = inp[3];
         String address = inp[4];
@@ -39,10 +39,12 @@ public class Author extends People implements IDataProcess<Author> {
         __.setWebsite(website).setLanguage(language);
         return __;
     }
+
     public String[] toBlob() {
-        return new String[] { String.valueOf(getId()), getBirth().toString(), getEmail().toString(),
-            getAddress().toString(), getWebsite().toString(), getLanguage().toString()};
+        return new String[] { String.valueOf(getId()), getBirth().toString(), getEmail(), getAddress(),
+            getWebsite(), getLanguage().toString() }; //TODO: fix language
     }
+
     @Override
     public String toString() {
         return StringHelper.liner(super.toString(),
