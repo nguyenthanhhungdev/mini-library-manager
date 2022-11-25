@@ -4,31 +4,13 @@ import Polyfill.PFArray;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
-public class Reader extends People {
-    public Reader(String username, String password) {
-        this(++id_counter, username, password);
+public class Reader extends Account implements IDataProcess<Reader> {
+    public Reader(int id, String username) {
+        super(id, username);
     }
 
-    public Reader(long id, String username, String password) {
-        super(id);
-        if (id_counter < id) {
-            id_counter = id;
-        }
-        this.username = username;
-        this.password = password;
-        this.registration = ThoiGian.now();
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public boolean checkPassword(String password) {
-        return this.password.equals(password);
-    }
-
-    public ThoiGian getRegistration() {
-        return registration;
+    protected Reader(int id, String username, ThoiGian registration) {
+        super(id, username, registration);
     }
 
     public boolean borrows(Document document) {
@@ -48,17 +30,32 @@ public class Reader extends People {
         return true;
     }
 
+    public Reader fromBlob(String[] inp) {
+        int id = Integer.parseInt(inp[0]);
+        String username = inp[1];
+        String password = inp[2];
+        String name = inp[3];
+        ThoiGian regtime = new ThoiGian(inp[4]);
+        ThoiGian borntime = new ThoiGian(inp[5]);
+        String phone = inp[6];
+        String email = inp[7];
+        String address = inp[8];
+        Reader __ = new Reader(id, username, regtime);
+        __.setName(name).setBirth(borntime).setPhone(phone).setEmail(email).setAddress(address);
+        __.changePassword(null, password);
+        return __;
+    }
+    public String[] toBlob() {
+        return new String[] {String.valueOf(getId()), }
+    }
+
     @Override
     public String toString() {
         return StringHelper.liner(super.toString(),
-                StringHelper.itemer("Username", username),
-                StringHelper.itemer("Registration date", registration),
+                StringHelper.itemer("Username", getUsername()),
+                StringHelper.itemer("Registration date", getRegistration()),
                 StringHelper.itemer("Currently borrowing", StringHelper.obj2str(borrowings)));
     }
-
-    private String username, password;
-    private ThoiGian registration;
-    private static long id_counter = 0;
 
     private PFArray<Document> borrowings = new PFArray<>();
 }
