@@ -1,8 +1,9 @@
 package ThuVien;
 
 import Polyfill.StringHelper;
+import Polyfill.ThoiGian;
 
-public class Author extends People {
+public class Author extends People implements IDataProcess<Author> {
     public Author(int id) {
         super(id);
     }
@@ -25,6 +26,23 @@ public class Author extends People {
         return this;
     }
 
+    public Author fromBlob(String[] inp) {
+        int id = Integer.parseInt(inp[0]);
+        ThoiGian borntime = new ThoiGian(inp[1]);
+        String phone = inp[2];
+        String email = inp[3];
+        String address = inp[4];
+        String website = inp[5];
+        Language language = Languages.parseLang(inp[6]);
+        Author __ = new Author(id);
+        __.setBirth(borntime).setPhone(phone).setEmail(email).setAddress(address);
+        __.setWebsite(website).setLanguage(language);
+        return __;
+    }
+    public String[] toBlob() {
+        return new String[] { String.valueOf(getId()), getBirth().toString(), getEmail().toString(),
+            getAddress().toString(), getWebsite().toString(), getLanguage().toString()};
+    }
     @Override
     public String toString() {
         return StringHelper.liner(super.toString(),

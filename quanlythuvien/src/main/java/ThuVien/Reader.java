@@ -45,8 +45,10 @@ public class Reader extends Account implements IDataProcess<Reader> {
         __.changePassword(null, password);
         return __;
     }
+
     public String[] toBlob() {
-        return new String[] {String.valueOf(getId()), }
+        return new String[] { String.valueOf(getId()), getUsername(), getPassword(), getName(),
+                getRegistration().toString(), getBirth().toString(), getPhone(), getEmail(), getAddress() };
     }
 
     @Override

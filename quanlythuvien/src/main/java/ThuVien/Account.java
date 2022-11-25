@@ -30,6 +30,10 @@ public class Account extends People {
         return true;
     }
 
+    protected String getPassword() {
+        return password;
+    }
+
     public ThoiGian getRegistration() {
         return registration;
     }
