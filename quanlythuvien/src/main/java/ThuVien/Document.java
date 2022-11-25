@@ -13,7 +13,7 @@ public class Document extends AnyId {
         this(++id_counter);
     }
 
-    public Document(long id) {
+    public Document(int id) {
         super(id);
         if (id_counter < id) {
             id_counter = id;
@@ -45,11 +45,11 @@ public class Document extends AnyId {
         this.language = language;
     }
 
-    public long getCopies() {
+    public int getCopies() {
         return copies;
     }
 
-    public Document changeCopies(long copies_offset) {
+    public Document changeCopies(int copies_offset) {
         if ((copies += copies_offset) < 0) {
             LOGGER.info(StringHelper.spacer("Document", getId(), "has been purged"));
             copies = 0;
@@ -79,10 +79,10 @@ public class Document extends AnyId {
     }
 
     private PFArray<Author> authors;
-    private long copies = 0;
-    private long borrowed = 0;
+    private int copies = 0;
+    private int borrowed = 0;
     private ThoiGian publication;
     private Language language;
-    private static long id_counter = 0;
+    private static int id_counter = 0;
 
 }

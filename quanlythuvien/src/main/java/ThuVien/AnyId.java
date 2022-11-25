@@ -3,11 +3,11 @@ package ThuVien;
 import Polyfill.StringHelper;
 
 public class AnyId {
-    protected long getId() {
+    public int getId() {
         return id;
     }
 
-    public AnyId(long id) {
+    public AnyId(int id) {
         this.id = id;
     }
 
@@ -16,5 +16,5 @@ public class AnyId {
         return StringHelper.itemer("ID", id);
     }
 
-    private long id;
+    private int id;
 }

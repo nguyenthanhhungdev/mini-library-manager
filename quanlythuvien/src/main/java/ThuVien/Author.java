@@ -3,8 +3,8 @@ package ThuVien;
 import Polyfill.StringHelper;
 
 public class Author extends People {
-    public Author() {
-        super(++id_counter);
+    public Author(int id) {
+        super(id);
     }
 
     public String getWebsite() {
@@ -34,5 +34,4 @@ public class Author extends People {
 
     private String website;
     private Language language;
-    private static long id_counter = 0;
 }

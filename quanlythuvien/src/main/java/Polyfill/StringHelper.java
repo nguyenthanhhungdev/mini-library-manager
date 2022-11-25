@@ -2,7 +2,11 @@ package Polyfill;
 
 import java.util.stream.Stream;
 
-public class StringHelper {
+public final class StringHelper {
+    public static boolean isNullOrBlank(String str) {
+        return str == null || str.isBlank();
+    }
+
     // lol why
     public static String liner(Object... lines) {
         return concater("\n", lines);

@@ -7,7 +7,7 @@ public class Language extends AnyId {
         this(++id_counter, name, tname);
     }
 
-    public Language(long id, String name, String tname) {
+    public Language(int id, String name, String tname) {
         super(id);
         this.name = name;
         this.tname = tname;
@@ -28,5 +28,5 @@ public class Language extends AnyId {
     }
 
     private String name, tname;
-    private static long id_counter = 0;
+    private static int id_counter = 0;
 }

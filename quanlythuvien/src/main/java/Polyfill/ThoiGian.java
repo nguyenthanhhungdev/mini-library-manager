@@ -28,6 +28,10 @@ public class ThoiGian {
         return new ThoiGian(ngay > 0 ? instance.plusDays(ngay) : instance.minusDays(Math.abs(ngay)));
     }
 
+    public ThoiGian plusKhoangThoiGian(KhoangThoiGian ktg) {
+        return new ThoiGian(instance.plus(ktg.getInstance()));
+    }
+
     @Override
     public String toString() {
         return instance.format(formatter);
