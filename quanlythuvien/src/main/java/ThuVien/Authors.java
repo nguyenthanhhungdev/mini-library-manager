@@ -2,34 +2,34 @@ package ThuVien;
 
 import Polyfill.PFArray;
 
-public class Readers extends Management<Reader> {
-    public Readers() {
+public class Authors extends Management<Author> {
+    public Authors() {
         super();
     }
 
-    public Readers(Reader[] r) {
+    public Authors(Author[] r) {
         super(r);
     }
 
-    public Readers(PFArray<String[]> blob) {
+    public Authors(PFArray<String[]> blob) {
         this();
-        blob.stream().forEach(e -> instance.push_back(Reader.fromBlob(e)));
+        blob.stream().forEach(e -> instance.push_back(Author.fromBlob(e)));
         updateCounter();
     }
 
-    public Readers add(Reader r) {
+    public Authors add(Author r) {
         // TODO: accept input
-        Reader __ = new Reader(++id_counter, null)
+        Author __ = new Author(++id_counter);
         // .setAbc(...)
         instance.push_back(__);
         return this;
     }
-    public Readers remove() {
+    public Authors remove() {
         //TODO:accept input
         // abc = search()
         // if length == 1 instance.erase()...
     }
-    public Readers edit() {
+    public Authors edit() {
         //TODO:accept inpiut
         // abc = search()
         // if length == 1 instance[i].setAbc.setXyz
@@ -40,7 +40,7 @@ public class Readers extends Management<Reader> {
     }
     // public PFArray<String[]> toBatchBlob() {}; already implemented
 
-    public static Readers fromBatchBlob(PFArray<String[]> inp) {
-        return new Readers(inp);
+    public static Authors fromBatchBlob(PFArray<String[]> inp) {
+        return new Authors(inp);
     }
 }

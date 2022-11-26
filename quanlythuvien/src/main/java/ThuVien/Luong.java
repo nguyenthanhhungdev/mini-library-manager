@@ -46,7 +46,7 @@ public class Luong {
     // 2500000 |3000000| 7500000 |25/11/2022 23:15:00
     // ^hientai ^tuonglai ^tongdatra ^ last modified
     public static Luong parseLuong(String inp) {
-        String[] _a = StringHelper.lineSplit(inp);
+        String[] _a = StringHelper.lv1Split(inp);
         return new Luong(Long.parseLong(_a[0]), Long.parseLong(_a[1]), Long.parseLong(_a[2]),
                 ThoiGian.parseTG(_a[3]));
     }

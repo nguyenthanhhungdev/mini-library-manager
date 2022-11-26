@@ -3,7 +3,7 @@ package ThuVien;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
-public class Author extends People implements IDataProcess<People> {
+public class Author extends People implements IDataProcess<Author> {
     public Author(int id) {
         super(id);
     }

@@ -8,8 +8,20 @@ public final class StringHelper {
     }
 
     // this project's general single field seperator
-    public static String[] lineSplit(String line) {
+    public static String[] lv1Split(String line) {
         return splitThenTrim("|", line);
+    }
+
+    public static String lv1Join(Object... words) {
+        return concater("|", words);
+    }
+
+    public static String[] lv2Split(String line) {
+        return splitThenTrim("\\", line);
+    }
+
+    public static String lv2Join(Object... words) {
+        return concater("\\", words);
     }
 
     public static String[] splitThenTrim(String sep, String line) {

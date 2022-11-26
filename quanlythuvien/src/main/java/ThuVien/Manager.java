@@ -1,8 +1,9 @@
 package ThuVien;
 
 import Polyfill.PFArray;
+import Polyfill.StringHelper;
 
-public class Manager extends StaffImpl {
+public class Manager extends StaffImpl implements IDataProcess<Manager> {
     public Manager(int id, String username) {
         super(id, username);
     }
@@ -19,15 +20,18 @@ public class Manager extends StaffImpl {
         cashiers.erase(cashier_index);
         return true;
     }
+
     public long calcSocialCredit() {
         return getPureLuong() / 500 + cashiers.size() * cashierBonus;
     }
-    public void fromBlob(String[] cashier) {
-        int id = Integer.parseInt(cashier[0]);
-        String username = cashier[1];
-        String password = cashier[2];
 
+    public String[] toBlob() {
+        return new String[] { String.valueOf(getId()), getUsername(), getPassword(), getName(),
+                getRegistration().toString(), getBirth().toString(), getPhone(), getEmail(), getAddress(),
+                getTruc().toString(), getLuong().toString(),
+                StringHelper.lv1Join(cashiers.stream().mapToInt(e -> e.getId())) };
     }
+
     // TODO: manager methods
     private PFArray<Cashier> cashiers = new PFArray<>();
     private static final long cashierBonus = 5000;

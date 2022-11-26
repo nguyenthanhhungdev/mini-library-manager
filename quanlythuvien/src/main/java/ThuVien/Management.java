@@ -1,5 +1,8 @@
 package ThuVien;
 
+import java.util.Objects;
+import java.util.stream.IntStream;
+
 import Polyfill.PFArray;
 
 public abstract class Management<T extends AnyId & IDataProcess<T>> implements IBatchDataProcess<T> {
@@ -15,11 +18,24 @@ public abstract class Management<T extends AnyId & IDataProcess<T>> implements I
 
     public abstract Management<T> add(T t);
 
-    public abstract Management<T> remove(T t);
+    public abstract Management<T> remove();
 
-    public abstract Management<T> edit(T t);
+    public abstract Management<T> edit();
 
-    public abstract Management<T> search(T t);
+    public abstract int[] search();
+
+    public int search(int id) {
+        return IntStream.range(0, instance.size()).filter(i -> instance.at(i).getId() == id).findAny().orElse(-1);
+    }
+
+    public T getById(int id) {
+        return instance.stream().filter(e -> e.getId() == id).findAny().orElse(null);
+    }
+
+    @SuppressWarnings("unchecked")
+    public T[] batchGetByIds(int[] ids) {
+        return (T[]) IntStream.of(ids).mapToObj(e -> getById(e)).filter(Objects::nonNull).toArray();
+    }
 
     public PFArray<String[]> toBatchBlob() {
         PFArray<String[]> __ = new PFArray<>(instance.size());

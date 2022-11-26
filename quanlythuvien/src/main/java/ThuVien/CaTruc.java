@@ -56,7 +56,7 @@ public class CaTruc {
     // ^ monday | ^ tuesday ...
     public static CaTruc parseCaTruc(String inp) {
         CaTruc __ = new CaTruc();
-        String[] _a = StringHelper.lineSplit(inp);
+        String[] _a = StringHelper.lv1Split(inp);
         IntStream.range(0, 7).filter(i -> !StringHelper.isNullOrBlank(_a[i]))
                 .forEach(i -> __.setCaTrucNgay(i, CaTrucNgay.parseCaTrucNgay(_a[i])));
         return __;
