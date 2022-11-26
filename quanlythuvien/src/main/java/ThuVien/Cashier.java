@@ -12,8 +12,7 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier> {
     }
 
     protected long calcSocialCredit() {
-        long luong = getPureLuong() / 1000 + completionCount * completionBonus;
-        return luong;
+        return getPureLuong() / 1000 + completionCount * completionBonus;
     }
 
     protected Cashier resetCompletionCount() {
@@ -63,5 +62,5 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier> {
 
     private int completionCount = 0;
     // moi hoa don thanh toan dc them 5 tram
-    private static long completionBonus = 500;
+    private static final long completionBonus = 500;
 }
