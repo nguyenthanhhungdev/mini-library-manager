@@ -3,7 +3,7 @@ package ThuVien;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
-public class Account extends People {
+public abstract class Account extends People {
     public Account(int id, String username) {
         this(id, username, ThoiGian.now());
     }

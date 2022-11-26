@@ -3,7 +3,7 @@ package ThuVien;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
-public class Author extends People implements IDataProcess<Author> {
+public class Author extends People implements IDataProcess<People> {
     public Author(int id) {
         super(id);
     }
@@ -26,7 +26,7 @@ public class Author extends People implements IDataProcess<Author> {
         return this;
     }
 
-    public Author fromBlob(String[] inp) {
+    public static Author fromBlob(String[] inp) {
         int id = Integer.parseInt(inp[0]);
         ThoiGian borntime = ThoiGian.parseTG(inp[1]);
         String phone = inp[2];
@@ -42,7 +42,7 @@ public class Author extends People implements IDataProcess<Author> {
 
     public String[] toBlob() {
         return new String[] { String.valueOf(getId()), getBirth().toString(), getEmail(), getAddress(),
-            getWebsite(), getLanguage().toString() }; //TODO: fix language
+            getWebsite(), getLanguage().toString() };
     }
 
     @Override

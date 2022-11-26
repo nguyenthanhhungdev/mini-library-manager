@@ -30,7 +30,7 @@ public class Reader extends Account implements IDataProcess<Reader> {
         return true;
     }
 
-    public Reader fromBlob(String[] inp) {
+    public static Reader fromBlob(String[] inp) {
         int id = Integer.parseInt(inp[0]);
         String username = inp[1];
         String password = inp[2];

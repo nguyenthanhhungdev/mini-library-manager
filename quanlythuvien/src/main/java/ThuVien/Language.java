@@ -2,7 +2,7 @@ package ThuVien;
 
 import Polyfill.StringHelper;
 
-public class Language extends AnyId implements IDataProcess<Language> {
+public class Language extends AnyId {
     public Language(int id, String tname, String name, String code) {
         super(id);
         this.name = name;
@@ -22,25 +22,14 @@ public class Language extends AnyId implements IDataProcess<Language> {
         return code;
     }
 
-    public Language fromBlob(String[] inp) {
-        int id = Integer.parseInt(inp[0]);
-        String name = inp[1];
-        String tname = inp[2];
-        return new Language(id, code, name, tname);
-    }
-
-    public String[] toBlob() {
-        return new String[] { String.valueOf(getId()), code, name, tname };
-    }
-
     public String toScreen() {
         return StringHelper.liner(super.toString(),
-                StringHelper.itemer("Name", StringHelper.spacer(tname, name, code)));
+                StringHelper.itemer("Name", StringHelper.spacer(code, name, tname)));
     }
 
     @Override
     public String toString() {
-        return StringHelper.spacer(tname, name, code);
+        return StringHelper.concater("|", code, name, tname);
     }
 
     private String code, name, tname;
