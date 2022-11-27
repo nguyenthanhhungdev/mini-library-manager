@@ -11,9 +11,9 @@ public class Readers extends Management<Reader> {
         super(r);
     }
 
-    public Readers(PFArray<String[]> blob) {
+    public Readers(PFArray<String[]> blob, Cards cards_instance) {
         this();
-        blob.stream().forEach(e -> instance.push_back(Reader.fromBlob(e)));
+        blob.stream().forEach(e -> instance.push_back(Reader.fromBlob(e, cards_instance)));
         updateCounter();
     }
 
@@ -42,7 +42,7 @@ public class Readers extends Management<Reader> {
     }
     // public PFArray<String[]> toBatchBlob() {}; already implemented
 
-    public static Readers fromBatchBlob(PFArray<String[]> inp) {
-        return new Readers(inp);
+    public static Readers fromBatchBlob(PFArray<String[]> inp, Cards cards_instance) {
+        return new Readers(inp, cards_instance);
     }
 }
