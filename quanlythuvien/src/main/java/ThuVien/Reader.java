@@ -71,7 +71,8 @@ public class Reader extends Account implements IDataProcess<Reader> {
         return StringHelper.liner(super.toString(),
                 StringHelper.itemer("Username", getUsername()),
                 StringHelper.itemer("Registration date", getRegistration()),
-                StringHelper.itemer("Currently borrowing", StringHelper.obj2str(borrowings)));
+                StringHelper.itemer("Currently borrowing", StringHelper.obj2str(borrowings)),
+                StringHelper.itemer("Card", getCard()));
     }
 
     private PFArray<Document> borrowings = new PFArray<>();

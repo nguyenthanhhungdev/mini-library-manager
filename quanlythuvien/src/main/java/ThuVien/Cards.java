@@ -25,5 +25,8 @@ public class Cards extends Management<Card> {
         // TODO Auto-generated method stub
         return null;
     }
-    
+    public static final float regular = 1.f;
+    public static final float pro = .9f;
+    public static final float vip = .75f;
+    public static final float ultimate = .5f;
 }

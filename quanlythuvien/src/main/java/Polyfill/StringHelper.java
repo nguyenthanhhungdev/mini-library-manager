@@ -45,7 +45,11 @@ public final class StringHelper {
 
     // it's kinda weird tho
     public static String concater(String delim, Object... strings) {
-        return String.join(delim, obj2str(strings));
+        try {
+            return String.join(delim, obj2str(strings));
+        } catch (NullPointerException e) {
+            return "";
+        }
     }
 
     // well this one is important

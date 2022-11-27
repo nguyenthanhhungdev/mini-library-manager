@@ -1,12 +1,10 @@
 package ThuVien;
 
 import java.util.logging.Logger;
-import java.util.stream.Stream;
-
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
-public class Document extends AnyId implements IDataProcess<Document> {
+public abstract class Document extends AnyId implements IDataProcess<Document> {
     private static final Logger LOGGER = Logger.getLogger(Document.class.getName());
 
     public Document(int id) {
@@ -37,15 +35,6 @@ public class Document extends AnyId implements IDataProcess<Document> {
 
     public Document setAuthors(Author[] authors) {
         this.authors = authors;
-        return this;
-    }
-
-    public Language getLanguage() {
-        return language;
-    }
-
-    public Document setLanguage(Language language) {
-        this.language = language;
         return this;
     }
 
@@ -96,24 +85,7 @@ public class Document extends AnyId implements IDataProcess<Document> {
         }
     }
 
-    public String[] toBlob() {
-        return new String[] { String.valueOf(getId()), name, String.valueOf(copies), String.valueOf(borrowed),
-                language.toString(), publication.toString(),
-                StringHelper.lv1Join(Stream.of(authors).mapToInt(e -> e.getId())) };
-    }
-
-    public static Document fromBlob(String[] inp, Authors authors_instance) {
-        int id = Integer.parseInt(inp[0]);
-        String name = inp[1];
-        int copies = Integer.parseInt(inp[2]);
-        int borrowed = Integer.parseInt(inp[3]);
-        Language language = Languages.parseLang(inp[4]);
-        ThoiGian publication = ThoiGian.parseTG(inp[5]);
-        Author[] authors = authors_instance.batchGetByIds(Stream.of(StringHelper.lv1Split(inp[5]))
-                .mapToInt(Integer::parseInt).toArray());
-        return new Document(id).setName(name).setCopies(copies).setBorrowed(borrowed).setPublication(publication)
-                .setLanguage(language).setAuthors(authors);
-    }
+    public abstract String[] toBlob();
 
     @Override
     public String toString() {
@@ -121,7 +93,6 @@ public class Document extends AnyId implements IDataProcess<Document> {
                 StringHelper.itemer("Name", name),
                 StringHelper.itemer("Authors", StringHelper.obj2str((Object)authors)),
                 StringHelper.itemer("Publication", publication),
-                StringHelper.itemer("Language", language),
                 StringHelper.itemer("Copies", copies),
                 StringHelper.itemer("Borrowed", borrowed));
     }
@@ -130,6 +101,5 @@ public class Document extends AnyId implements IDataProcess<Document> {
     private int copies = 0;
     private int borrowed = 0;
     private ThoiGian publication;
-    private Language language;
     private String name;
 }
