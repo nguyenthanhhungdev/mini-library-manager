@@ -16,11 +16,11 @@ public abstract class Management<T extends AnyId & IDataProcess<T>> implements I
         updateCounter();
     }
 
-    public abstract Management<T> add(T t);
+    public abstract T add();
 
-    public abstract Management<T> remove();
+    public abstract T remove();
 
-    public abstract Management<T> edit();
+    public abstract T edit();
 
     public abstract int[] search();
 
@@ -35,6 +35,18 @@ public abstract class Management<T extends AnyId & IDataProcess<T>> implements I
     @SuppressWarnings("unchecked")
     public T[] batchGetByIds(int[] ids) {
         return (T[]) IntStream.of(ids).mapToObj(e -> getById(e)).filter(Objects::nonNull).toArray();
+    }
+
+    public boolean removeById(int id) {
+        int __ = search(id);
+        if (__ < 0) {
+            // not found
+            return false;
+        } else {
+            instance.erase(__);
+            return true;
+        }
+
     }
 
     public PFArray<String[]> toBatchBlob() {

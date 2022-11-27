@@ -17,25 +17,31 @@ public class Authors extends Management<Author> {
         updateCounter();
     }
 
-    public Authors add(Author r) {
+    public Author add() {
         // TODO: accept input
         Author __ = new Author(++id_counter);
         // .setAbc(...)
         instance.push_back(__);
-        return this;
+        return __;
     }
-    public Authors remove() {
-        //TODO:accept input
+
+    public Author remove() {
+        // TODO:accept input
         // abc = search()
         // if length == 1 instance.erase()...
+        return null;
     }
-    public Authors edit() {
-        //TODO:accept inpiut
+
+    public Author edit() {
+        // TODO:accept inpiut
         // abc = search()
         // if length == 1 instance[i].setAbc.setXyz
+        return null;
     }
+
     public int[] search() {
         // TODO:accept input
+        return new int[0];
 
     }
     // public PFArray<String[]> toBatchBlob() {}; already implemented

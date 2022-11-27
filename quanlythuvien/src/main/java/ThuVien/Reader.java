@@ -1,5 +1,7 @@
 package ThuVien;
 
+import java.util.stream.IntStream;
+
 import Polyfill.PFArray;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
@@ -13,21 +15,23 @@ public class Reader extends Account implements IDataProcess<Reader> {
         super(id, username, registration);
     }
 
-    public boolean borrows(Document document) {
-        if (!document.borrows()) {
+    public boolean borrows(Documents documents_instance) {
+        // TODO: accept user input and search to get id
+        int id = 0;
+        Document __ = documents_instance.getById(id);
+        if (!__.borrows()) {
             return false;
         }
-        borrowings.push_back(document);
+        borrowings.push_back(__);
         return true;
     }
 
-    // Employee must do a search to find out the index to remove
-    public boolean returns(int borrowings_index) {
-        if (borrowings_index < 0 || borrowings_index > borrowings.size()) {
-            return false;
-        }
-        borrowings.erase(borrowings_index).returns();
-        return true;
+    public boolean returns(Documents documents_instance) {
+        // TODO: accept user input and search to get id
+        int id = 0;
+        IntStream.range(0, borrowings.size()).filter(i -> borrowings.at(i).getId() == id).findAny().orElse(-1);
+        // check input...
+        return false;
     }
 
     public static Reader fromBlob(String[] inp) {

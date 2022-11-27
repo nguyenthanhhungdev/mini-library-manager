@@ -7,18 +7,19 @@ public class Manager extends StaffImpl implements IDataProcess<Manager> {
     public Manager(int id, String username) {
         super(id, username);
     }
-
-    public void employ(Cashier employee) {
-        cashiers.push_back(employee);
+    // thue them nhan vien
+    public Cashier employ(Cashiers cashiers_instance) {
+        // TODO: accept user input
+        Cashier __ = cashiers_instance.add();
+        cashiers.push_back(__);
+        return __;
     }
-
-    // Manager must do a search to find out the index to remove
-    public boolean fire(int cashier_index) {
-        if (cashier_index < 0 || cashier_index > cashiers.size()) {
-            return false;
-        }
-        cashiers.erase(cashier_index);
-        return true;
+    // duoi viec nhan vien
+    public boolean fire(Cashiers cashiers_instance) {
+        // TODO: accept user input
+        Cashier __ = cashiers_instance.remove();
+        // find in this cashiers and delete
+        return false;
     }
 
     public long calcSocialCredit() {

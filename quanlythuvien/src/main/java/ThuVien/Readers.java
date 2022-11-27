@@ -17,26 +17,28 @@ public class Readers extends Management<Reader> {
         updateCounter();
     }
 
-    public Readers add(Reader r) {
+    public Reader add() {
         // TODO: accept input
-        Reader __ = new Reader(++id_counter, null)
+        Reader __ = new Reader(++id_counter, null);
         // .setAbc(...)
         instance.push_back(__);
-        return this;
+        return null;
     }
-    public Readers remove() {
+    public Reader remove() {
         //TODO:accept input
         // abc = search()
         // if length == 1 instance.erase()...
+        return null;
     }
-    public Readers edit() {
+    public Reader edit() {
         //TODO:accept inpiut
         // abc = search()
         // if length == 1 instance[i].setAbc.setXyz
+        return null;
     }
     public int[] search() {
         // TODO:accept input
-
+        return null;
     }
     // public PFArray<String[]> toBatchBlob() {}; already implemented
 

@@ -1,21 +1,21 @@
 package ThuVien;
 
-public class Cashiers extends Management<Cashier> {
+public class Cards extends Management<Card> {
 
     @Override
-    public Cashier add() {
+    public Card add() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Cashier remove() {
+    public Card remove() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Cashier edit() {
+    public Card edit() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -25,6 +25,5 @@ public class Cashiers extends Management<Cashier> {
         // TODO Auto-generated method stub
         return null;
     }
-
     
 }
