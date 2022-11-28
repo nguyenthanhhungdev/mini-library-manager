@@ -4,18 +4,19 @@ import Polyfill.PFArray;
 import Polyfill.StringHelper;
 
 public class Manager extends StaffImpl implements IDataProcess<Manager> {
-    public Manager(int id, String username) {
+    public Manager(int id, String username, Cashiers cashiers_instance) {
         super(id, username);
+        this.cashiers_instance = cashiers_instance;
     }
     // thue them nhan vien
-    public Cashier employ(Cashiers cashiers_instance) {
+    public Cashier employ() {
         // TODO: accept user input
         Cashier __ = cashiers_instance.add();
         cashiers.push_back(__);
         return __;
     }
     // duoi viec nhan vien
-    public boolean fire(Cashiers cashiers_instance) {
+    public boolean fire() {
         // TODO: accept user input
         Cashier __ = cashiers_instance.remove();
         // find in this cashiers and delete
@@ -35,5 +36,6 @@ public class Manager extends StaffImpl implements IDataProcess<Manager> {
 
     // TODO: manager methods
     private PFArray<Cashier> cashiers = new PFArray<>();
+    private Cashiers cashiers_instance;
     private static final long cashierBonus = 5000;
 }
