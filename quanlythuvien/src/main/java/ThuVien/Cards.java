@@ -1,6 +1,21 @@
 package ThuVien;
 
+import Polyfill.PFArray;
+
 public class Cards extends Management<Card> {
+    public Cards() {
+        super();
+    }
+
+    public Cards(Card[] r) {
+        super(r);
+    }
+
+    public Cards(PFArray<String[]> blob) {
+        this();
+        blob.stream().forEach(e -> instance.push_back(Card.fromBlob(e)));
+        updateCounter();
+    }
 
     @Override
     public Card add() {
@@ -25,6 +40,7 @@ public class Cards extends Management<Card> {
         // TODO Auto-generated method stub
         return null;
     }
+
     public static final float regular = 1.f;
     public static final float pro = .9f;
     public static final float vip = .75f;

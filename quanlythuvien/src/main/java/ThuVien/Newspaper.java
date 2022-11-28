@@ -22,17 +22,25 @@ public class Newspaper extends Document {
         return this;
     }
 
+    public static Newspaper input() {
+        // TODO:
+    }
+
     public String[] toBlob() {
         return new String[] { String.valueOf(Documents.Type.MAGAZINE), String.valueOf(getId()), getName(),
                 StringHelper.lv1Join((Object) getAuthors()), getEditorial(), getPublication().toString(),
                 String.valueOf(getCopies()), String.valueOf(getBorrowed()) };
     }
 
+    public Newspaper fromBlob(String[] inp) {
+        // TODO
+    }
+
     public static Newspaper fromBlob(String[] inp, Authors authors_instance) {
         int type = Integer.parseInt(inp[0]);
         if (type != Documents.Type.MAGAZINE) {
             LOGGER.severe(
-                    String.format("Incorrect Document Blob type, got {}, expected {}", type, Documents.Type.MAGAZINE));
+                    String.format("Incorrect Document Blob type, got %d, expected %d", type, Documents.Type.MAGAZINE));
             throw new IllegalArgumentException("Incorrect Document type");
         }
         int id = Integer.parseInt(inp[1]);

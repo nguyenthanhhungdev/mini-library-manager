@@ -30,7 +30,9 @@ public class ForeignTranslatedBook extends ForeignBook {
         this.translator = translator;
         return this;
     }
-
+    public static ForeignTranslatedBook input() {
+        // TODO:
+    }
     public String[] toBlob() {
         return new String[] { String.valueOf(Documents.Type.FOREIGN_TRANSLATED_BOOK), String.valueOf(getId()),
                 getName(), StringHelper.lv1Join((Object) getAuthors()), getPublisher(), getOriginLanguage().toString(),
@@ -42,7 +44,7 @@ public class ForeignTranslatedBook extends ForeignBook {
         int type = Integer.parseInt(inp[0]);
         if (type != Documents.Type.FOREIGN_TRANSLATED_BOOK) {
             LOGGER.severe(
-                    String.format("Incorrect Document Blob type, got {}, expected {}", type,
+                    String.format("Incorrect Document Blob type, got %d, expected %d", type,
                             Documents.Type.FOREIGN_TRANSLATED_BOOK));
             throw new IllegalArgumentException("Incorrect Document type");
         }

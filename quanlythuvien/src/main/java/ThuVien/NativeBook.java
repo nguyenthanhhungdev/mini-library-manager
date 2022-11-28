@@ -13,7 +13,9 @@ public class NativeBook extends Book {
         super(id);
         setLanguage(Languages.vn);
     }
-
+    public static NativeBook input() {
+        // TODO:
+    }
     public String[] toBlob() {
         return new String[] { String.valueOf(Documents.Type.MAGAZINE), String.valueOf(getId()), getName(),
                 StringHelper.lv1Join((Object) getAuthors()), getPublisher(), getLanguage().toString(),
@@ -24,7 +26,7 @@ public class NativeBook extends Book {
         int type = Integer.parseInt(inp[0]);
         if (type != Documents.Type.NATIVE_BOOK) {
             LOGGER.severe(
-                    String.format("Incorrect Document Blob type, got {}, expected {}", type,
+                    String.format("Incorrect Document Blob type, got %d, expected %d", type,
                             Documents.Type.NATIVE_BOOK));
             throw new IllegalArgumentException("Incorrect Document type");
         }

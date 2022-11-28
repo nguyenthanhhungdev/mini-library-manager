@@ -24,7 +24,7 @@ public abstract class ForeignBook extends Book {
         setLanguage(language);
         return this;
     }
-
+    
     public abstract String[] toBlob();
 
     private ThoiGian originPublication;
