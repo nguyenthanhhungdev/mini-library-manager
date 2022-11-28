@@ -1,6 +1,11 @@
 package Polyfill;
 
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import javax.sound.sampled.SourceDataLine;
+
+import ThuVien.Global;
 
 public final class StringHelper {
     public static boolean isNullOrBlank(String str) {
@@ -55,5 +60,15 @@ public final class StringHelper {
     // well this one is important
     public static String[] obj2str(Object... objs) {
         return Stream.of(objs).map(Object::toString).toArray(String[]::new);
+    }
+
+    public int acceptInput(String... lines) {
+        IntStream.range(0, lines.length).forEach(i -> System.out.println(StringHelper.concater(". ", i, lines[i])));
+        int n = Global.scanner.nextInt();
+        if (n < 1 || n > lines.length) {
+            return -1;
+        } else {
+            return n;
+        }
     }
 }

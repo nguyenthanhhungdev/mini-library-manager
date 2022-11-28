@@ -33,7 +33,7 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier> {
         return this;
     }
 
-    public Cashier fromBlob(String[] inp) {
+    public static Cashier fromBlob(String[] inp) {
         int id = Integer.parseInt(inp[0]);
         String username = inp[1];
         String password = inp[2];
