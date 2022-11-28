@@ -97,7 +97,8 @@ public class Cashiers extends Management<Cashier> {
                     System.out.println("Dang thao tac edit thu ngan:");
                     __.toString();
                     System.out.println("Chon thao tac");
-                    switch (m = StringHelper.acceptInput("Ten", "Ngay sinh", "So dien thoai", "Email", "Dia chi", "Ca truc")) {
+                    switch (m = StringHelper.acceptInput("Ten", "Ngay sinh", "So dien thoai", "Email", "Dia chi",
+                            "Ca truc", "Thay doi mat khau")) {
                         case 1:
                             __.setName(StringHelper.acceptLine("Nhap ten"));
                             break;
@@ -115,6 +116,14 @@ public class Cashiers extends Management<Cashier> {
                             break;
                         case 6:
                             __.setTruc(CaTruc.parseCaTruc(StringHelper.acceptLine("Nhap ca truc")));
+                            break;
+                        case 7:
+                            String old = StringHelper.acceptLine("Nhap mat khau cu");
+                            if (__.changePassword(old, StringHelper.acceptLine("Nhap mat khau moi")) == true) {
+                                System.out.println("Thay doi mat khau thanh cong");
+                            } else {
+                                System.out.println("Mat khau cu sai");
+                            }
                             break;
                         case -1:
                         default:
