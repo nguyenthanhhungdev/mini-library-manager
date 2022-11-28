@@ -4,8 +4,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import javax.sound.sampled.SourceDataLine;
-
 import ThuVien.Global;
 
 public final class StringHelper {
@@ -70,8 +68,13 @@ public final class StringHelper {
     public static int acceptInput(String... lines) {
         flushScanner();
         IntStream.range(0, lines.length).forEach(i -> System.out.println(StringHelper.concater(". ", i, lines[i])));
-        int n = Integer.parseInt(acceptLine("Number input"));
-        if (n < 1 || n > lines.length) {
+        int n;
+        try {
+            n = Integer.parseInt(acceptLine("Number input"));
+            if (n < 1 || n > lines.length) {
+                n = -1;
+            }
+        } catch (Exception e) {
             n = -1;
         }
         flushScanner();

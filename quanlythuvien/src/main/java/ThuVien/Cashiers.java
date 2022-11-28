@@ -40,57 +40,99 @@ public class Cashiers extends Management<Cashier> {
         return __;
     }
 
-    private Cashier promptSearch() {
+    private int promptSearch() {
+        int n;
         try {
-            int n = search(Integer.parseInt(StringHelper.acceptLine("Nhap id (thu ngan)")));
+            n = search(Integer.parseInt(StringHelper.acceptLine("Nhap id (thu ngan)")));
             if (n == -1) {
                 System.out.println("Tim kiem khong co ket qua");
-                return null;
             } else {
-                return instance.at(n);
+                System.out.println("Tim thay thu ngan:");
+                instance.at(n).toString();
             }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Input error", e);
             throw e;
         }
+        return n;
     }
 
     @Override
     public Cashier remove() {
+        int n;
+        Cashier __ = null;
+        try {
+            n = promptSearch();
+            if (n == -1) {
+                System.out.println("Tim kiem that bai, remove thu ngan that bai");
+            } else {
+                System.out.println("Xac nhan xoa thu ngan:");
+                instance.at(n).toString();
+                int m = StringHelper.acceptInput("Co", "Suy nghi lai");
+                if (m == 1) {
+                    __ = instance.erase(n);
+                    System.out.println("Da xoa thu ngan");
+                    __.toString();
+                }
+            }
 
-        return null;
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Co loi xay ra, remove thu ngan that bai", e);
+        }
+        return __;
     }
 
     @Override
     public Cashier edit() {
+        int n;
+        Cashier __ = null;
         try {
-            int n = search(Integer.parseInt(StringHelper.acceptLine("Nhap id (thu ngan)")));
+            n = promptSearch();
             if (n == -1) {
-                System.out.println("Tim kiem khong co ket qua");
-                return null;
+                System.out.println("Tim kiem that bai, edit thu ngan that bai");
             } else {
-                return instance.at(n);
+                int m;
+                do {
+                    __ = instance.at(n);
+                    System.out.println("Dang thao tac edit thu ngan:");
+                    __.toString();
+                    System.out.println("Chon thao tac");
+                    switch (m = StringHelper.acceptInput("Ten", "Ngay sinh", "So dien thoai", "Email", "Dia chi", "Ca truc")) {
+                        case 1:
+                            __.setName(StringHelper.acceptLine("Nhap ten"));
+                            break;
+                        case 2:
+                            __.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay sinh")));
+                            break;
+                        case 3:
+                            __.setPhone(StringHelper.acceptLine("Nhap sdt"));
+                            break;
+                        case 4:
+                            __.setEmail(StringHelper.acceptLine("Nhap email"));
+                            break;
+                        case 5:
+                            __.setAddress(StringHelper.acceptLine("Nhap dia chi"));
+                            break;
+                        case 6:
+                            __.setTruc(CaTruc.parseCaTruc(StringHelper.acceptLine("Nhap ca truc")));
+                            break;
+                        case -1:
+                        default:
+                            m = -1;
+                            System.out.println("Ket thuc edit thu ngan");
+                            break;
+                    }
+                } while (m > 0);
             }
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Input error", e);
-            throw e;
+            LOGGER.log(Level.WARNING, "Co loi xay ra, edit thu ngan that bai", e);
         }
+        return __;
     }
 
     @Override
     public int[] search() {
-        // try {
-        // String input = StringHelper.acceptLine("ID");
-        // if(!StringHelper.isNullOrBlank(input)) {
-        // return new int[] {search(Integer.parseInt(input))};
-        // }
-        // // con tiep
-        // } catch (Exception e) {
-        // LOGGER.log(Level.WARNING, "Input error", e);
-        // throw e;
-        // }
-
-        return null;
+        throw new UnsupportedOperationException("Chuc nang chua dc code do ko du thoi gian");
     }
 
 }
