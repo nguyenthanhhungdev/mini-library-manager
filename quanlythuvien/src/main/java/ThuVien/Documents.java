@@ -1,8 +1,12 @@
 package ThuVien;
 
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 import Polyfill.PFArray;
+import Polyfill.ThoiGian;
+
+import static ThuVien.DangNhap.scanner;
 
 public class Documents extends Management<Document> {
     private static final Logger LOGGER = Logger.getLogger(Documents.class.getName());
@@ -32,22 +36,86 @@ public class Documents extends Management<Document> {
         updateCounter();
     }
 
+    private Document acccessInpDoc() {
+        Document document = null;
+        System.out.println("Nhap ten sach: ");
+        document.setName(scanner.nextLine());
+
+        System.out.println("Nhap so luong tac gia: ");
+        for (int i = 0; i < Integer.parseInt(scanner.nextLine()); i++)
+        {
+            Authors authors = new Authors();
+            System.out.println("Nhap ma tac gia: ");
+            Author author = new Author(Integer.parseInt(scanner.nextLine()));
+            authors.instance.at(search(author.getId()));
+            document.setAuthors((Author[]) instance.stream().toArray());
+        }
+
+        System.out.println("Nhap so luong ban sao: ");
+        document.setCopies(Integer.parseInt(scanner.nextLine()));
+
+        System.out.println("Nhap thoi gian xuat ban: ");
+        document.setPublication(ThoiGian.parseTG(scanner.nextLine()));
+
+        instance.push_back(document);
+
+        return document;
+    }
+
+    public int menuEdit() {
+        System.out.println("1. Ten  sach");
+        System.out.println("2. Tac gia");
+        System.out.println("3. Nam xuat ban");
+        System.out.println("4. So luong ban sao");
+        return Integer.parseInt(scanner.nextLine());
+    }
+
     @Override
     public Document add() {
-        // TODO Auto-generated method stub
-        return null;
+        Document document = acccessInpDoc();
+        instance.push_back(document);
+        return document;
     }
 
     @Override
     public Document remove() {
-        // TODO Auto-generated method stub
-        return null;
+        Document document = acccessInpDoc();
+        int index = search(document.getId());
+        if (index != -1) {
+            instance.erase(index);
+        }
+
+        return document;
     }
 
     @Override
     public Document edit() {
-        // TODO Auto-generated method stub
-        return null;
+        Document document = add();
+        int index = search(document.getId());
+        if (index != -1) {
+
+            document = instance.at(index);
+
+            switch (menuEdit()) {
+                case 1 -> document.setName(scanner.nextLine());
+                case 2 -> {
+                    System.out.println("Nhap so luong tac gia: ");
+                    Author[] authors = new Author[Integer.parseInt(scanner.nextLine())];
+                    IntStream.range(0, authors.length).forEach(i -> {
+                        System.out.println("Nhap ma tac gia: ");
+                        Author author = new Author(Integer.parseInt(scanner.nextLine()));
+                        Authors authors1 = new Authors();
+                        authors[i] = authors1.instance.at(search(author.getId()));
+                    });
+
+                    document.setAuthors(authors);
+                }
+                case 3 -> document.setPublication(ThoiGian.parseTG(scanner.nextLine()));
+                case 4 -> document.setCopies(Integer.parseInt(scanner.nextLine()));
+            }
+        }
+
+        return document;
     }
 
     @Override
