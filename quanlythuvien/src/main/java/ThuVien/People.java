@@ -3,12 +3,12 @@ package ThuVien;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
-public class People extends AnyId {
+public abstract class People extends AnyId {
     // Set it like this:
     // People p = new
     // People().setName(name).setEmail(email).setPhone(phone).setAddress(address)
     // ...
-    public People(long id) {
+    public People(int id) {
         super(id);
     }
 
@@ -67,6 +67,6 @@ public class People extends AnyId {
                 StringHelper.itemer("Birthdate", birth));
     }
 
-    protected String name, email, phone, address;
-    protected ThoiGian birth;
+    private String name, email, phone, address;
+    private ThoiGian birth;
 }

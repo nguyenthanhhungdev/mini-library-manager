@@ -1,23 +1,23 @@
 package ThuVien;
 
 import java.util.logging.Logger;
-
-import Polyfill.PFArray;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
-public class Document extends AnyId {
+public abstract class Document extends AnyId implements IDataProcess<Document> {
     private static final Logger LOGGER = Logger.getLogger(Document.class.getName());
 
-    public Document() {
-        this(++id_counter);
+    public Document(int id) {
+        super(id);
     }
 
-    public Document(long id) {
-        super(id);
-        if (id_counter < id) {
-            id_counter = id;
-        }
+    public String getName() {
+        return name;
+    }
+
+    public Document setName(String name) {
+        this.name = name;
+        return this;
     }
 
     public ThoiGian getPublication() {
@@ -29,27 +29,34 @@ public class Document extends AnyId {
         return this;
     }
 
-    public PFArray<Author> getAuthors() {
+    public Author[] getAuthors() {
         return authors;
     }
 
-    public void setAuthors(PFArray<Author> authors) {
+    public Document setAuthors(Author[] authors) {
         this.authors = authors;
+        return this;
     }
 
-    public Language getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(Language language) {
-        this.language = language;
-    }
-
-    public long getCopies() {
+    public int getCopies() {
         return copies;
     }
 
-    public Document changeCopies(long copies_offset) {
+    protected Document setCopies(int copies) {
+        this.copies = copies;
+        return this;
+    }
+
+    public int getBorrowed() {
+        return borrowed;
+    }
+
+    protected Document setBorrowed(int borrowed) {
+        this.borrowed = borrowed;
+        return this;
+    }
+
+    public Document changeCopies(int copies_offset) {
         if ((copies += copies_offset) < 0) {
             LOGGER.info(StringHelper.spacer("Document", getId(), "has been purged"));
             copies = 0;
@@ -78,11 +85,23 @@ public class Document extends AnyId {
         }
     }
 
-    private PFArray<Author> authors;
-    private long copies = 0;
-    private long borrowed = 0;
-    private ThoiGian publication;
-    private Language language;
-    private static long id_counter = 0;
+    public abstract String[] toBlob();
 
+    public abstract Document fromBlob(String[] inp);
+
+    @Override
+    public String toString() {
+        return StringHelper.liner(super.toString(),
+                StringHelper.itemer("Name", name),
+                StringHelper.itemer("Authors", StringHelper.obj2str((Object) authors)),
+                StringHelper.itemer("Publication", publication),
+                StringHelper.itemer("Copies", copies),
+                StringHelper.itemer("Borrowed", borrowed));
+    }
+
+    private Author[] authors;
+    private int copies = 0;
+    private int borrowed = 0;
+    private ThoiGian publication;
+    private String name;
 }
