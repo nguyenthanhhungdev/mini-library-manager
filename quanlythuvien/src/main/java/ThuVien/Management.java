@@ -22,8 +22,6 @@ public abstract class Management<T extends AnyId & IDataProcess<T>> implements I
 
     public abstract T edit();
 
-    public abstract int[] search();
-
     public int search(int id) {
         return IntStream.range(0, instance.size()).filter(i -> instance.at(i).getId() == id).findAny().orElse(-1);
     }

@@ -1,6 +1,7 @@
 package ThuVien;
 
 import Polyfill.PFArray;
+import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
 import static ThuVien.DangNhap.scanner;
@@ -39,14 +40,8 @@ public class Authors extends Management<Author> {
     }
 
     public int menuEdit() {
-        System.out.println("1. Ten tac gia");
-        System.out.println("2. Ngon ngu");
-        System.out.println("3. Website");
-        System.out.println("4. Ngay sinh");
-        System.out.println("5. email");
-        System.out.println("6. Dia chi");
-        System.out.println("7. Dien thoai");
-        return Integer.parseInt(scanner.nextLine());
+        StringHelper stringHelper = new StringHelper();
+        return stringHelper.acceptInput("Ten tac gia", "Ngon ngu", "Website", "Ngay sinh", "email", "Dia chi", "Dien thoai");
     }
 
     public Author add() {
@@ -89,12 +84,6 @@ public class Authors extends Management<Author> {
         return author;
     }
 
-
-    public int[] search() {
-        // TODO:accept input
-        return new int[0];
-
-    }
     // public PFArray<String[]> toBatchBlob() {}; already implemented
 
     public static Authors fromBatchBlob(PFArray<String[]> inp) {
