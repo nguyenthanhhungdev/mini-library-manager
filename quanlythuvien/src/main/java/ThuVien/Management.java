@@ -22,10 +22,12 @@ public abstract class Management<T extends AnyId & IDataProcess<T>> implements I
 
     public abstract T edit();
 
+    public abstract int[] search();
+
     public int search(int id) {
         return IntStream.range(0, instance.size()).filter(i -> instance.at(i).getId() == id).findAny().orElse(-1);
     }
-
+    
     public T getById(int id) {
         return instance.stream().filter(e -> e.getId() == id).findAny().orElse(null);
     }
@@ -55,6 +57,10 @@ public abstract class Management<T extends AnyId & IDataProcess<T>> implements I
 
     protected void updateCounter() {
         id_counter = instance.stream().mapToInt(AnyId::getId).max().orElse(0);
+    }
+
+    protected int genNextId() {
+        return ++id_counter;
     }
 
     protected PFArray<T> instance;

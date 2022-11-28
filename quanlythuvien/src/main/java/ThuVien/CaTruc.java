@@ -2,6 +2,7 @@ package ThuVien;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -9,6 +10,8 @@ import java.util.stream.Stream;
 import Polyfill.StringHelper;
 
 public class CaTruc {
+    private static final Logger LOGGER = Logger.getLogger(CaTruc.class.getName());
+
     public CaTruc() {
     }
 
@@ -29,9 +32,22 @@ public class CaTruc {
     }
 
     public record CaTrucNgay(LocalTime gioLam, LocalTime gioVe) {
+        private static final Logger LOGGER = Logger.getLogger(CaTrucNgay.class.getName());
+
         public static CaTrucNgay parseCaTrucNgay(String inp) {
-            String[] __ = StringHelper.splitThenTrim("~", inp);
-            return new CaTrucNgay(LocalTime.parse(__[0], formatter), LocalTime.parse(__[1], formatter));
+            CaTrucNgay __;
+            if (!StringHelper.isNullOrBlank(inp)) {
+                String[] _a = StringHelper.splitThenTrim("~", inp);
+                try {
+                    __ = new CaTrucNgay(LocalTime.parse(_a[0], formatter), LocalTime.parse(_a[1], formatter));
+                } catch (Exception e) {
+                    LOGGER.warning("CaTrucNgay parsing error");
+                    throw e;
+                }
+            } else {
+                __ = new CaTrucNgay(LocalTime.of(0, 0, 0), LocalTime.of(0, 0, 0));
+            }
+            return __;
         }
 
         public String toScreen() {
@@ -56,9 +72,16 @@ public class CaTruc {
     // ^ monday | ^ tuesday ...
     public static CaTruc parseCaTruc(String inp) {
         CaTruc __ = new CaTruc();
-        String[] _a = StringHelper.lv1Split(inp);
-        IntStream.range(0, 7).filter(i -> !StringHelper.isNullOrBlank(_a[i]))
-                .forEach(i -> __.setCaTrucNgay(i, CaTrucNgay.parseCaTrucNgay(_a[i])));
+        if (!StringHelper.isNullOrBlank(inp)) {
+            String[] _a = StringHelper.lv1Split(inp);
+            try {
+                IntStream.range(0, 7).filter(i -> !StringHelper.isNullOrBlank(_a[i]))
+                        .forEach(i -> __.setCaTrucNgay(i, CaTrucNgay.parseCaTrucNgay(_a[i])));
+            } catch (Exception e) {
+                LOGGER.warning("CaTruc parsing error");
+                throw e;
+            }
+        }
         return __;
     }
 

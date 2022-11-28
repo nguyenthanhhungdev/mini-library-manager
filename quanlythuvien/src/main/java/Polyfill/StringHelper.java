@@ -2,6 +2,7 @@ package Polyfill;
 
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import javax.sound.sampled.SourceDataLine;
 
@@ -62,13 +63,30 @@ public final class StringHelper {
         return Stream.of(objs).map(Object::toString).toArray(String[]::new);
     }
 
-    public int acceptInput(String... lines) {
+    public static String[] iter2str(Iterable<Object> iter) {
+        return StreamSupport.stream(iter.spliterator(), false).map(Object::toString).toArray(String[]::new);
+    }
+
+    public static int acceptInput(String... lines) {
+        flushScanner();
         IntStream.range(0, lines.length).forEach(i -> System.out.println(StringHelper.concater(". ", i, lines[i])));
-        int n = Global.scanner.nextInt();
+        int n = Integer.parseInt(acceptLine("Number input"));
         if (n < 1 || n > lines.length) {
-            return -1;
-        } else {
-            return n;
+            n = -1;
+        }
+        flushScanner();
+        return n;
+    }
+
+    public static String acceptLine(String prompt) {
+        flushScanner();
+        System.out.println(prompt + ": ");
+        return Global.scanner.nextLine().trim();
+    }
+
+    public static void flushScanner() {
+        while (Global.scanner.hasNextLine()) {
+            Global.scanner.nextLine();
         }
     }
 }

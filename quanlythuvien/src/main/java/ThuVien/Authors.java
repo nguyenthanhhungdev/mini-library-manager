@@ -40,8 +40,8 @@ public class Authors extends Management<Author> {
     }
 
     public int menuEdit() {
-        StringHelper stringHelper = new StringHelper();
-        return stringHelper.acceptInput("Ten tac gia", "Ngon ngu", "Website", "Ngay sinh", "email", "Dia chi", "Dien thoai");
+        return StringHelper.acceptInput("Ten tac gia", "Ngon ngu", "Website", "Ngay sinh", "email", "Dia chi",
+                "Dien thoai");
     }
 
     public Author add() {
@@ -54,8 +54,7 @@ public class Authors extends Management<Author> {
     public Author remove() {
         Author author = accessInpAuthor();
         int index = search(author.getId());
-        if (index != -1)
-        {
+        if (index != -1) {
             instance.erase(index);
         }
         return author;
@@ -67,8 +66,7 @@ public class Authors extends Management<Author> {
         // if length == 1 instance[i].setAbc.setXyz
         Author author = accessInpAuthor();
         int index = search(author.getId());
-        if (index != -1)
-        {
+        if (index != -1) {
             author = instance.at(index);
 
             switch (menuEdit()) {
@@ -84,6 +82,9 @@ public class Authors extends Management<Author> {
         return author;
     }
 
+    public int[] search() {
+        return null;
+    }
     // public PFArray<String[]> toBatchBlob() {}; already implemented
 
     public static Authors fromBatchBlob(PFArray<String[]> inp) {

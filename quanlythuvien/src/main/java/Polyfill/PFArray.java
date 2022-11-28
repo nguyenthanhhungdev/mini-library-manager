@@ -94,6 +94,12 @@ public class PFArray<T> implements Iterable<T> {
         return size;
     }
 
+    public T[] toArray() {
+        T[] array = initOne4Me(size());
+        System.arraycopy(elements, 0, array, 0, size());
+        return array;
+    }
+
     private void reserve(int reservedCapacity) {
         if (reservedCapacity > capacity()) {
             if (capacity() >= maxElements) {

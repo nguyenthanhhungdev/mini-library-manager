@@ -4,6 +4,10 @@ import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
 public class Luong {
+    public Luong() {
+        this(0L);
+    }
+
     public Luong(long hienTai) {
         this.hienTai = tuongLai = hienTai;
     }
