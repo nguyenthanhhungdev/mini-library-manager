@@ -33,10 +33,9 @@ public class Documents extends Management<Document> {
     private PFArray<Document> instance;
 
     public static final class Type {
-        public static final int BOOK = 1;
-        public static final int MAGAZINE = 2;
-        public static final int NATIVE_BOOK = 3;
-        public static final int FOREIGN_TRANSLATED_BOOK = 4;
-        public static final int FOREIGN_BOOK = 5;
+        public static final int MAGAZINE = 1;
+        public static final int NATIVE_BOOK = 2;
+        public static final int FOREIGN_TRANSLATED_BOOK = 3;
+        public static final int FOREIGN_NONTRANSLATED_BOOK = 4;
     }
 }
