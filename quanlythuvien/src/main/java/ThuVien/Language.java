@@ -3,14 +3,11 @@ package ThuVien;
 import Polyfill.StringHelper;
 
 public class Language extends AnyId {
-    public Language(String name, String tname) {
-        this(++id_counter, name, tname);
-    }
-
-    public Language(long id, String name, String tname) {
+    public Language(int id, String tname, String name, String code) {
         super(id);
         this.name = name;
         this.tname = tname;
+        this.code = code;
     }
 
     public String getName() {
@@ -21,12 +18,19 @@ public class Language extends AnyId {
         return tname;
     }
 
-    @Override
-    public String toString() {
-        return StringHelper.liner(super.toString(),
-                StringHelper.itemer("Name", StringHelper.spacer(tname, name)));
+    public String getCode() {
+        return code;
     }
 
-    private String name, tname;
-    private static long id_counter = 0;
+    public String toScreen() {
+        return StringHelper.liner(super.toString(),
+                StringHelper.itemer("Name", StringHelper.spacer(code, name, tname)));
+    }
+
+    @Override
+    public String toString() {
+        return StringHelper.concater("|", code, name, tname);
+    }
+
+    private String code, name, tname;
 }
