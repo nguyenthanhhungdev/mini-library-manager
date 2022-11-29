@@ -14,12 +14,18 @@ public class ForeignNontranslatedBook extends ForeignBook {
     }
     public static ForeignNontranslatedBook input() {
         // TODO:
+        return null;
     }
     public String[] toBlob() {
         return new String[] { String.valueOf(Documents.Type.FOREIGN_NONTRANSLATED_BOOK), String.valueOf(getId()),
                 getName(), StringHelper.lv1Join((Object) getAuthors()), getPublisher(), getOriginLanguage().toString(),
                 getPublication().toString(), getOriginPublication().toString(), String.valueOf(getCopies()),
                 String.valueOf(getBorrowed()) };
+    }
+
+    @Override
+    public Document fromBlob(String[] inp) {
+        return null;
     }
 
     public static ForeignNontranslatedBook fromBlob(String[] inp, Authors authors_instance) {

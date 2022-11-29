@@ -24,6 +24,7 @@ public class Newspaper extends Document {
 
     public static Newspaper input() {
         // TODO:
+        return null;
     }
 
     public String[] toBlob() {
@@ -34,6 +35,7 @@ public class Newspaper extends Document {
 
     public Newspaper fromBlob(String[] inp) {
         // TODO
+        return null;
     }
 
     public static Newspaper fromBlob(String[] inp, Authors authors_instance) {

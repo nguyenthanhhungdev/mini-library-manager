@@ -42,7 +42,7 @@ public class Author extends People implements IDataProcess<Author> {
 
     public String[] toBlob() {
         return new String[] { String.valueOf(getId()), getBirth().toString(), getEmail(), getAddress(),
-            getWebsite(), getLanguage().toString() };
+                getWebsite(), getLanguage().toString() };
     }
 
     @Override

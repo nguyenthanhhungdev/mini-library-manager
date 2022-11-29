@@ -15,12 +15,19 @@ public class NativeBook extends Book {
     }
     public static NativeBook input() {
         // TODO:
+        return null;
     }
     public String[] toBlob() {
         return new String[] { String.valueOf(Documents.Type.MAGAZINE), String.valueOf(getId()), getName(),
                 StringHelper.lv1Join((Object) getAuthors()), getPublisher(), getLanguage().toString(),
                 getPublication().toString(), String.valueOf(getCopies()), String.valueOf(getBorrowed()) };
     }
+
+    @Override
+    public Document fromBlob(String[] inp) {
+        return null;
+    }
+
 
     public static NativeBook fromBlob(String[] inp, Authors authors_instance) {
         int type = Integer.parseInt(inp[0]);
