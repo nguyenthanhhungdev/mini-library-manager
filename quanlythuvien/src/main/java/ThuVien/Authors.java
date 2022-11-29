@@ -118,7 +118,7 @@ public class Authors extends Management<Author> {
             }
         } catch (Exception e)
         {
-            LOGGER.log(Level.WARNING, "Co loi xay ra, edit doc gia that bai", e);
+            LOGGER.log(Level.WARNING, "Co loi xay ra, edit tac gia that bai", e);
         }
         return author;
     }
