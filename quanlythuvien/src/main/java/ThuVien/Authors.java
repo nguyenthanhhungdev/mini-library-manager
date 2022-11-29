@@ -28,12 +28,19 @@ public class Authors extends Management<Author> {
 
     public Author add() {
         Author author = new Author(genNextId());
+
         author.setName(StringHelper.acceptLine("Nhap ten tac gia: "));
+
         author.setLanguage(Languages.parseLang(StringHelper.acceptLine("Nhap ngon ngu: ")));
+
         author.setWebsite(StringHelper.acceptLine("Nhap trang web"));
+
         author.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay sinh")));
+
         author.setAddress(StringHelper.acceptLine("Nhap dia chi: "));
+
         author.setEmail(StringHelper.acceptLine("Nhap email: "));
+
         author.setPhone(StringHelper.acceptLine("Nhap so dien thoai: "));
         return author;
     }
@@ -75,6 +82,7 @@ public class Authors extends Management<Author> {
             }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Co loi xay ra, remove tac gia khong thanh cong", e);
+            throw e;
         }
         return author;
     }
@@ -116,8 +124,7 @@ public class Authors extends Management<Author> {
                     }
                 } while (menuEdit() > 0);
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Co loi xay ra, edit doc gia that bai", e);
         }
         return author;
