@@ -7,8 +7,6 @@ import Polyfill.ThoiGian;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static ThuVien.DangNhap.scanner;
-
 public class Authors extends Management<Author> {
     private static final Logger LOGGER = Logger.getLogger(Authors.class.getName());
 
@@ -28,20 +26,14 @@ public class Authors extends Management<Author> {
 
     public Author add() {
         Author author = new Author(genNextId());
-
         author.setName(StringHelper.acceptLine("Nhap ten tac gia: "));
-
         author.setLanguage(Languages.parseLang(StringHelper.acceptLine("Nhap ngon ngu: ")));
-
         author.setWebsite(StringHelper.acceptLine("Nhap trang web"));
-
         author.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay sinh")));
-
         author.setAddress(StringHelper.acceptLine("Nhap dia chi: "));
-
         author.setEmail(StringHelper.acceptLine("Nhap email: "));
-
         author.setPhone(StringHelper.acceptLine("Nhap so dien thoai: "));
+        instance.push_back(author);
         return author;
     }
 
@@ -77,7 +69,7 @@ public class Authors extends Management<Author> {
                 if (m == 1) {
                     author = instance.erase(n);
                     System.out.println("Da xoa tac gia: ");
-                    author.toString();
+                    System.out.println(author.toString());
                 }
             }
         } catch (Exception e) {
@@ -107,25 +99,24 @@ public class Authors extends Management<Author> {
                 do {
                     author = instance.at(n);
                     System.out.println("Dang thao tac tac gia: ");
-                    author.toString();
+                    System.out.println(author.toString());
                     System.out.println("Chon thao tac");
                     switch (m = menuEdit()) {
-                        case 1 -> author.setName(scanner.nextLine());
-                        case 2 -> author.setLanguage(Languages.parseLang(scanner.nextLine()));
-                        case 3 -> author.setWebsite(scanner.nextLine());
-                        case 4 -> author.setBirth(ThoiGian.parseTG(scanner.nextLine()));
-                        case 5 -> author.setEmail(scanner.nextLine());
-                        case 6 -> author.setAddress(scanner.nextLine());
-                        case 7 -> author.setPhone(scanner.nextLine());
+                        case 1 -> author.setName(Global.scanner.nextLine());
+                        case 2 -> author.setLanguage(Languages.parseLang(Global.scanner.nextLine()));
+                        case 3 -> author.setWebsite(Global.scanner.nextLine());
+                        case 4 -> author.setBirth(ThoiGian.parseTG(Global.scanner.nextLine()));
+                        case 5 -> author.setEmail(Global.scanner.nextLine());
+                        case 6 -> author.setAddress(Global.scanner.nextLine());
+                        case 7 -> author.setPhone(Global.scanner.nextLine());
                         default -> {
                             m = -1;
                             System.out.println("Ket thuc edit tac gia");
                         }
                     }
-                } while (menuEdit() > 0);
+                } while (m > 0);
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Co loi xay ra, edit doc gia that bai", e);
             throw e;
         }

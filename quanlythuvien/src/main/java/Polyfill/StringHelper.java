@@ -61,8 +61,8 @@ public final class StringHelper {
         return Stream.of(objs).map(Object::toString).toArray(String[]::new);
     }
 
-    public static String[] iter2str(Iterable<Object> iter) {
-        return StreamSupport.stream(iter.spliterator(), false).map(Object::toString).toArray(String[]::new);
+    public static String[] pfa2str(PFArray<Object> pfa) {
+        return StreamSupport.stream(pfa.spliterator(), false).map(Object::toString).toArray(String[]::new);
     }
 
     public static int acceptInput(String... lines) {

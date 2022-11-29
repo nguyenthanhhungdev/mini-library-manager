@@ -37,8 +37,11 @@ public class Cards extends Management<Card> {
 
     @Override
     public int[] search() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Chuc nang chua dc code do ko du thoi gian");
+    }
+
+    public static Cards fromBatchBlob(PFArray<String[]> inp) {
+        return new Cards(inp);
     }
 
     public static final float regular = 1.f;

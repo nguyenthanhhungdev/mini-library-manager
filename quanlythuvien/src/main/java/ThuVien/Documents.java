@@ -6,28 +6,23 @@ import java.util.stream.IntStream;
 import Polyfill.PFArray;
 import Polyfill.ThoiGian;
 
-import static ThuVien.DangNhap.scanner;
-
 public class Documents extends Management<Document> {
     private static final Logger LOGGER = Logger.getLogger(Documents.class.getName());
 
-    public Documents(Authors authors_instance) {
+    public Documents() {
         super();
-        this.authors_instance = authors_instance;
     }
 
-    public Documents(Authors authors_instance, Document[] r) {
+    public Documents(Document[] r) {
         super(r);
-        this.authors_instance = authors_instance;
     }
 
-    public Documents(PFArray<String[]> blob, Authors authors_instance) {
-        this(authors_instance);
+    public Documents(PFArray<String[]> blob) {
         blob.stream().forEach(e -> instance.push_back(switch (Integer.parseInt(e[0])) {
-            case 1 -> Newspaper.fromBlob(e, authors_instance);
-            case 2 -> NativeBook.fromBlob(e, authors_instance);
-            case 3 -> ForeignNontranslatedBook.fromBlob(e, authors_instance);
-            case 4 -> ForeignTranslatedBook.fromBlob(e, authors_instance);
+            case 1 -> Newspaper.fromBlob(e);
+            case 2 -> NativeBook.fromBlob(e);
+            case 3 -> ForeignNontranslatedBook.fromBlob(e);
+            case 4 -> ForeignTranslatedBook.fromBlob(e);
             default -> {
                 LOGGER.severe(String.format("File read Document Blob type out of range"));
                 yield null;
@@ -39,23 +34,22 @@ public class Documents extends Management<Document> {
     private Document acccessInpDoc() {
         Document document = null;
         System.out.println("Nhap ten sach: ");
-        document.setName(scanner.nextLine());
+        document.setName(Global.scanner.nextLine());
 
         System.out.println("Nhap so luong tac gia: ");
-        for (int i = 0; i < Integer.parseInt(scanner.nextLine()); i++)
-        {
+        for (int i = 0; i < Integer.parseInt(Global.scanner.nextLine()); i++) {
             Authors authors = new Authors();
             System.out.println("Nhap ma tac gia: ");
-            Author author = new Author(Integer.parseInt(scanner.nextLine()));
+            Author author = new Author(Integer.parseInt(Global.scanner.nextLine()));
             authors.instance.at(search(author.getId()));
             document.setAuthors((Author[]) instance.stream().toArray());
         }
 
         System.out.println("Nhap so luong ban sao: ");
-        document.setCopies(Integer.parseInt(scanner.nextLine()));
+        document.setCopies(Integer.parseInt(Global.scanner.nextLine()));
 
         System.out.println("Nhap thoi gian xuat ban: ");
-        document.setPublication(ThoiGian.parseTG(scanner.nextLine()));
+        document.setPublication(ThoiGian.parseTG(Global.scanner.nextLine()));
 
         instance.push_back(document);
 
@@ -67,7 +61,7 @@ public class Documents extends Management<Document> {
         System.out.println("2. Tac gia");
         System.out.println("3. Nam xuat ban");
         System.out.println("4. So luong ban sao");
-        return Integer.parseInt(scanner.nextLine());
+        return Integer.parseInt(Global.scanner.nextLine());
     }
 
     @Override
@@ -97,21 +91,21 @@ public class Documents extends Management<Document> {
             document = instance.at(index);
 
             switch (menuEdit()) {
-                case 1 -> document.setName(scanner.nextLine());
+                case 1 -> document.setName(Global.scanner.nextLine());
                 case 2 -> {
                     System.out.println("Nhap so luong tac gia: ");
-                    Author[] authors = new Author[Integer.parseInt(scanner.nextLine())];
+                    Author[] authors = new Author[Integer.parseInt(Global.scanner.nextLine())];
                     IntStream.range(0, authors.length).forEach(i -> {
                         System.out.println("Nhap ma tac gia: ");
-                        Author author = new Author(Integer.parseInt(scanner.nextLine()));
+                        Author author = new Author(Integer.parseInt(Global.scanner.nextLine()));
                         Authors authors1 = new Authors();
                         authors[i] = authors1.instance.at(search(author.getId()));
                     });
 
                     document.setAuthors(authors);
                 }
-                case 3 -> document.setPublication(ThoiGian.parseTG(scanner.nextLine()));
-                case 4 -> document.setCopies(Integer.parseInt(scanner.nextLine()));
+                case 3 -> document.setPublication(ThoiGian.parseTG(Global.scanner.nextLine()));
+                case 4 -> document.setCopies(Integer.parseInt(Global.scanner.nextLine()));
             }
         }
 
@@ -125,7 +119,6 @@ public class Documents extends Management<Document> {
     }
 
     private PFArray<Document> instance;
-    private Authors authors_instance;
 
     public static final class Type {
         public static final int MAGAZINE = 1;
