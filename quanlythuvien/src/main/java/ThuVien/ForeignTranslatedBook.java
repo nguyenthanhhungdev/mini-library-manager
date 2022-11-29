@@ -32,12 +32,18 @@ public class ForeignTranslatedBook extends ForeignBook {
     }
     public static ForeignTranslatedBook input() {
         // TODO:
+        return null;
     }
     public String[] toBlob() {
         return new String[] { String.valueOf(Documents.Type.FOREIGN_TRANSLATED_BOOK), String.valueOf(getId()),
                 getName(), StringHelper.lv1Join((Object) getAuthors()), getPublisher(), getOriginLanguage().toString(),
                 getTranslatedLanguage().toString(), getTranslator(), getPublication().toString(),
                 getOriginPublication().toString(), String.valueOf(getCopies()), String.valueOf(getBorrowed()) };
+    }
+
+    @Override
+    public Document fromBlob(String[] inp) {
+        return null;
     }
 
     public static ForeignTranslatedBook fromBlob(String[] inp, Authors authors_instance) {
