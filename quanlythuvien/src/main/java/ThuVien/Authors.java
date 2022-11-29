@@ -124,8 +124,10 @@ public class Authors extends Management<Author> {
                     }
                 } while (menuEdit() > 0);
             }
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             LOGGER.log(Level.WARNING, "Co loi xay ra, edit doc gia that bai", e);
+            throw e;
         }
         return author;
     }
