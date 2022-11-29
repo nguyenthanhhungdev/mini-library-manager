@@ -45,7 +45,7 @@ public class Authors extends Management<Author> {
         return author;
     }
 
-    private int promptSearch() {
+    public int promptSearch() {
         int n;
         try {
             n = search(Integer.parseInt(StringHelper.acceptLine("Nhap id tac gia: ")));
@@ -122,7 +122,7 @@ public class Authors extends Management<Author> {
                             System.out.println("Ket thuc edit tac gia");
                         }
                     }
-                } while (menuEdit() > 0);
+                } while (m >= 0);
             }
         } catch (Exception e)
         {

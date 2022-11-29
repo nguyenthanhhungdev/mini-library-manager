@@ -1,9 +1,11 @@
 package ThuVien;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
 import Polyfill.PFArray;
+import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
 import static ThuVien.DangNhap.scanner;
@@ -36,93 +38,134 @@ public class Documents extends Management<Document> {
         updateCounter();
     }
 
-    private Document acccessInpDoc() {
-        Document document = null;
-        System.out.println("Nhap ten sach: ");
-        document.setName(scanner.nextLine());
-
-        System.out.println("Nhap so luong tac gia: ");
-        for (int i = 0; i < Integer.parseInt(scanner.nextLine()); i++)
-        {
-            Authors authors = new Authors();
-            System.out.println("Nhap ma tac gia: ");
-            Author author = new Author(Integer.parseInt(scanner.nextLine()));
-            authors.instance.at(search(author.getId()));
-            document.setAuthors((Author[]) instance.stream().toArray());
-        }
-
-        System.out.println("Nhap so luong ban sao: ");
-        document.setCopies(Integer.parseInt(scanner.nextLine()));
-
-        System.out.println("Nhap thoi gian xuat ban: ");
-        document.setPublication(ThoiGian.parseTG(scanner.nextLine()));
-
-        instance.push_back(document);
-
-        return document;
-    }
-
     public int menuEdit() {
-        System.out.println("1. Ten  sach");
-        System.out.println("2. Tac gia");
-        System.out.println("3. Nam xuat ban");
-        System.out.println("4. So luong ban sao");
-        return Integer.parseInt(scanner.nextLine());
+        return StringHelper.acceptInput("Ten  sach", "Nam xuat ban", "So luong ban sao");
     }
 
     @Override
     public Document add() {
-        Document document = acccessInpDoc();
-        instance.push_back(document);
+        Document document = null;
+        int n = StringHelper.acceptInput("Bao", "Sach trong nuoc",
+                "Sach dich", "Sach chua dich");
+        switch (n) {
+            case 1 -> document = new Newspaper(genNextId());
+            case 2 -> document = new NativeBook(genNextId());
+            case 3 -> document = new ForeignTranslatedBook(genNextId());
+            case 4 -> document = new ForeignNontranslatedBook(genNextId());
+        }
+
+        document.setName(StringHelper.acceptLine("Nhap ten sach: "));
+
+        int soLuongTacGia = Integer.parseInt(StringHelper.acceptLine("Nhap so luong tac gia: "));
+        Author[] authors = new Author[soLuongTacGia];
+        IntStream.range(0, authors.length).forEach(i -> {
+            int index = authors_instance.promptSearch();
+            if (index == -1) {
+                System.out.println("Khong tim thay tac gia: ");
+                int p = StringHelper.acceptInput("Them tac gia moi"
+                        , "Nhap tac gia khac");
+                switch (p) {
+                    case 1 -> authors_instance.instance.push_back(authors_instance.add());
+                }
+            } else {
+                authors[i] = authors_instance.instance.at(index);
+            }
+        });
+        document.setAuthors(authors);
+
+        document.setPublication(ThoiGian.parseTG(StringHelper.acceptLine("Nhap thoi gian xuat ban")));
+
+        document.setCopies(Integer.parseInt(StringHelper.acceptLine("Nhap so luong ban sao: ")));
+
         return document;
+    }
+
+    public int promptSearch() {
+        int n;
+        try {
+            n = search(Integer.parseInt(StringHelper.acceptLine("Nhap ma tai lieu: ")));
+            if (n == -1) {
+                System.out.println("Tim kiem khong co ket qua: ");
+            } else {
+                System.out.println("Tim thay tai lieu: ");
+                instance.at(n).toString();
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Input error", e);
+            throw e;
+        }
+        return n;
     }
 
     @Override
     public Document remove() {
-        Document document = acccessInpDoc();
-        int index = search(document.getId());
-        if (index != -1) {
-            instance.erase(index);
+        int n;
+        Document document = null;
+        try {
+            n = promptSearch();
+            if (n == -1) {
+                System.out.println("Tim kiem that bai, remove tai lieu khong thanh cong");
+            } else {
+                System.out.println("Xac nhan xoa tai lieu: ");
+                instance.at(n).toString();
+                int m = StringHelper.acceptInput("Co", "Suy nghi lai");
+                if (m == 1) {
+                    document = instance.erase(n);
+                    System.out.println("Da xoa thu ngan");
+                    document.toString();
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Co loi xay ra, remove tai lieu that bai", e);
         }
-
         return document;
     }
 
     @Override
     public Document edit() {
-        Document document = add();
-        int index = search(document.getId());
-        if (index != -1) {
-
-            document = instance.at(index);
-
-            switch (menuEdit()) {
-                case 1 -> document.setName(scanner.nextLine());
-                case 2 -> {
-                    System.out.println("Nhap so luong tac gia: ");
-                    Author[] authors = new Author[Integer.parseInt(scanner.nextLine())];
-                    IntStream.range(0, authors.length).forEach(i -> {
-                        System.out.println("Nhap ma tac gia: ");
-                        Author author = new Author(Integer.parseInt(scanner.nextLine()));
-                        Authors authors1 = new Authors();
-                        authors[i] = authors1.instance.at(search(author.getId()));
-                    });
-
-                    document.setAuthors(authors);
-                }
-                case 3 -> document.setPublication(ThoiGian.parseTG(scanner.nextLine()));
-                case 4 -> document.setCopies(Integer.parseInt(scanner.nextLine()));
+        int n;
+        Document document = null;
+        try {
+            n = promptSearch();
+            if (n == -1) {
+                System.out.println("Tim kiem that bai, edit tai lieu that bai");
+            } else {
+                int m;
+                do {
+                    document = instance.at(n);
+                    System.out.println("Dang thao tac edit tai lieu: ");
+                    document.toString();
+                    System.out.println("Chon thao tac: ");
+                    switch (m = StringHelper.acceptInput("Ten", "Ngay xuat ban", "So luong ban sao")) {
+                        case 1 -> document.setName(StringHelper.acceptLine("Nhap ten gia: "));
+                        case 2 ->
+                                document.setPublication(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay xuat ban: ")));
+                        case 3 ->
+                                document.setCopies(Integer.parseInt(StringHelper.acceptLine("Nhap so luong ban sao: ")));
+                        default -> {
+                            m = -1;
+                            System.out.println("Ket thuc edit tai lieu");
+                        }
+                    }
+                } while (m >= 0);
             }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Co loi xay ra, edit tai lieu khong thanh cong", e);
+            throw e;
         }
-
         return document;
     }
 
     @Override
     public int[] search() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Chuc nang nay chua code xong do khong du thoi gian");
     }
+
+//    @Override
+//    public int[] search() {
+//        // TODO Auto-generated method stub
+//        return null;
+//    }
 
     private PFArray<Document> instance;
     private Authors authors_instance;
