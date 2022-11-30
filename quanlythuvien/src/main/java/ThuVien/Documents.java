@@ -164,6 +164,8 @@ public class Documents extends Management<Document> {
 
     private PFArray<Document> instance;
 
+    private Authors authors_instance;
+
     public static final class Type {
         public static final int MAGAZINE = 1;
         public static final int NATIVE_BOOK = 2;
