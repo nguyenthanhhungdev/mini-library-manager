@@ -2,13 +2,14 @@ package ThuVien;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 import Polyfill.PFArray;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
 public class HoaDons extends Management<HoaDon> {
-    private static final Logger LOGGER = Logger.getLogger(Cashiers.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(HoaDons.class.getName());
 
     public HoaDons() {
         super();
@@ -115,6 +116,11 @@ public class HoaDons extends Management<HoaDon> {
         return new VirtualHoaDon(++id_virtuals_counter, r);
     }
 
+    public HoaDons acceptVirtual(VirtualHoaDon vhd) {
+        virtuals.push_back(vhd);
+        return this;
+    }
+
     protected VirtualHoaDon removeVirtualById(int id) {
         int n = virtuals.stream().mapToInt(e -> e.getId()).filter(e -> e == id).findAny().orElse(-1);
         if (n == -1) {
@@ -122,6 +128,24 @@ public class HoaDons extends Management<HoaDon> {
         } else {
             return virtuals.erase(n);
         }
+    }
+
+    public HoaDon confirmVirtual(int virtual_id, ThoiGian deadline) {
+        int vhdn = IntStream.range(0, virtuals.size()).filter(e -> virtuals.at(e).getId() == virtual_id).findAny()
+                .orElse(-1);
+        if (vhdn == -1) {
+            LOGGER.warning("Virtual HoaDon id not found");
+            return null;
+        }
+        HoaDon hd = new HoaDon(genNextId(), virtuals.at(vhdn));
+        hd.setDeadline(deadline);
+        instance.push_back(hd);
+        virtuals.erase(vhdn);
+        return hd;
+    }
+
+    public HoaDon confirmVirtual(int virtual_id) {
+        return confirmVirtual(virtual_id, ThoiGian.now());
     }
 
     public static HoaDons fromBatchBlob(PFArray<String[]> inp) {

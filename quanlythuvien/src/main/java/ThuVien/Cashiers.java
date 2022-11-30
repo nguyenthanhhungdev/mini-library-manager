@@ -2,12 +2,13 @@ package ThuVien;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 import Polyfill.PFArray;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
-public class Cashiers extends Management<Cashier> {
+public class Cashiers extends Management<Cashier> implements ILogin {
     private static final Logger LOGGER = Logger.getLogger(Cashiers.class.getName());
 
     public Cashiers() {
@@ -138,6 +139,25 @@ public class Cashiers extends Management<Cashier> {
             LOGGER.log(Level.WARNING, "Co loi xay ra, edit thu ngan that bai", e);
         }
         return __;
+    }
+
+    public int login() {
+        String username = StringHelper.acceptLine("Nhap ten tai khoan (thu ngan)");
+        int found = IntStream.range(0, instance.size())
+                .filter(e -> username.equalsIgnoreCase(instance.at(e).getUsername())).findAny().orElse(-1);
+        if (found == -1) {
+            System.out.println("Khong tim thay ten dang nhap (thu ngan)");
+            return -1;
+        }
+        System.out.println("Tim thay thu ngan");
+        System.out.println(instance.at(found).toString());
+        String password = StringHelper.acceptLine("Nhap mat khau");
+        if (!instance.at(found).checkPassword(password)) {
+            System.out.println("Sai mat khau");
+            return -1;
+        }
+        System.out.println("Mat khau chinh xac");
+        return found;
     }
 
     @Override

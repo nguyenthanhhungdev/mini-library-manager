@@ -15,9 +15,12 @@ public class VirtualHoaDon extends AnyId {
         return borrows;
     }
 
-    public VirtualHoaDon addBorrows(Document document) {
+    public boolean addBorrows(Document document) {
+        if (!document.borrowable()) {
+            return false;
+        }
         borrows.push_back(document);
-        return this;
+        return true;
     }
 
     protected VirtualHoaDon setBorrows(PFArray<Document> borrows) {
