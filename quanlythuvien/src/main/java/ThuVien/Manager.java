@@ -1,8 +1,9 @@
 package ThuVien;
 
+import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
-public class Manager extends StaffImpl implements IDataProcess<Manager> {
+public class Manager extends StaffImpl implements IDataProcess<Manager>, IDashboard {
     public Manager(int id, String username) {
         this(id, username, ThoiGian.now());
     }
@@ -23,6 +24,35 @@ public class Manager extends StaffImpl implements IDataProcess<Manager> {
 
     public long calcSocialCredit() {
         return getPureLuong() / 500 + Global.cashiers.size() * cashierBonus;
+    }
+
+    public int dashboard() {
+        while (true) {
+            System.out.println("Dang dang nhap voi tu cach Quan Ly");
+            System.out.println(this.toString());
+            int n = StringHelper.acceptInput("Thue them nhan vien", "Duoi viec nhan vien", "Chinh sua nhan vien",
+                    "Dang xuat");
+            if (n <= 0) {
+                System.out.println("Unexpected input");
+                break;
+            }
+            switch (n) {
+                case 1 -> {
+                    Global.cashiers.add();
+                }
+                case 2 -> {
+                    Global.cashiers.remove();
+                }
+                case 3 -> {
+                    Global.cashiers.edit();
+                }
+                case 4 -> {
+                    System.out.println("Se dang xuat");
+                    return 0;
+                }
+            }
+        }
+        return 1;
     }
 
     public String[] toBlob() {

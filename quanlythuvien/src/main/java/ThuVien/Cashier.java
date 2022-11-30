@@ -1,8 +1,9 @@
 package ThuVien;
 
+import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
-public class Cashier extends StaffImpl implements IDataProcess<Cashier> {
+public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashboard {
     public Cashier(int id, String username) {
         super(id, username);
     }
@@ -32,7 +33,10 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier> {
         this.completionCount = completionCount;
         return this;
     }
-
+    public int dashboard() {
+        //TODO: menu thu ngan
+        return 1;
+    }
     public static Cashier fromBlob(String[] inp) {
         int id = Integer.parseInt(inp[0]);
         String username = inp[1];
@@ -58,6 +62,11 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier> {
         return new String[] { String.valueOf(getId()), getUsername(), getPassword(), getName(),
                 getRegistration().toString(), getBirth().toString(), getPhone(), getEmail(), getAddress(),
                 getTruc().toString(), getLuong().toString(), String.valueOf(getCompletionCount()) };
+    }
+
+    public String toString() {
+        return StringHelper.liner(super.toString(),
+                StringHelper.itemer("Completition count", getCompletionCount()));
     }
 
     private int completionCount = 0;
