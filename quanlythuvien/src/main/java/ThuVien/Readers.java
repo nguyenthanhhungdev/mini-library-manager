@@ -44,7 +44,7 @@ public class Readers extends Management<Reader> {
                 System.out.println("Tim kiem khong co ket qua: ");
             } else {
                 System.out.println("Tim thay doc gia: ");
-                instance.at(n).toString();
+                System.out.println(instance.at(n).toString());
             }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Input error", e);
@@ -63,7 +63,7 @@ public class Readers extends Management<Reader> {
                 System.out.println("Tim kiem that bai, remove doc gia that bai");
             } else {
                 System.out.println("Xac nhan xoa doc gia: ");
-                instance.at(n).toString();
+                System.out.println(instance.at(n).toString());
                 int m = StringHelper.acceptInput("Co", "Suy nghi lai");
                 if (m == 1) {
                     reader = instance.erase(n);

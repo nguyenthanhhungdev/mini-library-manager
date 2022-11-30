@@ -54,7 +54,7 @@ public class Documents extends Management<Document> {
         int soLuongTacGia = Integer.parseInt(StringHelper.acceptLine("Nhap so luong tac gia: "));
         Author[] authors = new Author[soLuongTacGia];
         IntStream.range(0, authors.length).forEach(i -> {
-            int index = Global.authors.promptSearch();
+            int index = Global.authors.promptSearch();//Tìm kiếm trong Global
             if (index == -1) {
                 System.out.println("Khong tim thay tac gia: ");
                 int p = StringHelper.acceptInput("Them tac gia moi"
@@ -83,7 +83,7 @@ public class Documents extends Management<Document> {
                 System.out.println("Tim kiem khong co ket qua: ");
             } else {
                 System.out.println("Tim thay tai lieu: ");
-                instance.at(n).toString();
+                System.out.println(instance.at(n).toString());
             }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Input error", e);
@@ -102,12 +102,12 @@ public class Documents extends Management<Document> {
                 System.out.println("Tim kiem that bai, remove tai lieu khong thanh cong");
             } else {
                 System.out.println("Xac nhan xoa tai lieu: ");
-                instance.at(n).toString();
+                System.out.println(instance.at(n).toString());
                 int m = StringHelper.acceptInput("Co", "Suy nghi lai");
                 if (m == 1) {
                     document = instance.erase(n);
                     System.out.println("Da xoa thu ngan");
-                    document.toString();
+                    System.out.println(document.toString());
                 }
             }
         } catch (Exception e) {
@@ -129,7 +129,7 @@ public class Documents extends Management<Document> {
                 do {
                     document = instance.at(n);
                     System.out.println("Dang thao tac edit tai lieu: ");
-                    document.toString();
+                    System.out.println(document.toString());
                     System.out.println("Chon thao tac: ");
                     switch (m = StringHelper.acceptInput("Ten", "Ngay xuat ban", "So luong ban sao")) {
                         case 1 -> document.setName(StringHelper.acceptLine("Nhap ten gia: "));
@@ -163,8 +163,6 @@ public class Documents extends Management<Document> {
 //    }
 
     private PFArray<Document> instance;
-
-    private Authors authors_instance;
 
     public static final class Type {
         public static final int MAGAZINE = 1;

@@ -45,7 +45,7 @@ public class Authors extends Management<Author> {
                 System.out.println("Tim kiem khong co ket qua: ");
             } else {
                 System.out.println("Tim thay tac gia: ");
-                instance.at(n).toString();
+                System.out.println(instance.at(n).toString());
             }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Input error", e);
@@ -64,7 +64,7 @@ public class Authors extends Management<Author> {
                 System.out.println("Tim kiem that bai, remove tac gia that bai");
             } else {
                 System.out.println("Xac nhan xoa tac gia: ");
-                instance.at(n).toString();
+                System.out.println(instance.at(n).toString());
                 int m = StringHelper.acceptInput("Co", "Suy nghi lai");
                 if (m == 1) {
                     author = instance.erase(n);
