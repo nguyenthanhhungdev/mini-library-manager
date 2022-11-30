@@ -57,7 +57,7 @@ public class Cards extends Management<Card> {
                 System.out.println("Tim kiem khong co ket qua: ");
             } else {
                 System.out.println("Tim thay the: ");
-                instance.at(n).toString();
+                System.out.println(instance.at(n).toString());
             }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Input error", e);
@@ -76,12 +76,12 @@ public class Cards extends Management<Card> {
                 System.out.println("Ti kiem that bai, remove the that bai");
             } else {
                 System.out.println("Xac nhan xoa the: ");
-                instance.at(n).toString();
+                System.out.println(instance.at(n).toString());
                 int m = StringHelper.acceptInput("Co", "Khong");
                 if (m == 1) {
                     card = instance.erase(n);
                     System.out.println("Da xoa the: ");
-                    card.toString();
+                    System.out.println(card.toString());
                 }
             }
         } catch (Exception e) {
@@ -105,7 +105,7 @@ public class Cards extends Management<Card> {
                 do {
                     card = instance.at(n);
                     System.out.println("Dang thao tac edit the: ");
-                    card.toString();
+                    System.out.println(card.toString());
                     System.out.println("Chon thao tac: ");
                     switch (m = StringHelper.acceptInput("Loai the", "Thoat")) {
                         case 1 -> {
