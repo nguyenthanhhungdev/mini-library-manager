@@ -7,27 +7,27 @@ import Polyfill.PFArray;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
-public class Cashiers extends Management<Cashier> {
-    private static final Logger LOGGER = Logger.getLogger(Cashiers.class.getName());
+public class Managers extends Management<Manager> {
+    private static final Logger LOGGER = Logger.getLogger(Managers.class.getName());
 
-    public Cashiers() {
+    public Managers() {
         super();
     }
 
-    public Cashiers(Cashier[] r) {
-        super(r);
+    public Managers(Manager[] manager) {
+        super(manager);
     }
 
-    public Cashiers(PFArray<String[]> blob) {
+    public Managers(PFArray<String[]> blob) {
         this();
-        blob.stream().forEach(e -> instance.push_back(Cashier.fromBlob(e)));
+        blob.stream().forEach(e -> instance.push_back(Manager.fromBlob(e)));
         updateCounter();
     }
 
     @Override
-    public Cashier add() {
+    public Manager add() {
         String username = StringHelper.acceptLine("Ten tai khoan");
-        Cashier __ = new Cashier(genNextId(), username);
+        Manager __ = new Manager(genNextId(), username);
         __.changePassword(null, StringHelper.acceptLine("Mat khau"));
         __.setName(StringHelper.acceptLine("Ten"));
         __.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Ngay sinh")));
@@ -44,11 +44,11 @@ public class Cashiers extends Management<Cashier> {
     private int promptSearch() {
         int n;
         try {
-            n = search(Integer.parseInt(StringHelper.acceptLine("Nhap id (thu ngan)")));
+            n = search(Integer.parseInt(StringHelper.acceptLine("Nhap id (quan ly)")));
             if (n == -1) {
                 System.out.println("Tim kiem khong co ket qua");
             } else {
-                System.out.println("Tim thay thu ngan:");
+                System.out.println("Tim thay quan ly:");
                 instance.at(n).toString();
             }
         } catch (Exception e) {
@@ -59,43 +59,43 @@ public class Cashiers extends Management<Cashier> {
     }
 
     @Override
-    public Cashier remove() {
+    public Manager remove() {
         int n;
-        Cashier __ = null;
+        Manager __ = null;
         try {
             n = promptSearch();
             if (n == -1) {
-                System.out.println("Tim kiem that bai, remove thu ngan that bai");
+                System.out.println("Tim kiem that bai, remove quan ly that bai");
             } else {
-                System.out.println("Xac nhan xoa thu ngan:");
+                System.out.println("Xac nhan xoa quan ly:");
                 instance.at(n).toString();
                 int m = StringHelper.acceptInput("Co", "Suy nghi lai");
                 if (m == 1) {
                     __ = instance.erase(n);
-                    System.out.println("Da xoa thu ngan");
+                    System.out.println("Da xoa quan ly");
                     System.out.println(__.toString());
                 }
             }
 
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Co loi xay ra, remove thu ngan that bai", e);
+            LOGGER.log(Level.WARNING, "Co loi xay ra, remove quan ly that bai", e);
         }
         return __;
     }
 
     @Override
-    public Cashier edit() {
+    public Manager edit() {
         int n;
-        Cashier __ = null;
+        Manager __ = null;
         try {
             n = promptSearch();
             if (n == -1) {
-                System.out.println("Tim kiem that bai, edit thu ngan that bai");
+                System.out.println("Tim kiem that bai, edit quan ly that bai");
             } else {
                 int m;
                 do {
                     __ = instance.at(n);
-                    System.out.println("Dang thao tac edit thu ngan:");
+                    System.out.println("Dang thao tac edit quan ly:");
                     System.out.println(__.toString());
                     System.out.println("Chon thao tac");
                     switch (m = StringHelper.acceptInput("Ten", "Ngay sinh", "So dien thoai", "Email", "Dia chi",
@@ -129,13 +129,13 @@ public class Cashiers extends Management<Cashier> {
                         case -1:
                         default:
                             m = -1;
-                            System.out.println("Ket thuc edit thu ngan");
+                            System.out.println("Ket thuc edit quan ly");
                             break;
                     }
                 } while (m > 0);
             }
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Co loi xay ra, edit thu ngan that bai", e);
+            LOGGER.log(Level.WARNING, "Co loi xay ra, edit quan ly that bai", e);
         }
         return __;
     }
@@ -145,7 +145,7 @@ public class Cashiers extends Management<Cashier> {
         throw new UnsupportedOperationException("Chuc nang chua dc code do ko du thoi gian");
     }
 
-    public static Cashiers fromBatchBlob(PFArray<String[]> inp) {
-        return new Cashiers(inp);
+    public static Managers fromBatchBlob(PFArray<String[]> inp) {
+        return new Managers(inp);
     }
 }

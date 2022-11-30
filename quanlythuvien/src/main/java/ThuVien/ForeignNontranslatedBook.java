@@ -12,10 +12,12 @@ public class ForeignNontranslatedBook extends ForeignBook {
     public ForeignNontranslatedBook(int id) {
         super(id);
     }
+
     public static ForeignNontranslatedBook input() {
         // TODO:
         return null;
     }
+
     public String[] toBlob() {
         return new String[] { String.valueOf(Documents.Type.FOREIGN_NONTRANSLATED_BOOK), String.valueOf(getId()),
                 getName(), StringHelper.lv1Join((Object) getAuthors()), getPublisher(), getOriginLanguage().toString(),
@@ -23,12 +25,7 @@ public class ForeignNontranslatedBook extends ForeignBook {
                 String.valueOf(getBorrowed()) };
     }
 
-    @Override
-    public Document fromBlob(String[] inp) {
-        return null;
-    }
-
-    public static ForeignNontranslatedBook fromBlob(String[] inp, Authors authors_instance) {
+    public static ForeignNontranslatedBook fromBlob(String[] inp) {
         int type = Integer.parseInt(inp[0]);
         if (type != Documents.Type.FOREIGN_NONTRANSLATED_BOOK) {
             LOGGER.severe(
@@ -39,7 +36,7 @@ public class ForeignNontranslatedBook extends ForeignBook {
         int id = Integer.parseInt(inp[1]);
         String name = inp[2];
         Author[] authors = Stream.of(StringHelper.lv1Split(inp[3]))
-                .map(e -> authors_instance.getById(Integer.parseInt(e))).toArray(Author[]::new);
+                .map(e -> Global.authors.getById(Integer.parseInt(e))).toArray(Author[]::new);
         String publisher = inp[4];
         Language originLanguage = Languages.parseLang(inp[5]);
         ThoiGian publication = ThoiGian.parseTG(inp[6]);

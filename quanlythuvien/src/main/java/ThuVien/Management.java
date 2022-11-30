@@ -27,7 +27,7 @@ public abstract class Management<T extends AnyId & IDataProcess<T>> implements I
     public int search(int id) {
         return IntStream.range(0, instance.size()).filter(i -> instance.at(i).getId() == id).findAny().orElse(-1);
     }
-    
+
     public T getById(int id) {
         return instance.stream().filter(e -> e.getId() == id).findAny().orElse(null);
     }
@@ -63,6 +63,14 @@ public abstract class Management<T extends AnyId & IDataProcess<T>> implements I
         return ++id_counter;
     }
 
+    public int size() {
+        return instance.size();
+    }
+
+    protected int maxId() {
+        return id_counter;
+    }
+
     protected PFArray<T> instance;
-    protected int id_counter;
+    private int id_counter;
 }

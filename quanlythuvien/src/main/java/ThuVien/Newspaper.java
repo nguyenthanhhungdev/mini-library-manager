@@ -33,12 +33,7 @@ public class Newspaper extends Document {
                 String.valueOf(getCopies()), String.valueOf(getBorrowed()) };
     }
 
-    public Newspaper fromBlob(String[] inp) {
-        // TODO
-        return null;
-    }
-
-    public static Newspaper fromBlob(String[] inp, Authors authors_instance) {
+    public static Newspaper fromBlob(String[] inp) {
         int type = Integer.parseInt(inp[0]);
         if (type != Documents.Type.MAGAZINE) {
             LOGGER.severe(
@@ -48,7 +43,7 @@ public class Newspaper extends Document {
         int id = Integer.parseInt(inp[1]);
         String name = inp[2];
         Author[] authors = Stream.of(StringHelper.lv1Split(inp[3]))
-                .map(e -> authors_instance.getById(Integer.parseInt(e))).toArray(Author[]::new);
+                .map(e -> Global.authors.getById(Integer.parseInt(e))).toArray(Author[]::new);
         String editorial = inp[4];
         ThoiGian publication = ThoiGian.parseTG(inp[5]);
         int copies = Integer.parseInt(inp[6]);
