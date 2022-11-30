@@ -37,7 +37,7 @@ public class Authors extends Management<Author> {
         return author;
     }
 
-    private int promptSearch() {
+    public int promptSearch() {
         int n;
         try {
             n = search(Integer.parseInt(StringHelper.acceptLine("Nhap id tac gia: ")));

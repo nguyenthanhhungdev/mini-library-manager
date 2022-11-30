@@ -103,7 +103,7 @@ public class Readers extends Management<Reader> {
                             System.out.println("Ket thuc edit doc gia");
                         }
                     }
-                } while (m < 0);
+                } while (m >= 0);
             }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Co xay ra loi, edit doc gia that bai", e);
