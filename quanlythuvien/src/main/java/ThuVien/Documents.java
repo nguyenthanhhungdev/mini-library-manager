@@ -54,16 +54,16 @@ public class Documents extends Management<Document> {
         int soLuongTacGia = Integer.parseInt(StringHelper.acceptLine("Nhap so luong tac gia: "));
         Author[] authors = new Author[soLuongTacGia];
         IntStream.range(0, authors.length).forEach(i -> {
-            int index = authors_instance.promptSearch();
+            int index = Global.authors.promptSearch();
             if (index == -1) {
                 System.out.println("Khong tim thay tac gia: ");
                 int p = StringHelper.acceptInput("Them tac gia moi"
                         , "Nhap tac gia khac");
                 switch (p) {
-                    case 1 -> authors_instance.instance.push_back(authors_instance.add());
+                    case 1 -> Global.authors.instance.push_back(Global.authors.add());
                 }
             } else {
-                authors[i] = authors_instance.instance.at(index);
+                authors[i] = Global.authors.instance.at(index);
             }
         });
         document.setAuthors(authors);
