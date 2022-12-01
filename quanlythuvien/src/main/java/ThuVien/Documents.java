@@ -70,6 +70,7 @@ public class Documents extends Management<Document> {
         }
         return authors;
     }
+
     @Override
     public Document add() {
         Document document = null;
