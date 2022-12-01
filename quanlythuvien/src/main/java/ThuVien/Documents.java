@@ -43,9 +43,9 @@ public class Documents extends Management<Document> {
         int soLuongTacGia = Integer.parseInt(StringHelper.acceptLine("Nhap so luong tac gia: "));
         Author[] authors = new Author[soLuongTacGia];
         for (int i = 0; i < authors.length; ++i) {
-            int userInp = StringHelper.acceptInput("Nhap ma tac gia da co", "Them tac gia moi");
             boolean run = true;
             do {
+                int userInp = StringHelper.acceptInput("Nhap ma tac gia da co", "Them tac gia moi");
                 switch (userInp) {
                     case 1 -> {
                         int index = Global.authors.promptSearch();
