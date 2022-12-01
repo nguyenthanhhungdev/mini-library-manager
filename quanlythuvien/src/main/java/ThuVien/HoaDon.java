@@ -100,9 +100,9 @@ public class HoaDon extends VirtualHoaDon implements IDataProcess<HoaDon> {
         PFArray<Document> returns = new PFArray<>();
         Stream.of(StringHelper.lv1Split(inp[3])).forEach(e -> Global.readers.getById(Integer.parseInt(e)));
         ThoiGian deadline = ThoiGian.parseTG(inp[4]);
-        HoaDon __ = new HoaDon(id, borrows, creator);
-        __.setHoldings(returns).setDeadline(deadline);
-        return __;
+        HoaDon toRet = new HoaDon(id, borrows, creator);
+        toRet.setHoldings(returns).setDeadline(deadline);
+        return toRet;
     }
 
     private ThoiGian deadline;

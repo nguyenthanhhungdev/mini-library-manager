@@ -42,9 +42,9 @@ public class NativeBook extends Book {
         ThoiGian publication = ThoiGian.parseTG(inp[6]);
         int copies = Integer.parseInt(inp[7]);
         int borrowed = Integer.parseInt(inp[8]);
-        NativeBook __ = new NativeBook(id);
-        __.setPublisher(publisher).setLanguage(language);
-        __.setName(name).setAuthors(authors).setPublication(publication).setCopies(copies).setBorrowed(borrowed);
-        return __;
+        NativeBook toRet = new NativeBook(id);
+        toRet.setPublisher(publisher).setLanguage(language);
+        toRet.setName(name).setAuthors(authors).setPublication(publication).setCopies(copies).setBorrowed(borrowed);
+        return toRet;
     }
 }

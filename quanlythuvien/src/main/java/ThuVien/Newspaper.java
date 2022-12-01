@@ -48,9 +48,9 @@ public class Newspaper extends Document {
         ThoiGian publication = ThoiGian.parseTG(inp[5]);
         int copies = Integer.parseInt(inp[6]);
         int borrowed = Integer.parseInt(inp[7]);
-        Newspaper __ = new Newspaper(id).setEditorial(editorial);
-        __.setName(name).setAuthors(authors).setPublication(publication).setCopies(copies).setBorrowed(borrowed);
-        return __;
+        Newspaper toRet = new Newspaper(id).setEditorial(editorial);
+        toRet.setName(name).setAuthors(authors).setPublication(publication).setCopies(copies).setBorrowed(borrowed);
+        return toRet;
     }
 
     private String editorial;

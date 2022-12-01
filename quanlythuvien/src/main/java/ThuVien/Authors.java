@@ -6,6 +6,8 @@ import Polyfill.ThoiGian;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Authors extends Management<Author> {
     private static final Logger LOGGER = Logger.getLogger(Authors.class.getName());
@@ -124,7 +126,12 @@ public class Authors extends Management<Author> {
     }
 
     public int[] search() {
-        throw new UnsupportedOperationException("Chuc nang chua duoc code do khong du thoi gian");
+        String query = StringHelper.acceptLine("Nhap ten");
+        String[] queries = query.split(" ");
+        return IntStream.range(0, instance.size()).filter(
+                i -> Stream.of(instance.at(i).getName().split(" "))
+                        .anyMatch(word -> Stream.of(queries).anyMatch(qword -> word.startsWith(qword))))
+                .toArray();
     }
     // public PFArray<String[]> toBatchBlob() {}; already implemented
 

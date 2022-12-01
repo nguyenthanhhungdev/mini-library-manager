@@ -28,18 +28,18 @@ public class Managers extends Management<Manager> implements ILogin {
     @Override
     public Manager add() {
         String username = StringHelper.acceptLine("Ten tai khoan");
-        Manager __ = new Manager(genNextId(), username);
-        __.changePassword(null, StringHelper.acceptLine("Mat khau"));
-        __.setName(StringHelper.acceptLine("Ten"));
-        __.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Ngay sinh")));
-        __.setPhone(StringHelper.acceptLine("So dien thoai"));
-        __.setEmail(StringHelper.acceptLine("Email"));
-        __.setAddress(StringHelper.acceptLine("Dia chi"));
-        __.setTruc(CaTruc.parseCaTruc(StringHelper.acceptLine("Ca truc")));
+        Manager toAdd = new Manager(genNextId(), username);
+        toAdd.changePassword(null, StringHelper.acceptLine("Mat khau"));
+        toAdd.setName(StringHelper.acceptLine("Ten"));
+        toAdd.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Ngay sinh")));
+        toAdd.setPhone(StringHelper.acceptLine("So dien thoai"));
+        toAdd.setEmail(StringHelper.acceptLine("Email"));
+        toAdd.setAddress(StringHelper.acceptLine("Dia chi"));
+        toAdd.setTruc(CaTruc.parseCaTruc(StringHelper.acceptLine("Ca truc")));
         String luong = StringHelper.acceptLine("Luong khoi dau");
-        __.setLuong(StringHelper.isNullOrBlank(luong) ? new Luong() : new Luong(Long.parseLong(luong)));
-        instance.push_back(__);
-        return __;
+        toAdd.setLuong(StringHelper.isNullOrBlank(luong) ? new Luong() : new Luong(Long.parseLong(luong)));
+        instance.push_back(toAdd);
+        return toAdd;
     }
 
     private int promptSearch() {
@@ -62,7 +62,7 @@ public class Managers extends Management<Manager> implements ILogin {
     @Override
     public Manager remove() {
         int n;
-        Manager __ = null;
+        Manager toRemove = null;
         try {
             n = promptSearch();
             if (n == -1) {
@@ -72,22 +72,22 @@ public class Managers extends Management<Manager> implements ILogin {
                 instance.at(n).toString();
                 int m = StringHelper.acceptInput("Co", "Suy nghi lai");
                 if (m == 1) {
-                    __ = instance.erase(n);
+                    toRemove = instance.erase(n);
                     System.out.println("Da xoa quan ly");
-                    System.out.println(__.toString());
+                    System.out.println(toRemove.toString());
                 }
             }
 
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Co loi xay ra, remove quan ly that bai", e);
         }
-        return __;
+        return toRemove;
     }
 
     @Override
     public Manager edit() {
         int n;
-        Manager __ = null;
+        Manager toEdit = null;
         try {
             n = promptSearch();
             if (n == -1) {
@@ -95,33 +95,33 @@ public class Managers extends Management<Manager> implements ILogin {
             } else {
                 int m;
                 do {
-                    __ = instance.at(n);
+                    toEdit = instance.at(n);
                     System.out.println("Dang thao tac edit quan ly:");
-                    System.out.println(__.toString());
+                    System.out.println(toEdit.toString());
                     System.out.println("Chon thao tac");
                     switch (m = StringHelper.acceptInput("Ten", "Ngay sinh", "So dien thoai", "Email", "Dia chi",
                             "Ca truc", "Thay doi mat khau")) {
                         case 1:
-                            __.setName(StringHelper.acceptLine("Nhap ten"));
+                            toEdit.setName(StringHelper.acceptLine("Nhap ten"));
                             break;
                         case 2:
-                            __.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay sinh")));
+                            toEdit.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay sinh")));
                             break;
                         case 3:
-                            __.setPhone(StringHelper.acceptLine("Nhap sdt"));
+                            toEdit.setPhone(StringHelper.acceptLine("Nhap sdt"));
                             break;
                         case 4:
-                            __.setEmail(StringHelper.acceptLine("Nhap email"));
+                            toEdit.setEmail(StringHelper.acceptLine("Nhap email"));
                             break;
                         case 5:
-                            __.setAddress(StringHelper.acceptLine("Nhap dia chi"));
+                            toEdit.setAddress(StringHelper.acceptLine("Nhap dia chi"));
                             break;
                         case 6:
-                            __.setTruc(CaTruc.parseCaTruc(StringHelper.acceptLine("Nhap ca truc")));
+                            toEdit.setTruc(CaTruc.parseCaTruc(StringHelper.acceptLine("Nhap ca truc")));
                             break;
                         case 7:
                             String old = StringHelper.acceptLine("Nhap mat khau cu");
-                            if (__.changePassword(old, StringHelper.acceptLine("Nhap mat khau moi")) == true) {
+                            if (toEdit.changePassword(old, StringHelper.acceptLine("Nhap mat khau moi")) == true) {
                                 System.out.println("Thay doi mat khau thanh cong");
                             } else {
                                 System.out.println("Mat khau cu sai");
@@ -138,7 +138,7 @@ public class Managers extends Management<Manager> implements ILogin {
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Co loi xay ra, edit quan ly that bai", e);
         }
-        return __;
+        return toEdit;
     }
 
     public int login() {

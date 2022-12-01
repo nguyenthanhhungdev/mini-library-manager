@@ -43,10 +43,10 @@ public class ForeignNontranslatedBook extends ForeignBook {
         ThoiGian originPublication = ThoiGian.parseTG(inp[7]);
         int copies = Integer.parseInt(inp[8]);
         int borrowed = Integer.parseInt(inp[9]);
-        ForeignNontranslatedBook __ = new ForeignNontranslatedBook(id);
-        __.setOriginLanguage(originLanguage).setOriginPublication(originPublication).setPublication(publication);
-        __.setPublisher(publisher);
-        __.setName(name).setAuthors(authors).setPublication(publication).setCopies(copies).setBorrowed(borrowed);
-        return __;
+        ForeignNontranslatedBook toRet = new ForeignNontranslatedBook(id);
+        toRet.setOriginLanguage(originLanguage).setOriginPublication(originPublication).setPublication(publication);
+        toRet.setPublisher(publisher);
+        toRet.setName(name).setAuthors(authors).setPublication(publication).setCopies(copies).setBorrowed(borrowed);
+        return toRet;
     }
 }

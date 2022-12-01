@@ -1,5 +1,6 @@
 package Polyfill;
 
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -13,7 +14,7 @@ public final class StringHelper {
 
     // this project's general single field seperator
     public static String[] lv1Split(String line) {
-        return splitThenTrim("|", line);
+        return lv1Sep.split(line);
     }
 
     public static String lv1Join(Object... words) {
@@ -21,7 +22,7 @@ public final class StringHelper {
     }
 
     public static String[] lv2Split(String line) {
-        return splitThenTrim("\\", line);
+        return lv2Sep.split(line);
     }
 
     public static String lv2Join(Object... words) {
@@ -92,4 +93,7 @@ public final class StringHelper {
             Global.scanner.nextLine();
         }
     }
+
+    public static final Pattern lv1Sep = Pattern.compile(Pattern.quote("|"));
+    public static final Pattern lv2Sep = Pattern.compile(Pattern.quote("\\"));
 }

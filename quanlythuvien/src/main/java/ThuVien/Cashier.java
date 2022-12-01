@@ -123,12 +123,12 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
         CaTruc catruc = CaTruc.parseCaTruc(inp[9]); // someone worked very hard so this could happen
         Luong luong = Luong.parseLuong(inp[10]);
         int completion = Integer.parseInt(inp[11]);
-        Cashier __ = new Cashier(id, username, regtime);
-        __.changePassword(null, password);
-        __.setName(name).setBirth(borntime).setPhone(phone).setEmail(email).setAddress(address);
-        __.setTruc(catruc).setLuong(luong);
-        __.setCompletionCount(completion);
-        return __;
+        Cashier toRet = new Cashier(id, username, regtime);
+        toRet.changePassword(null, password);
+        toRet.setName(name).setBirth(borntime).setPhone(phone).setEmail(email).setAddress(address);
+        toRet.setTruc(catruc).setLuong(luong);
+        toRet.setCompletionCount(completion);
+        return toRet;
     }
 
     public String[] toBlob() {

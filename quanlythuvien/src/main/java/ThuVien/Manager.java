@@ -73,11 +73,11 @@ public class Manager extends StaffImpl implements IDataProcess<Manager>, IDashbo
         String address = inp[8];
         CaTruc catruc = CaTruc.parseCaTruc(inp[9]);
         Luong luong = Luong.parseLuong(inp[10]);
-        Manager __ = new Manager(id, username, regtime);
-        __.changePassword(null, password);
-        __.setName(name).setBirth(borntime).setPhone(phone).setEmail(email).setAddress(address);
-        __.setTruc(catruc).setLuong(luong);
-        return __;
+        Manager toRet = new Manager(id, username, regtime);
+        toRet.changePassword(null, password);
+        toRet.setName(name).setBirth(borntime).setPhone(phone).setEmail(email).setAddress(address);
+        toRet.setTruc(catruc).setLuong(luong);
+        return toRet;
     }
 
     private static final long cashierBonus = 500;

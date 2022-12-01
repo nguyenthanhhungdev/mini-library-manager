@@ -35,20 +35,20 @@ public class HoaDons extends Management<HoaDon> {
             try {
                 System.out.println("Tim thay hoa don ao");
                 virtuals.at(n).toString();
-                HoaDon __ = new HoaDon(genNextId(), virtuals.at(n));
+                HoaDon toAdd = new HoaDon(genNextId(), virtuals.at(n));
                 String tg = StringHelper.acceptLine("Nhap ngay hoan tra (mac dinh 7 ngay)");
                 if (StringHelper.isNullOrBlank(tg)) {
-                    __.setDeadline(ThoiGian.now().modNgay(7));
+                    toAdd.setDeadline(ThoiGian.now().modNgay(7));
                 } else {
-                    __.setDeadline(ThoiGian.parseTG(tg));
+                    toAdd.setDeadline(ThoiGian.parseTG(tg));
                 }
                 System.out.println("Xac nhan thanh toan:");
                 int m = StringHelper.acceptInput("Da thu tien", "Chay tron roi");
                 if (m == 1) {
-                    instance.push_back(__);
+                    instance.push_back(toAdd);
                     virtuals.erase(n);
                 }
-                return __;
+                return toAdd;
             } catch (Exception e) {
                 LOGGER.log(Level.WARNING, "Input error", e);
                 throw e;
@@ -64,7 +64,7 @@ public class HoaDons extends Management<HoaDon> {
 
     @Override
     public HoaDon edit() {
-        HoaDon __ = null;
+        HoaDon toEdit = null;
         try {
             int id;
             switch (StringHelper.acceptInput("ID doc gia", "ID hoa don")) {
@@ -83,18 +83,18 @@ public class HoaDons extends Management<HoaDon> {
                     }
                     System.out.println("Dang thuc hien edit hoa don");
                     System.out.println(hd[m].toString());
-                    __ = hd[m].edit();
+                    toEdit = hd[m].edit();
                 }
                 case 2 -> {
                     id = Integer.parseInt(StringHelper.acceptLine("Nhap ID hoa don"));
-                    __ = instance.stream()
+                    toEdit = instance.stream()
                             .filter(e -> e.getId() == id).findAny().orElse(null);
-                    if (__ == null) {
+                    if (toEdit == null) {
                         System.out.println("Khong tim thay hoa don");
                     } else {
                         System.out.println("Dang thuc hien edit hoa don");
-                        System.out.println(__.toString());
-                        __.edit();
+                        System.out.println(toEdit.toString());
+                        toEdit.edit();
                     }
                 }
                 default -> {
@@ -105,7 +105,7 @@ public class HoaDons extends Management<HoaDon> {
             LOGGER.log(Level.WARNING, "Input error", e);
             throw e;
         }
-        return __;
+        return toEdit;
     }
 
     public int[] search() {

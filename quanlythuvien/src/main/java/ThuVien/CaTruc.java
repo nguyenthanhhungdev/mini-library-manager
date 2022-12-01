@@ -35,19 +35,20 @@ public class CaTruc {
         private static final Logger LOGGER = Logger.getLogger(CaTrucNgay.class.getName());
 
         public static CaTrucNgay parseCaTrucNgay(String inp) {
-            CaTrucNgay __;
+            CaTrucNgay toRet;
             if (!StringHelper.isNullOrBlank(inp)) {
-                String[] _a = StringHelper.splitThenTrim("~", inp);
+                String[] timeMoment = StringHelper.splitThenTrim("~", inp);
                 try {
-                    __ = new CaTrucNgay(LocalTime.parse(_a[0], formatter), LocalTime.parse(_a[1], formatter));
+                    toRet = new CaTrucNgay(LocalTime.parse(timeMoment[0], formatter),
+                            LocalTime.parse(timeMoment[1], formatter));
                 } catch (Exception e) {
                     LOGGER.warning("CaTrucNgay parsing error");
                     throw e;
                 }
             } else {
-                __ = new CaTrucNgay(LocalTime.of(0, 0, 0), LocalTime.of(0, 0, 0));
+                toRet = new CaTrucNgay(LocalTime.of(0, 0, 0), LocalTime.of(0, 0, 0));
             }
-            return __;
+            return toRet;
         }
 
         public String toScreen() {
@@ -71,18 +72,18 @@ public class CaTruc {
     // 10:00:00~12:00:00|17:00:00~21:45:00|...
     // ^ monday | ^ tuesday ...
     public static CaTruc parseCaTruc(String inp) {
-        CaTruc __ = new CaTruc();
+        CaTruc toRet = new CaTruc();
         if (!StringHelper.isNullOrBlank(inp)) {
-            String[] _a = StringHelper.lv1Split(inp);
+            String[] caTrucPerDay = StringHelper.lv1Split(inp);
             try {
-                IntStream.range(0, 7).filter(i -> !StringHelper.isNullOrBlank(_a[i]))
-                        .forEach(i -> __.setCaTrucNgay(i, CaTrucNgay.parseCaTrucNgay(_a[i])));
+                IntStream.range(0, 7).filter(i -> !StringHelper.isNullOrBlank(caTrucPerDay[i]))
+                        .forEach(i -> toRet.setCaTrucNgay(i, CaTrucNgay.parseCaTrucNgay(caTrucPerDay[i])));
             } catch (Exception e) {
                 LOGGER.warning("CaTruc parsing error");
                 throw e;
             }
         }
-        return __;
+        return toRet;
     }
 
     public String toScreen() {

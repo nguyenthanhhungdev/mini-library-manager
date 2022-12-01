@@ -84,10 +84,10 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
         String email = inp[7];
         String address = inp[8];
         Card card = Global.cards.getById(Integer.parseInt(inp[9]));
-        Reader __ = new Reader(id, username, regtime).setCard(card);
-        __.setName(name).setBirth(borntime).setPhone(phone).setEmail(email).setAddress(address);
-        __.changePassword(null, password);
-        return __;
+        Reader toRet = new Reader(id, username, regtime).setCard(card);
+        toRet.setName(name).setBirth(borntime).setPhone(phone).setEmail(email).setAddress(address);
+        toRet.changePassword(null, password);
+        return toRet;
     }
 
     public String[] toBlob() {

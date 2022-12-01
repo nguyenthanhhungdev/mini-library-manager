@@ -28,21 +28,22 @@ public class Author extends People implements IDataProcess<Author> {
 
     public static Author fromBlob(String[] inp) {
         int id = Integer.parseInt(inp[0]);
-        ThoiGian borntime = ThoiGian.parseTG(inp[1]);
-        String phone = inp[2];
-        String email = inp[3];
-        String address = inp[4];
-        String website = inp[5];
-        Language language = Languages.parseLang(inp[6]);
-        Author __ = new Author(id);
-        __.setBirth(borntime).setPhone(phone).setEmail(email).setAddress(address);
-        __.setWebsite(website).setLanguage(language);
-        return __;
+        String name = inp[1];
+        ThoiGian borntime = ThoiGian.parseTG(inp[2]);
+        String phone = inp[3];
+        String email = inp[4];
+        String address = inp[5];
+        String website = inp[6];
+        Language language = Languages.parseLang(inp[7]);
+        Author toRet = new Author(id);
+        toRet.setName(name).setBirth(borntime).setPhone(phone).setEmail(email).setAddress(address);
+        toRet.setWebsite(website).setLanguage(language);
+        return toRet;
     }
 
     public String[] toBlob() {
-        return new String[] { String.valueOf(getId()), getBirth().toString(), getEmail(), getAddress(),
-                getWebsite(), getLanguage().toString() };
+        return new String[] { String.valueOf(getId()), getName(), getBirth().toString(), getPhone(), getEmail(),
+                getAddress(), getWebsite(), getLanguage().toString() };
     }
 
     @Override
