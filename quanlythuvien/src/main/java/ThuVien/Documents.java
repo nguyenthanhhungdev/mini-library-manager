@@ -1,8 +1,10 @@
 package ThuVien;
 
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import Polyfill.PFArray;
 import Polyfill.StringHelper;
@@ -53,25 +55,37 @@ public class Documents extends Management<Document> {
 
         int soLuongTacGia = Integer.parseInt(StringHelper.acceptLine("Nhap so luong tac gia: "));
         Author[] authors = new Author[soLuongTacGia];
-        IntStream.range(0, authors.length).forEach(i -> {
-            int index = Global.authors.promptSearch();//Tìm kiếm trong Global
-            if (index == -1) {
-                System.out.println("Khong tim thay tac gia: ");
-                int p = StringHelper.acceptInput("Them tac gia moi"
-                        , "Nhap tac gia khac");
-                switch (p) {
-                    case 1 -> Global.authors.instance.push_back(Global.authors.add());
+        for (int i = 0; i < authors.length; ++i) {
+            int userInp = StringHelper.acceptInput("Nhap ma tac gia da co", "Them tac gia moi");
+            boolean run = true;
+            do {
+                switch (userInp) {
+                    case 1 -> {
+                        int index = Global.authors.promptSearch();
+                        if (index == -1) {
+                            System.out.println("Khong tim thay tac gia");
+                        } else {
+                            System.out.println("Da tim thay tac gia: ");
+                            System.out.println(Global.authors.instance.at(index).toString());
+                            authors[i] = Global.authors.instance.at(index);
+                            System.out.println("Them thanh cong");
+                            run = false;
+                        }
+                    }
+                    case 2 -> {
+                        authors[i] = Global.authors.add();
+                        System.out.println("Them thanh cong tac gia: ");
+                        System.out.println(authors[i].toString());
+                        run = false;
+                    }
                 }
-            } else {
-                authors[i] = Global.authors.instance.at(index);
-            }
-        });
+            } while (run);
+        }
         document.setAuthors(authors);
 
         document.setPublication(ThoiGian.parseTG(StringHelper.acceptLine("Nhap thoi gian xuat ban")));
 
         document.setCopies(Integer.parseInt(StringHelper.acceptLine("Nhap so luong ban sao: ")));
-
         return document;
     }
 
@@ -131,11 +145,32 @@ public class Documents extends Management<Document> {
                     System.out.println("Dang thao tac edit tai lieu: ");
                     System.out.println(document.toString());
                     System.out.println("Chon thao tac: ");
-                    switch (m = StringHelper.acceptInput("Ten", "Ngay xuat ban", "So luong ban sao")) {
-                        case 1 -> document.setName(StringHelper.acceptLine("Nhap ten gia: "));
-                        case 2 ->
-                                document.setPublication(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay xuat ban: ")));
+                    switch (m = StringHelper.acceptInput("Ten", "Tac gia", "Ngay xuat ban", "So luong ban sao")) {
+                        case 1 -> document.setName(StringHelper.acceptLine("Nhap ten tai lieu: "));
+                        case 2 -> {
+                            Stream.of(document.getAuthors()).map(i -> i.toString()).forEach(i -> System.out.println(i));
+
+                            int id_Bechanged = Integer.parseInt(StringHelper.acceptLine("Nhap ma tac gia muon edit: "));
+
+                            Document finalDocument = document;
+                            //Lưu lại vị trí author cần thay đổi trong
+                            int index = IntStream.range(0, document.getAuthors().length).filter(i -> finalDocument.getAuthors()[i].getId() == id_Bechanged).findAny().orElse(-1);
+
+                            Author[] new_authors = new Author[0];//Mảng mới lưu lại các giá trị
+                            if (index != -1) {
+                                int id_changed = Integer.parseInt(StringHelper.acceptLine("Nhap ma tac gia moi: "));
+                                int check = Global.authors.search(id_changed);//Lưu lại vị trí author mới trong Global
+
+                                if (check != -1) {
+                                    new_authors = Arrays.copyOf(document.getAuthors(), document.getAuthors().length);
+                                    new_authors[index] = Global.authors.instance.at(check);//Thay đổi author
+                                }
+                            }
+                            document.setAuthors(new_authors);
+                        }
                         case 3 ->
+                                document.setPublication(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay xuat ban: ")));
+                        case 4 ->
                                 document.setCopies(Integer.parseInt(StringHelper.acceptLine("Nhap so luong ban sao: ")));
                         default -> {
                             m = -1;
