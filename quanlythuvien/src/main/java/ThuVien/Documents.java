@@ -35,24 +35,11 @@ public class Documents extends Management<Document> {
         updateCounter();
     }
 
-    public int menuEdit() {
+    private int menuEdit() {
         return StringHelper.acceptInput("Ten  sach", "Nam xuat ban", "So luong ban sao");
     }
 
-    @Override
-    public Document add() {
-        Document document = null;
-        int n = StringHelper.acceptInput("Bao", "Sach trong nuoc",
-                "Sach dich", "Sach chua dich");
-        switch (n) {
-            case 1 -> document = new Newspaper(genNextId());
-            case 2 -> document = new NativeBook(genNextId());
-            case 3 -> document = new ForeignTranslatedBook(genNextId());
-            case 4 -> document = new ForeignNontranslatedBook(genNextId());
-        }
-
-        document.setName(StringHelper.acceptLine("Nhap ten sach: "));
-
+    private Author[] accessInpAuthor() {
         int soLuongTacGia = Integer.parseInt(StringHelper.acceptLine("Nhap so luong tac gia: "));
         Author[] authors = new Author[soLuongTacGia];
         for (int i = 0; i < authors.length; ++i) {
@@ -81,7 +68,24 @@ public class Documents extends Management<Document> {
                 }
             } while (run);
         }
-        document.setAuthors(authors);
+        return authors;
+    }
+
+    @Override
+    public Document add() {
+        Document document = null;
+        int n = StringHelper.acceptInput("Bao", "Sach trong nuoc",
+                "Sach dich", "Sach chua dich");
+        switch (n) {
+            case 1 -> document = new Newspaper(genNextId());
+            case 2 -> document = new NativeBook(genNextId());
+            case 3 -> document = new ForeignTranslatedBook(genNextId());
+            case 4 -> document = new ForeignNontranslatedBook(genNextId());
+        }
+
+        document.setName(StringHelper.acceptLine("Nhap ten sach: "));
+
+        document.setAuthors(accessInpAuthor());
 
         document.setPublication(ThoiGian.parseTG(StringHelper.acceptLine("Nhap thoi gian xuat ban")));
 
@@ -120,7 +124,7 @@ public class Documents extends Management<Document> {
                 int m = StringHelper.acceptInput("Co", "Suy nghi lai");
                 if (m == 1) {
                     document = instance.erase(n);
-                    System.out.println("Da xoa thu ngan");
+                    System.out.println("Da xoa tai lieu: ");
                     System.out.println(document.toString());
                 }
             }
@@ -148,9 +152,8 @@ public class Documents extends Management<Document> {
                     switch (m = StringHelper.acceptInput("Ten", "Tac gia", "Ngay xuat ban", "So luong ban sao")) {
                         case 1 -> document.setName(StringHelper.acceptLine("Nhap ten tai lieu: "));
                         case 2 -> {
-                            Global.documents.instance.erase(n);
-                            System.out.println("Nhap lai tai lieu: ");
-                            Global.documents.add();
+                            System.out.println("Nhap lai cac tac gia: ");
+                            document.setAuthors(accessInpAuthor());
                         }
                         case 3 ->
                                 document.setPublication(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay xuat ban: ")));
