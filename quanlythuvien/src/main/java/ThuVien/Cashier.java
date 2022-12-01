@@ -33,10 +33,83 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
         this.completionCount = completionCount;
         return this;
     }
+
+    private void menuDocGia() {
+        int choice = StringHelper.acceptInput("Them doc gia", "Xoa doc gia thanh vien", "Chinh sua doc gia");
+        switch (choice) {
+            case 1 -> {
+                Global.readers.add();
+            }
+            case 2 -> {
+                Global.readers.remove();
+            }
+            case 3 -> {
+                Global.readers.edit();
+            }
+        }
+    }
+
+    private void menuTacGia() {
+        int choice = StringHelper.acceptInput("Them tac gia", "Xoa tac gia", "Chinh sua tac gia");
+        switch (choice) {
+            case 1 -> {
+                Global.authors.add();
+            }
+            case 2 -> {
+                Global.authors.remove();
+            }
+            case 3 -> {
+                Global.authors.edit();
+            }
+        }
+    }
+
+    private void menuTaiLieu() {
+        int choice = StringHelper.acceptInput("Them tai lieu", "Xoa tai lieu", "Sua tai lieu");
+        switch (choice) {
+            case 1 -> {
+                Global.documents.add();
+            }
+            case 2 -> {
+                Global.documents.remove();
+            }
+            case 3 -> {
+                Global.documents.edit();
+            }
+        }
+    }
+
     public int dashboard() {
         //TODO: menu thu ngan
+        while (true) {
+            System.out.println("Dang nhap voi tu canh Thu Ngan");
+            System.out.println(this.toString());
+            System.out.println("Thao tac voi: ");
+            int n = StringHelper.acceptInput("Doc gia", "Tac gia", "Tai lieu",
+                    "Dang xuat");
+            if (n <= 0) {
+                System.out.println("Unexpected input");
+                break;
+            }
+            switch (n) {
+                case 1 -> {
+                    menuDocGia();
+                }
+                case 2 -> {
+                    menuTacGia();
+                }
+                case 3 -> {
+                    menuTaiLieu();
+                }
+                case 4 -> {
+                    System.out.println("Se dang xuat");
+                    return 0;
+                }
+            }
+        }
         return 1;
     }
+
     public static Cashier fromBlob(String[] inp) {
         int id = Integer.parseInt(inp[0]);
         String username = inp[1];
@@ -59,9 +132,9 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
     }
 
     public String[] toBlob() {
-        return new String[] { String.valueOf(getId()), getUsername(), getPassword(), getName(),
+        return new String[]{String.valueOf(getId()), getUsername(), getPassword(), getName(),
                 getRegistration().toString(), getBirth().toString(), getPhone(), getEmail(), getAddress(),
-                getTruc().toString(), getLuong().toString(), String.valueOf(getCompletionCount()) };
+                getTruc().toString(), getLuong().toString(), String.valueOf(getCompletionCount())};
     }
 
     public String toString() {
