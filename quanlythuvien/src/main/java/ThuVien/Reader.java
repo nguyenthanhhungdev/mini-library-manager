@@ -3,7 +3,7 @@ package ThuVien;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
-public class Reader extends Account implements IDataProcess<Reader> {
+public class Reader extends Account implements IDataProcess<Reader>, IDashboard {
     public Reader(int id, String username) {
         super(id, username);
     }
@@ -21,15 +21,56 @@ public class Reader extends Account implements IDataProcess<Reader> {
         return this;
     }
 
-    public boolean borrows() {
-        // TODO: accept user input and search to get id
-        
-        return true;
-    }
-
-    public boolean returns() {
-        // TODO: accept user input and search to get id
-        return false;
+    public int dashboard() {
+        while (true) {
+            System.out.println("Dang dang nhap voi tu cach Doc Gia");
+            System.out.println(this.toString());
+            int n = StringHelper.acceptInput("Muon", "Tra", "Xem hoa don", "Dang xuat");
+            if (n <= 0) {
+                System.out.println("Unexpected input");
+                break;
+            }
+            switch (n) {
+                case 1 -> {
+                    VirtualHoaDon vhd = Global.hoadons.createVirtual(null);
+                    while (true) {
+                        int dn = Integer.parseInt(StringHelper.acceptLine("Nhap id tai lieu"));
+                        if (dn == 0) {
+                            break;
+                        }
+                        dn = Global.documents.search(dn);
+                        if (dn == -1) {
+                            System.out.println("Khong tim thay tai lieu");
+                            continue;
+                        }
+                        System.out.println("Tim thay tai lieu");
+                        Document d = Global.documents.getById(dn);
+                        System.out.println(d.toString());
+                        if (!vhd.addBorrows(d)) {
+                            System.out.println("Tai lieu khong kha dung cho muon");
+                        }
+                    }
+                    System.out.println("Xem lai danh sach chuan bi muon");
+                    System.out.println(vhd.toString());
+                    if (StringHelper.acceptInput("Ok", "Bo") == 1) {
+                        Global.hoadons.acceptVirtual(vhd);
+                        System.out.println("Dem id hoa don ao cho thu ngan de tiep tuc");
+                    }
+                }
+                case 2 -> {
+                    System.out.println("Chua co chuc nang tu tra, hay dem id hoa don len cho thu ngan");
+                }
+                case 3 -> {
+                    Global.hoadons.instance.stream().filter(e -> e.getCreator().getId() == this.getId())
+                            .forEach(e -> System.out.println(e.toString()));
+                }
+                case 4 -> {
+                    System.out.println("Se dang xuat");
+                    return 0;
+                }
+            }
+        }
+        return 1;
     }
 
     public static Reader fromBlob(String[] inp) {
@@ -62,5 +103,6 @@ public class Reader extends Account implements IDataProcess<Reader> {
                 StringHelper.itemer("Registration date", getRegistration()),
                 StringHelper.itemer("Card", getCard()));
     }
+
     private Card card;
 }

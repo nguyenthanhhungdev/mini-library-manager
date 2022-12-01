@@ -1,5 +1,6 @@
 package ThuVien;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Global {
@@ -11,4 +12,5 @@ public class Global {
     public static Managers managers;
     public static HoaDons hoadons;
     public static final Scanner scanner = new Scanner(System.in);
+    public static final Random random = new Random();
 }

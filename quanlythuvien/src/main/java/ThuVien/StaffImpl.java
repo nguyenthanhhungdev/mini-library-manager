@@ -38,7 +38,8 @@ public abstract class StaffImpl extends Account {
     public String toString() {
         return StringHelper.liner(super.toString(),
                 StringHelper.itemer("Ca truc", truc),
-                StringHelper.itemer("Luong", luong));
+                StringHelper.itemer("Luong", luong),
+                StringHelper.itemer("Social credit", calcSocialCredit()));
     }
 
     protected abstract long calcSocialCredit();
