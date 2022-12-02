@@ -1,13 +1,13 @@
 package ThuVien;
 
-import Polyfill.PFArray;
-import Polyfill.StringHelper;
-import Polyfill.ThoiGian;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import Polyfill.PFArray;
+import Polyfill.StringHelper;
+import Polyfill.ThoiGian;
 
 public class Authors extends Management<Author> {
     private static final Logger LOGGER = Logger.getLogger(Authors.class.getName());
@@ -28,33 +28,36 @@ public class Authors extends Management<Author> {
 
     public Author add() {
         Author author = new Author(genNextId());
-        author.setName(StringHelper.acceptLine("Nhap ten tac gia: "));
-        author.setLanguage(Languages.parseLang(StringHelper.acceptLine("Nhap ngon ngu: ")));
-        author.setWebsite(StringHelper.acceptLine("Nhap trang web"));
-        author.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay sinh")));
-        author.setAddress(StringHelper.acceptLine("Nhap dia chi: "));
-        author.setEmail(StringHelper.acceptLine("Nhap email: "));
-        author.setPhone(StringHelper.acceptLine("Nhap so dien thoai: "));
-        instance.push_back(author);
+        try {
+            author.setName(StringHelper.acceptLine("Nhap ten tac gia: "));
+            author.setLanguage(Languages.parseLang(StringHelper.acceptLine("Nhap ngon ngu: ")));
+            author.setWebsite(StringHelper.acceptLine("Nhap trang web"));
+            author.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay sinh")));
+            author.setAddress(StringHelper.acceptLine("Nhap dia chi: "));
+            author.setEmail(StringHelper.acceptLine("Nhap email: "));
+            author.setPhone(StringHelper.acceptLine("Nhap so dien thoai: "));
+            instance.push_back(author);
+        } catch (RuntimeException e) {
+            LOGGER.log(Level.WARNING, "Likely input parse error in Authors::add", e);
+            LOGGER.info("The adding operation is cancelled");
+            LOGGER.fine(String.format("Id counter is %d", currentIdCount()));
+        }
         return author;
     }
 
     public int promptSearch() {
-        int n;
-        try {
-            n = search(Integer.parseInt(StringHelper.acceptLine("Nhap id tac gia: ")));
-            if (n == -1) {
-                System.out.println("Tim kiem khong co ket qua: ");
-            } else {
-                System.out.println("Tim thay tac gia: ");
-                System.out.println(instance.at(n).toString());
-            }
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Input error", e);
-            throw e;
+        int id = StringHelper.acceptKey("Nhap id tac gia");
+        if (id == -1) {
+            return -1;
         }
-
-        return n;
+        int pos = search(id);
+        if (pos == -1) {
+            System.out.println("Tim kiem khong co ket qua: ");
+        } else {
+            System.out.println("Tim thay tac gia: ");
+            System.out.println(instance.at(pos).toString());
+        }
+        return pos;
     }
 
     public Author remove() {
@@ -136,6 +139,7 @@ public class Authors extends Management<Author> {
     // public PFArray<String[]> toBatchBlob() {}; already implemented
 
     public static Authors fromBatchBlob(PFArray<String[]> inp) {
+        LOGGER.info(String.format("Batching %d x %d blob", inp.size(), inp.at(0).length));
         return new Authors(inp);
     }
 }

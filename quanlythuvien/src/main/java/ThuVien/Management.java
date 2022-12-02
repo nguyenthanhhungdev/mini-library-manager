@@ -1,11 +1,14 @@
 package ThuVien;
 
 import java.util.Objects;
+import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
 import Polyfill.PFArray;
 
 public abstract class Management<T extends AnyId & IDataProcess<T>> implements IBatchDataProcess<T> {
+    private static final Logger LOGGER = Logger.getLogger(Management.class.getName());
+
     public Management() {
         instance = new PFArray<>();
         id_counter = 0;
@@ -51,15 +54,20 @@ public abstract class Management<T extends AnyId & IDataProcess<T>> implements I
 
     public PFArray<String[]> toBatchBlob() {
         PFArray<String[]> toRet = new PFArray<>(instance.size());
+        LOGGER.info(String.format("Blobing %d x %d batch", instance.size(), instance.at(0).toBlob().length));
         // instance.stream().map(T::toBlob).forEach(e -> toRet.push_back(e));
         // java.lang.BootstrapMethodError: bootstrap method initialization exception
         // at java.base/java.lang.invoke.BootstrapMethodInvoker.invoke(Unknown Source)
         // at java.base/java.lang.invoke.CallSite.makeSite(Unknown Source)
-        // at java.base/java.lang.invoke.MethodHandleNatives.linkCallSiteImpl(Unknown Source)
-        // at java.base/java.lang.invoke.MethodHandleNatives.linkCallSite(Unknown Source)
+        // at java.base/java.lang.invoke.MethodHandleNatives.linkCallSiteImpl(Unknown
+        // Source)
+        // at java.base/java.lang.invoke.MethodHandleNatives.linkCallSite(Unknown
+        // Source)
         // at ThuVien.Management.toBatchBlob(Management.java:54)
         // at com.doanoop.ThuVienTest.authors(ThuVienTest.java:19)
-        // Caused by: java.lang.invoke.LambdaConversionException: Invalid receiver type class ThuVien.AnyId; not a subtype of implementation type interface ThuVien.IDataProcess
+        // Caused by: java.lang.invoke.LambdaConversionException: Invalid receiver type
+        // class ThuVien.AnyId; not a subtype of implementation type interface
+        // ThuVien.IDataProcess
         // https://stackoverflow.com/questions/27394032/bootstrapmethoderror-caused-by-lambdaconversionexception-caused-by-using-methodh
         instance.stream().map(e -> e.toBlob()).forEach(e -> toRet.push_back(e));
         return toRet;
@@ -77,7 +85,7 @@ public abstract class Management<T extends AnyId & IDataProcess<T>> implements I
         return instance.size();
     }
 
-    protected int maxId() {
+    protected int currentIdCount() {
         return id_counter;
     }
 

@@ -50,18 +50,12 @@ public class Cards extends Management<Card> {
     }
 
     private int promptSearch() {
-        int n;
-        try {
-            n = search(Integer.parseInt(StringHelper.acceptLine("Nhap ma the: ")));
-            if (n == -1) {
-                System.out.println("Tim kiem khong co ket qua: ");
-            } else {
-                System.out.println("Tim thay the: ");
-                System.out.println(instance.at(n).toString());
-            }
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Input error", e);
-            throw e;
+        int n = search(Integer.parseInt(StringHelper.acceptLine("Nhap ma the: ")));
+        if (n == -1) {
+            System.out.println("Tim kiem khong co ket qua: ");
+        } else {
+            System.out.println("Tim thay the: ");
+            System.out.println(instance.at(n).toString());
         }
         return n;
     }
@@ -150,6 +144,7 @@ public class Cards extends Management<Card> {
     }
 
     public static Cards fromBatchBlob(PFArray<String[]> inp) {
+        LOGGER.info(String.format("Batching %d x %d blob", inp.size(), inp.at(0).length));
         return new Cards(inp);
     }
 

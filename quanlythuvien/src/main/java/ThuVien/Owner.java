@@ -35,18 +35,9 @@ public class Owner extends Account implements ILogin, IDashboard {
                     String suf = String.format("%09dv", Global.random.nextInt());
                     System.out.println("Chon 1 tu cach (se tao tai khoan ao)");
                     switch (StringHelper.acceptInput("Doc gia", "Thu ngan", "Quan ly")) {
-                        case 1 -> {
-                            Reader r = new Reader(-1, "docgia" + suf);
-                            r.dashboard();
-                        }
-                        case 2 -> {
-                            Cashier c = new Cashier(-1, "thungan" + suf);
-                            c.dashboard();
-                        }
-                        case 3 -> {
-                            Manager m = new Manager(-1, "quanly" + suf);
-                            m.dashboard();
-                        }
+                        case 1 -> new Reader(Integer.MAX_VALUE, "docgia" + suf).dashboard();
+                        case 2 -> new Cashier(Integer.MAX_VALUE, "thungan" + suf).dashboard();
+                        case 3 -> new Manager(Integer.MAX_VALUE, "quanly" + suf).dashboard();
                     }
                 }
                 case 5 -> {

@@ -21,6 +21,7 @@ public class PFFileWriter extends PFFile {
     }
 
     public boolean write(PFArray<String[]> lines) {
+        LOGGER.info("Opening file " + path.toAbsolutePath());
         // no OpenOptions: combination of CREATE | TRUNCATE_EXISTING | WRITE
         try (Writer w = Files.newBufferedWriter(path, charset)) {
             try (CSVWriter cw = new CSVWriter(w)) {
@@ -31,6 +32,7 @@ public class PFFileWriter extends PFFile {
         } catch (IOException e) {
             LOGGER.log(Level.WARNING, "Error writing " + path, e);
         }
+        LOGGER.info(String.format("Wrote %d records, %d columns each", lines.size(), lines.at(0).length));
         return false; // failure
     }
 }

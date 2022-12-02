@@ -1,5 +1,7 @@
 package Polyfill;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -8,6 +10,8 @@ import java.util.stream.StreamSupport;
 import ThuVien.Global;
 
 public final class StringHelper {
+    private static final Logger LOGGER = Logger.getLogger(StringHelper.class.getName());
+
     public static boolean isNullOrBlank(String str) {
         return str == null || str.isBlank();
     }
@@ -69,16 +73,12 @@ public final class StringHelper {
     public static int acceptInput(String... lines) {
         flushScanner();
         IntStream.range(0, lines.length).forEach(i -> System.out.println(StringHelper.concater(". ", i, lines[i])));
-        int n;
-        try {
-            n = Integer.parseInt(acceptLine("Number input"));
+        int n = acceptKey("Number input");
             if (n < 1 || n > lines.length) {
+                LOGGER.warning("Key out of range");
+                LOGGER.info("Default key (-1) is used");
                 n = -1;
             }
-        } catch (Exception e) {
-            n = -1;
-        }
-        flushScanner();
         return n;
     }
 
@@ -86,6 +86,16 @@ public final class StringHelper {
         flushScanner();
         System.out.println(prompt + ": ");
         return Global.scanner.nextLine().trim();
+    }
+
+    public static int acceptKey(String prompt) {
+        try {
+            return Integer.parseInt(acceptLine(prompt));
+        } catch (NumberFormatException e) {
+            LOGGER.log(Level.WARNING, "Unexpected key parse error", e);
+            LOGGER.info("Default key (-1) is used");
+            return -1;
+        }
     }
 
     public static void flushScanner() {

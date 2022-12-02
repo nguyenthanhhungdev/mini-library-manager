@@ -29,34 +29,38 @@ public class Cashiers extends Management<Cashier> implements ILogin {
     public Cashier add() {
         String username = StringHelper.acceptLine("Ten tai khoan");
         Cashier toAdd = new Cashier(genNextId(), username);
-        toAdd.changePassword(null, StringHelper.acceptLine("Mat khau"));
-        toAdd.setName(StringHelper.acceptLine("Ten"));
-        toAdd.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Ngay sinh")));
-        toAdd.setPhone(StringHelper.acceptLine("So dien thoai"));
-        toAdd.setEmail(StringHelper.acceptLine("Email"));
-        toAdd.setAddress(StringHelper.acceptLine("Dia chi"));
-        toAdd.setTruc(CaTruc.parseCaTruc(StringHelper.acceptLine("Ca truc")));
-        String luong = StringHelper.acceptLine("Luong khoi dau");
-        toAdd.setLuong(StringHelper.isNullOrBlank(luong) ? new Luong() : new Luong(Long.parseLong(luong)));
-        instance.push_back(toAdd);
+        try {
+            toAdd.changePassword(null, StringHelper.acceptLine("Mat khau"));
+            toAdd.setName(StringHelper.acceptLine("Ten"));
+            toAdd.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Ngay sinh")));
+            toAdd.setPhone(StringHelper.acceptLine("So dien thoai"));
+            toAdd.setEmail(StringHelper.acceptLine("Email"));
+            toAdd.setAddress(StringHelper.acceptLine("Dia chi"));
+            toAdd.setTruc(CaTruc.parseCaTruc(StringHelper.acceptLine("Ca truc")));
+            String luong = StringHelper.acceptLine("Luong khoi dau");
+            toAdd.setLuong(StringHelper.isNullOrBlank(luong) ? new Luong() : new Luong(Long.parseLong(luong)));
+            instance.push_back(toAdd);
+        } catch (RuntimeException e) {
+            LOGGER.log(Level.WARNING, "Likely input parse error in Cashier::add", e);
+            LOGGER.info("The adding operation is cancelled");
+            LOGGER.fine(String.format("Id counter is %d", currentIdCount()));
+        }
         return toAdd;
     }
 
     private int promptSearch() {
-        int n;
-        try {
-            n = search(Integer.parseInt(StringHelper.acceptLine("Nhap id (thu ngan)")));
-            if (n == -1) {
-                System.out.println("Tim kiem khong co ket qua");
-            } else {
-                System.out.println("Tim thay thu ngan:");
-                instance.at(n).toString();
-            }
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Input error", e);
-            throw e;
+        int id = StringHelper.acceptKey("Nhap id thu ngan");
+        if (id == -1) {
+            return -1;
         }
-        return n;
+        int pos = search(id);
+        if (pos == -1) {
+            System.out.println("Tim kiem khong co ket qua");
+        } else {
+            System.out.println("Tim thay thu ngan:");
+            instance.at(pos).toString();
+        }
+        return pos;
     }
 
     @Override
@@ -157,12 +161,25 @@ public class Cashiers extends Management<Cashier> implements ILogin {
             return -1;
         }
         System.out.println("Mat khau chinh xac");
+        instance.at(found).dashboard();
         return found;
     }
 
     @Override
     public int[] search() {
-        throw new UnsupportedOperationException("Chuc nang chua dc code do ko du thoi gian");
+        String query = StringHelper.acceptLine("Nhap ten thu ngan");
+        String[] entries = query.toLowerCase().split(" ");
+        return IntStream.range(0, instance.size()).filter(i -> {
+            String[] names = instance.at(i).getName().toLowerCase().split(" ");
+            for (int j = 0; j < names.length; j++) {
+                for (int k = 0; k < entries.length; k++) {
+                    if (names[j].startsWith(entries[k])) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }).toArray();
     }
 
     public static Cashiers fromBatchBlob(PFArray<String[]> inp) {

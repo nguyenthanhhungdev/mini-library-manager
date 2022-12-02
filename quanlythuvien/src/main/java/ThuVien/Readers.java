@@ -128,15 +128,29 @@ public class Readers extends Management<Reader> implements ILogin {
             return -1;
         }
         System.out.println("Mat khau chinh xac");
+        instance.at(found).dashboard();
         return found;
     }
 
+    @Override
     public int[] search() {
-        throw new UnsupportedOperationException("Chuc nang nay chua duoc code do khong du thoi gian");
+        String query = StringHelper.acceptLine("Nhap ten doc gia");
+        String[] entries = query.toLowerCase().split(" ");
+        return IntStream.range(0, instance.size()).filter(i -> {
+            String[] names = instance.at(i).getName().toLowerCase().split(" ");
+            for (int j = 0; j < names.length; j++) {
+                for (int k = 0; k < entries.length; k++) {
+                    if (names[j].startsWith(entries[k])) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }).toArray();
     }
-    // public PFArray<String[]> toBatchBlob() {}; already implemented
 
     public static Readers fromBatchBlob(PFArray<String[]> inp) {
+        LOGGER.info(String.format("Batching %d x %d blob", inp.size(), inp.at(0).length));
         return new Readers(inp);
     }
 }

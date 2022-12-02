@@ -13,7 +13,7 @@ public class ThoiGian {
     }
 
     // public ThoiGian(String formattedString) {
-    //     instance = LocalDateTime.parse(formattedString, formatter);
+    // instance = LocalDateTime.parse(formattedString, formatter);
     // }
 
     public ThoiGian(LocalDateTime instance) {
@@ -31,12 +31,18 @@ public class ThoiGian {
     public ThoiGian plusKhoangThoiGian(KhoangThoiGian ktg) {
         return new ThoiGian(instance.plus(ktg.getInstance()));
     }
+
     public static ThoiGian parseTG(String inp) {
-        return new ThoiGian(LocalDateTime.parse(inp, formatter));
+        if (inp.length() > 10) {
+            return new ThoiGian(LocalDateTime.parse(inp, format_full));
+        } else {
+            return new ThoiGian(LocalDateTime.parse(inp, format_min));
+        }
     }
+
     @Override
     public String toString() {
-        return instance.format(formatter);
+        return instance.format(format_full);
     }
 
     public static ThoiGian now() {
@@ -48,5 +54,6 @@ public class ThoiGian {
     }
 
     private final LocalDateTime instance;
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    private static final DateTimeFormatter format_full = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    private static final DateTimeFormatter format_min = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 }

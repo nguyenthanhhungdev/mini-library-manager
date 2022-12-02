@@ -12,16 +12,6 @@ public class Manager extends StaffImpl implements IDataProcess<Manager>, IDashbo
         super(id, username, regtime);
     }
 
-    // thue them nhan vien
-    public Cashier employ() {
-        return Global.cashiers.add();
-    }
-
-    // duoi viec nhan vien
-    public Cashier fire() {
-        return Global.cashiers.remove();
-    }
-
     public long calcSocialCredit() {
         return getPureLuong() / 500 + Global.cashiers.size() * cashierBonus;
     }

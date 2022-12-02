@@ -27,34 +27,34 @@ public class HoaDons extends Management<HoaDon> {
 
     @Override
     public HoaDon add() {
-        int id = Integer.parseInt(StringHelper.acceptLine("Nhap id hoa don ao (duoc tao boi doc gia)"));
-        int n = virtuals.stream().mapToInt(e -> e.getId()).filter(e -> e == id).findAny().orElse(-1);
-        if (n == -1) {
-            System.out.println("Khong tim thay hoa don ao");
-        } else {
-            try {
-                System.out.println("Tim thay hoa don ao");
-                virtuals.at(n).toString();
-                HoaDon toAdd = new HoaDon(genNextId(), virtuals.at(n));
-                String tg = StringHelper.acceptLine("Nhap ngay hoan tra (mac dinh 7 ngay)");
-                if (StringHelper.isNullOrBlank(tg)) {
-                    toAdd.setDeadline(ThoiGian.now().modNgay(7));
-                } else {
-                    toAdd.setDeadline(ThoiGian.parseTG(tg));
-                }
-                System.out.println("Xac nhan thanh toan:");
-                int m = StringHelper.acceptInput("Da thu tien", "Chay tron roi");
-                if (m == 1) {
-                    instance.push_back(toAdd);
-                    virtuals.erase(n);
-                }
-                return toAdd;
-            } catch (Exception e) {
-                LOGGER.log(Level.WARNING, "Input error", e);
-                throw e;
-            }
+        int id = StringHelper.acceptKey("Nhap id hoa don ao (duoc tao boi doc gia)");
+        if (id == -1) {
+            return null;
         }
-        return null;
+        int pos = virtuals.stream().mapToInt(e -> e.getId()).filter(e -> e == id).findAny().orElse(-1);
+        if (pos == -1) {
+            System.out.println("Khong tim thay hoa don ao");
+            return null;
+        }
+        System.out.println("Tim thay hoa don ao");
+        virtuals.at(pos).toString();
+        HoaDon toAdd = new HoaDon(genNextId(), virtuals.at(pos));
+        String ngayTra = StringHelper.acceptLine("Nhap ngay hoan tra (mac dinh 7 ngay)");
+        if (StringHelper.isNullOrBlank(ngayTra)) {
+            toAdd.setDeadline(ThoiGian.now().modNgay(7));
+        } else {
+            toAdd.setDeadline(ThoiGian.parseTG(ngayTra));
+        }
+        System.out.println("Xac nhan thanh toan:");
+        int m = StringHelper.acceptInput("Da thu tien", "Chay tron roi");
+        if (m == 1) {
+            instance.push_back(toAdd);
+            virtuals.erase(pos);
+            System.out.println("Thanh toan da xac nhan");
+            return toAdd;
+        }
+        System.out.println("Thanh toan huy bo");
+        return toAdd;
     }
 
     @Override
@@ -82,8 +82,8 @@ public class HoaDons extends Management<HoaDon> {
                         }
                     }
                     System.out.println("Dang thuc hien edit hoa don");
-                    System.out.println(hd[m].toString());
-                    toEdit = hd[m].edit();
+                    System.out.println(hd[m - 1].toString());
+                    toEdit = hd[m - 1].edit();
                 }
                 case 2 -> {
                     id = Integer.parseInt(StringHelper.acceptLine("Nhap ID hoa don"));
@@ -101,9 +101,9 @@ public class HoaDons extends Management<HoaDon> {
                     System.out.println("Huy edit hoa don");
                 }
             }
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Input error", e);
-            throw e;
+        } catch (RuntimeException e) {
+            LOGGER.log(Level.WARNING, "Likely input parse error in HoaDons::add", e);
+            LOGGER.info("The editing operation is cancelled");
         }
         return toEdit;
     }
@@ -149,6 +149,7 @@ public class HoaDons extends Management<HoaDon> {
     }
 
     public static HoaDons fromBatchBlob(PFArray<String[]> inp) {
+        LOGGER.info(String.format("Batching %d x %d blob", inp.size(), inp.at(0).length));
         return new HoaDons(inp);
     }
 

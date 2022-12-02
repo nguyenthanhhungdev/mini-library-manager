@@ -1,10 +1,8 @@
 package ThuVien;
 
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import Polyfill.PFArray;
 import Polyfill.StringHelper;
@@ -73,7 +71,7 @@ public class Documents extends Management<Document> {
 
     @Override
     public Document add() {
-        Document document = null;
+        Document document;
         int n = StringHelper.acceptInput("Bao", "Sach trong nuoc",
                 "Sach dich", "Sach chua dich");
         switch (n) {
@@ -81,31 +79,25 @@ public class Documents extends Management<Document> {
             case 2 -> document = new NativeBook(genNextId());
             case 3 -> document = new ForeignTranslatedBook(genNextId());
             case 4 -> document = new ForeignNontranslatedBook(genNextId());
+            default -> {
+                LOGGER.warning("Unexpected input");
+                return null;
+            }
         }
-
         document.setName(StringHelper.acceptLine("Nhap ten sach: "));
-
         document.setAuthors(accessInpAuthor());
-
         document.setPublication(ThoiGian.parseTG(StringHelper.acceptLine("Nhap thoi gian xuat ban")));
-
         document.setCopies(Integer.parseInt(StringHelper.acceptLine("Nhap so luong ban sao: ")));
         return document;
     }
 
     public int promptSearch() {
-        int n;
-        try {
-            n = search(Integer.parseInt(StringHelper.acceptLine("Nhap ma tai lieu: ")));
-            if (n == -1) {
-                System.out.println("Tim kiem khong co ket qua: ");
-            } else {
-                System.out.println("Tim thay tai lieu: ");
-                System.out.println(instance.at(n).toString());
-            }
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Input error", e);
-            throw e;
+        int n = search(Integer.parseInt(StringHelper.acceptLine("Nhap ma tai lieu: ")));
+        if (n == -1) {
+            System.out.println("Tim kiem khong co ket qua: ");
+        } else {
+            System.out.println("Tim thay tai lieu: ");
+            System.out.println(instance.at(n).toString());
         }
         return n;
     }
@@ -156,9 +148,9 @@ public class Documents extends Management<Document> {
                             document.setAuthors(accessInpAuthor());
                         }
                         case 3 ->
-                                document.setPublication(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay xuat ban: ")));
+                            document.setPublication(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay xuat ban: ")));
                         case 4 ->
-                                document.setCopies(Integer.parseInt(StringHelper.acceptLine("Nhap so luong ban sao: ")));
+                            document.setCopies(Integer.parseInt(StringHelper.acceptLine("Nhap so luong ban sao: ")));
                         default -> {
                             m = -1;
                             System.out.println("Ket thuc edit tai lieu");
@@ -175,14 +167,20 @@ public class Documents extends Management<Document> {
 
     @Override
     public int[] search() {
-        throw new UnsupportedOperationException("Chuc nang nay chua code xong do khong du thoi gian");
+        String query = StringHelper.acceptLine("Nhap ten tai lieu");
+        String[] entries = query.toLowerCase().split(" ");
+        return IntStream.range(0, instance.size()).filter(i -> {
+            String[] names = instance.at(i).getName().toLowerCase().split(" ");
+            for (int j = 0; j < names.length; j++) {
+                for (int k = 0; k < entries.length; k++) {
+                    if (names[j].startsWith(entries[k])) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }).toArray();
     }
-
-//    @Override
-//    public int[] search() {
-//        // TODO Auto-generated method stub
-//        return null;
-//    }
 
     private PFArray<Document> instance;
 

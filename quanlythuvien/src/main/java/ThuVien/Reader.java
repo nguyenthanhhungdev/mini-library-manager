@@ -1,9 +1,13 @@
 package ThuVien;
 
+import java.util.logging.Logger;
+
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
 public class Reader extends Account implements IDataProcess<Reader>, IDashboard {
+    private static final Logger LOGGER = Logger.getLogger(Reader.class.getName());
+
     public Reader(int id, String username) {
         super(id, username);
     }
@@ -27,7 +31,7 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
             System.out.println(this.toString());
             int n = StringHelper.acceptInput("Muon", "Tra", "Xem hoa don", "Dang xuat");
             if (n <= 0) {
-                System.out.println("Unexpected input");
+                LOGGER.warning("Unexpected input");
                 break;
             }
             switch (n) {

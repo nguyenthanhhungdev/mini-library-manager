@@ -11,6 +11,7 @@ public class Global {
     public static Cashiers cashiers;
     public static Managers managers;
     public static HoaDons hoadons;
+    public static Owner trandan;
     public static final Scanner scanner = new Scanner(System.in);
     public static final Random random = new Random();
 }

@@ -2,10 +2,13 @@ package ThuVien;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import javax.management.RuntimeErrorException;
 
 import Polyfill.StringHelper;
 
@@ -41,8 +44,8 @@ public class CaTruc {
                 try {
                     toRet = new CaTrucNgay(LocalTime.parse(timeMoment[0], formatter),
                             LocalTime.parse(timeMoment[1], formatter));
-                } catch (Exception e) {
-                    LOGGER.warning("CaTrucNgay parsing error");
+                } catch (RuntimeException e) {
+                    LOGGER.log(Level.WARNING, "CaTrucNgay parsing error", e);
                     throw e;
                 }
             } else {
@@ -78,8 +81,8 @@ public class CaTruc {
             try {
                 IntStream.range(0, 7).filter(i -> !StringHelper.isNullOrBlank(caTrucPerDay[i]))
                         .forEach(i -> toRet.setCaTrucNgay(i, CaTrucNgay.parseCaTrucNgay(caTrucPerDay[i])));
-            } catch (Exception e) {
-                LOGGER.warning("CaTruc parsing error");
+            } catch (RuntimeErrorException e) {
+                LOGGER.log(Level.WARNING, "CaTruc parsing error", e);
                 throw e;
             }
         }
