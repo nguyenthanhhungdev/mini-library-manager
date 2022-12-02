@@ -33,10 +33,6 @@ public class Documents extends Management<Document> {
         updateCounter();
     }
 
-    private int menuEdit() {
-        return StringHelper.acceptInput("Ten  sach", "Nam xuat ban", "So luong ban sao");
-    }
-
     private Author[] accessInpAuthor() {
         int soLuongTacGia = Integer.parseInt(StringHelper.acceptLine("Nhap so luong tac gia: "));
         Author[] authors = new Author[soLuongTacGia];
@@ -71,24 +67,35 @@ public class Documents extends Management<Document> {
 
     @Override
     public Document add() {
-        Document document;
+        String name = StringHelper.acceptLine("Nhap ten sach");
+        Author[] authors = accessInpAuthor();
+        ThoiGian publication = ThoiGian.parseTG(StringHelper.acceptLine("Nhap thoi gian xuat ban"));
+        int copies = Integer.parseInt(StringHelper.acceptLine("Nhap so luong ban sao"));
         int n = StringHelper.acceptInput("Bao", "Sach trong nuoc",
                 "Sach dich", "Sach chua dich");
-        switch (n) {
-            case 1 -> document = new Newspaper(genNextId());
-            case 2 -> document = new NativeBook(genNextId());
-            case 3 -> document = new ForeignTranslatedBook(genNextId());
-            case 4 -> document = new ForeignNontranslatedBook(genNextId());
+        Document toRet = switch (n) {
+            case 1 -> {
+                String editorial = StringHelper.acceptLine("Nhap toa soan");
+                yield new Newspaper(genNextId()).setEditorial(editorial);
+            }
+            case 2 -> new NativeBook(genNextId());
+            case 3 -> {
+                Language translatedLanguage = Languages.parseLang(StringHelper.acceptLine("Nhap ngon ngu da dich"));
+                String translator = StringHelper.acceptLine("Nhap ten nguoi dich");
+                yield new ForeignTranslatedBook(genNextId()).setTranslatedLanguage(translatedLanguage)
+                        .setTranslator(translator);
+            }
+            case 4 -> new ForeignNontranslatedBook(genNextId());
             default -> {
                 LOGGER.warning("Unexpected input");
-                return null;
+                yield null;
             }
-        }
-        document.setName(StringHelper.acceptLine("Nhap ten sach: "));
-        document.setAuthors(accessInpAuthor());
-        document.setPublication(ThoiGian.parseTG(StringHelper.acceptLine("Nhap thoi gian xuat ban")));
-        document.setCopies(Integer.parseInt(StringHelper.acceptLine("Nhap so luong ban sao: ")));
-        return document;
+        };
+        toRet.setName(name);
+        toRet.setAuthors(authors);
+        toRet.setPublication(publication);
+        toRet.setCopies(copies);
+        return toRet;
     }
 
     public int promptSearch() {

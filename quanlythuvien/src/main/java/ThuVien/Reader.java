@@ -29,7 +29,7 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
         while (true) {
             System.out.println("Dang dang nhap voi tu cach Doc Gia");
             System.out.println(this.toString());
-            int n = StringHelper.acceptInput("Muon", "Tra", "Xem hoa don", "Dang xuat");
+            int n = StringHelper.acceptInput("Muon", "Tra", "Xem hoa don", "Dang xuat", "Tim kiem");
             if (n <= 0) {
                 LOGGER.warning("Unexpected input");
                 break;
@@ -71,6 +71,9 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
                 case 4 -> {
                     System.out.println("Se dang xuat");
                     return 0;
+                }
+                case 5 -> {
+                    Global.identityLookup();
                 }
             }
         }

@@ -1,5 +1,6 @@
 package ThuVien;
 
+import Polyfill.KhoangThoiGian;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
@@ -64,7 +65,8 @@ public abstract class People extends AnyId {
                 StringHelper.itemer("Phone", phone),
                 StringHelper.itemer("Email", email),
                 StringHelper.itemer("Address", address),
-                StringHelper.itemer("Birthdate", birth));
+                StringHelper.itemer("Birthdate", birth),
+                StringHelper.itemer("Born", KhoangThoiGian.between(birth, ThoiGian.now())));
     }
 
     private String name, email, phone, address;

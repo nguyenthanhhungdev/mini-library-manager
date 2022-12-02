@@ -31,16 +31,15 @@ public class Main {
             if (n == 6) {
                 return 0;
             }
-            switch (n) {
-                case 1 -> Global.readers.login();
-                case 2 -> Global.cashiers.login();
-                case 3 -> Global.managers.login();
-                case 4 -> Global.trandan.login();
-                case 5 -> save();
+            if (n == -1) {
+                break;
             }
-            return 1;
+            switch (n) {
+                case 5 -> save();
+                default -> loginList[n].login();
+            }
         }
-
+        return 1;
     }
 
     public static int load() {
@@ -75,4 +74,7 @@ public class Main {
         }
         return 0;
     }
+
+    public static final ILogin[] loginList = new ILogin[] { Global.readers, Global.cashiers, Global.managers,
+            Global.trandan };
 }

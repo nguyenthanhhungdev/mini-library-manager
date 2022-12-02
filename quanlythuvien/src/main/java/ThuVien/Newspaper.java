@@ -22,11 +22,6 @@ public class Newspaper extends Document {
         return this;
     }
 
-    public static Newspaper input() {
-        // TODO:
-        return null;
-    }
-
     public String[] toBlob() {
         return new String[] { String.valueOf(Documents.Type.MAGAZINE), String.valueOf(getId()), getName(),
                 StringHelper.lv1Join((Object) getAuthors()), getEditorial(), getPublication().toString(),

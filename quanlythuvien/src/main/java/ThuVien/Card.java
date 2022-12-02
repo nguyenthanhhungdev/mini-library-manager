@@ -58,7 +58,9 @@ public class Card extends AnyId implements IDataProcess<Card> {
         return StringHelper.liner(super.toString(),
                 StringHelper.itemer("Price multiplier", price_multiplier),
                 StringHelper.itemer("Creation", creation),
-                StringHelper.itemer("Expiration", expiration));
+                StringHelper.itemer("Expiration", expiration),
+                StringHelper.itemer("Created", KhoangThoiGian.between(creation, ThoiGian.now())),
+                StringHelper.itemer("Expired", KhoangThoiGian.between(ThoiGian.now(), expiration)));
     }
 
     private float price_multiplier = 1.f;

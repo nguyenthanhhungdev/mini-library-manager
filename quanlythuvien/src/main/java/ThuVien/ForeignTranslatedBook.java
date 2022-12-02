@@ -31,11 +31,6 @@ public class ForeignTranslatedBook extends ForeignBook {
         return this;
     }
 
-    public static ForeignTranslatedBook input() {
-        // TODO:
-        return null;
-    }
-
     public String[] toBlob() {
         return new String[] { String.valueOf(Documents.Type.FOREIGN_TRANSLATED_BOOK), String.valueOf(getId()),
                 getName(), StringHelper.lv1Join((Object) getAuthors()), getPublisher(), getOriginLanguage().toString(),

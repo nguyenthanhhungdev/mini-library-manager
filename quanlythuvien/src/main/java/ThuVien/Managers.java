@@ -27,25 +27,34 @@ public class Managers extends Management<Manager> implements ILogin {
 
     @Override
     public Manager add() {
-        String username = StringHelper.acceptLine("Ten tai khoan");
-        Manager toAdd = new Manager(genNextId(), username);
         try {
-            toAdd.changePassword(null, StringHelper.acceptLine("Mat khau"));
-            toAdd.setName(StringHelper.acceptLine("Ten"));
-            toAdd.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Ngay sinh")));
-            toAdd.setPhone(StringHelper.acceptLine("So dien thoai"));
-            toAdd.setEmail(StringHelper.acceptLine("Email"));
-            toAdd.setAddress(StringHelper.acceptLine("Dia chi"));
-            toAdd.setTruc(CaTruc.parseCaTruc(StringHelper.acceptLine("Ca truc")));
-            String luong = StringHelper.acceptLine("Luong khoi dau");
-            toAdd.setLuong(StringHelper.isNullOrBlank(luong) ? new Luong() : new Luong(Long.parseLong(luong)));
+            String username = StringHelper.acceptLine("Ten tai khoan");
+            String password = StringHelper.acceptLine("Mat khau");
+            String name = StringHelper.acceptLine("Ten");
+            ThoiGian birth = ThoiGian.parseTG(StringHelper.acceptLine("Ngay sinh"));
+            String phone = StringHelper.acceptLine("So dien thoai");
+            String email = StringHelper.acceptLine("Email");
+            String address = StringHelper.acceptLine("Dia chi");
+            CaTruc truc = CaTruc.parseCaTruc(StringHelper.acceptLine("Ca truc"));
+            String luongStr = StringHelper.acceptLine("Luong khoi dau");
+            Luong luong = StringHelper.isNullOrBlank(luongStr) ? new Luong() : new Luong(Long.parseLong(luongStr));
+            Manager toAdd = new Manager(genNextId(), username);
+            toAdd.changePassword(null, password);
+            toAdd.setName(name);
+            toAdd.setBirth(birth);
+            toAdd.setPhone(phone);
+            toAdd.setEmail(email);
+            toAdd.setAddress(address);
+            toAdd.setTruc(truc);
+            toAdd.setLuong(luong);
             instance.push_back(toAdd);
+            return toAdd;
         } catch (RuntimeException e) {
             LOGGER.log(Level.WARNING, "Likely input parse error in Managers::add", e);
             LOGGER.info("The adding operation is cancelled");
             LOGGER.fine(String.format("Id counter is %d", currentIdCount()));
+            return null;
         }
-        return toAdd;
     }
 
     private int promptSearch() {

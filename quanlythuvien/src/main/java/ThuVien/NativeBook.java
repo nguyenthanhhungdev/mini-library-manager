@@ -14,11 +14,6 @@ public class NativeBook extends Book {
         setLanguage(Languages.vn);
     }
 
-    public static NativeBook input() {
-        // TODO:
-        return null;
-    }
-
     public String[] toBlob() {
         return new String[] { String.valueOf(Documents.Type.MAGAZINE), String.valueOf(getId()), getName(),
                 StringHelper.lv1Join((Object) getAuthors()), getPublisher(), getLanguage().toString(),

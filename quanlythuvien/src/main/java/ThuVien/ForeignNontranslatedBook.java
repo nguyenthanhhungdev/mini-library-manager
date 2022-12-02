@@ -13,11 +13,6 @@ public class ForeignNontranslatedBook extends ForeignBook {
         super(id);
     }
 
-    public static ForeignNontranslatedBook input() {
-        // TODO:
-        return null;
-    }
-
     public String[] toBlob() {
         return new String[] { String.valueOf(Documents.Type.FOREIGN_NONTRANSLATED_BOOK), String.valueOf(getId()),
                 getName(), StringHelper.lv1Join((Object) getAuthors()), getPublisher(), getOriginLanguage().toString(),

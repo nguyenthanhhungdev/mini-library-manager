@@ -80,13 +80,13 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
     }
 
     public int dashboard() {
-        //TODO: menu thu ngan
+        // TODO: menu thu ngan
         while (true) {
             System.out.println("Dang nhap voi tu canh Thu Ngan");
             System.out.println(this.toString());
             System.out.println("Thao tac voi: ");
-            int n = StringHelper.acceptInput("Doc gia", "Tac gia", "Tai lieu",
-                    "Dang xuat");
+            int n = StringHelper.acceptInput("Doc gia", "Tac gia", "Tai lieu", "Cho muon sach", "Nhan tra sach",
+                    "Dang xuat", "Tim kiem");
             if (n <= 0) {
                 System.out.println("Unexpected input");
                 break;
@@ -102,8 +102,21 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
                     menuTaiLieu();
                 }
                 case 4 -> {
+                    if (Global.hoadons.add() != null) {
+                        cashDone();
+                    }
+                }
+                case 5 -> {
+                    if (Global.hoadons.edit() != null) {
+                        cashDone();
+                    }
+                }
+                case 6 -> {
                     System.out.println("Se dang xuat");
                     return 0;
+                }
+                case 7 -> {
+                    Global.identityLookup();
                 }
             }
         }
@@ -132,9 +145,9 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
     }
 
     public String[] toBlob() {
-        return new String[]{String.valueOf(getId()), getUsername(), getPassword(), getName(),
+        return new String[] { String.valueOf(getId()), getUsername(), getPassword(), getName(),
                 getRegistration().toString(), getBirth().toString(), getPhone(), getEmail(), getAddress(),
-                getTruc().toString(), getLuong().toString(), String.valueOf(getCompletionCount())};
+                getTruc().toString(), getLuong().toString(), String.valueOf(getCompletionCount()) };
     }
 
     public String toString() {

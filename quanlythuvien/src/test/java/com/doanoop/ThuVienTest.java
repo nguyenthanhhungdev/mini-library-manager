@@ -36,6 +36,9 @@ public class ThuVienTest {
         authorsData.resize(10);
         authorsData.pop_front();
         Authors authors = Authors.fromBatchBlob(authorsData);
+        for (int i = 1; i < authorsData.size(); i++) {
+            System.out.println(authors.getById(i));
+        }
         PFArray<String[]> authorsBlob = authors.toBatchBlob();
         for (int i = 0; i < authorsData.size(); i++) {
             // first 7 is exact string

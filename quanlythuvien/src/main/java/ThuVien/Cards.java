@@ -4,6 +4,7 @@ import Polyfill.PFArray;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,14 +21,23 @@ public class Cards extends Management<Card> {
 
     public Cards(PFArray<String[]> blob) {
         this();
+        // default card not set
+        if (Integer.parseInt(blob.at(0)[0]) > 0) {
+            instance.push_back(
+                    new Card(0, new ThoiGian(LocalDateTime.MIN)).setExpiration(new ThoiGian(LocalDateTime.MAX)));
+        }
         blob.stream().forEach(e -> instance.push_back(Card.fromBlob(e)));
         updateCounter();
     }
 
     @Override
     public Card add() {
-        Card card = new Card(genNextId(), ThoiGian.now());
         int userInp = StringHelper.acceptInput("regular", "pro", "vip", "ultimate");
+        if (userInp <= 0) {
+            LOGGER.warning("Unexpected input");
+            return null;
+        }
+        Card card = new Card(genNextId(), ThoiGian.now());
         switch (userInp) {
             case 1 -> {
                 card.setPrice_multiplier(regular);

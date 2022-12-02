@@ -26,15 +26,29 @@ public class Readers extends Management<Reader> implements ILogin {
     }
 
     public Reader add() {
-        // TODO: accept input
-        Reader reader = new Reader(genNextId(), StringHelper.acceptLine("Nhap ten tai khoan: "));
-        reader.setName(StringHelper.acceptLine("Nhap ten doc gia: "));
-        reader.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay sinh: ")));
-        reader.setAddress(StringHelper.acceptLine("Nhap dia chi: "));
-        reader.setPhone(StringHelper.acceptLine("Nhap so dien thoai: "));
-        reader.setEmail(StringHelper.acceptLine("Nhap email: "));
-        instance.push_back(reader);
-        return reader;
+        try {
+            String username = StringHelper.acceptLine("Ten tai khoan");
+            String password = StringHelper.acceptLine("Mat khau");
+            String name = StringHelper.acceptLine("Ten");
+            ThoiGian birth = ThoiGian.parseTG(StringHelper.acceptLine("Ngay sinh"));
+            String phone = StringHelper.acceptLine("So dien thoai");
+            String email = StringHelper.acceptLine("Email");
+            String address = StringHelper.acceptLine("Dia chi");
+            Reader toAdd = new Reader(genNextId(), username);
+            toAdd.changePassword(null, password);
+            toAdd.setName(name);
+            toAdd.setBirth(birth);
+            toAdd.setPhone(phone);
+            toAdd.setEmail(email);
+            toAdd.setAddress(address);
+            instance.push_back(toAdd);
+            return toAdd;
+        } catch (RuntimeException e) {
+            LOGGER.log(Level.WARNING, "Likely input parse error in Managers::add", e);
+            LOGGER.info("The adding operation is cancelled");
+            LOGGER.fine(String.format("Id counter is %d", currentIdCount()));
+            return null;
+        }
     }
 
     public int promptSearch() {

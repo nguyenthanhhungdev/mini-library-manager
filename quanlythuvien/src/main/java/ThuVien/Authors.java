@@ -3,7 +3,6 @@ package ThuVien;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import Polyfill.PFArray;
 import Polyfill.StringHelper;
@@ -27,22 +26,30 @@ public class Authors extends Management<Author> {
     }
 
     public Author add() {
-        Author author = new Author(genNextId());
         try {
-            author.setName(StringHelper.acceptLine("Nhap ten tac gia: "));
-            author.setLanguage(Languages.parseLang(StringHelper.acceptLine("Nhap ngon ngu: ")));
-            author.setWebsite(StringHelper.acceptLine("Nhap trang web"));
-            author.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay sinh")));
-            author.setAddress(StringHelper.acceptLine("Nhap dia chi: "));
-            author.setEmail(StringHelper.acceptLine("Nhap email: "));
-            author.setPhone(StringHelper.acceptLine("Nhap so dien thoai: "));
+            String name = StringHelper.acceptLine("Nhap ten tac gia");
+            Language language = Languages.parseLang(StringHelper.acceptLine("Nhap ngon ngu"));
+            String website = StringHelper.acceptLine("Nhap trang web");
+            ThoiGian birth = ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay sinh"));
+            String address = StringHelper.acceptLine("Nhap dia chi");
+            String email = StringHelper.acceptLine("Nhap email");
+            String phone = StringHelper.acceptLine("Nhap so dien thoai");
+            Author author = new Author(genNextId());
+            author.setName(name);
+            author.setLanguage(language);
+            author.setWebsite(website);
+            author.setBirth(birth);
+            author.setAddress(address);
+            author.setEmail(email);
+            author.setPhone(phone);
             instance.push_back(author);
+            return author;
         } catch (RuntimeException e) {
             LOGGER.log(Level.WARNING, "Likely input parse error in Authors::add", e);
             LOGGER.info("The adding operation is cancelled");
             LOGGER.fine(String.format("Id counter is %d", currentIdCount()));
+            return null;
         }
-        return author;
     }
 
     public int promptSearch() {
@@ -90,9 +97,6 @@ public class Authors extends Management<Author> {
     }
 
     public Author edit() {
-        // TODO:accept inpiut
-        // abc = search()
-        // if length == 1 instance[i].setAbc.setXyz
         Author author = null;
         int n;
         try {
@@ -129,12 +133,19 @@ public class Authors extends Management<Author> {
     }
 
     public int[] search() {
-        String query = StringHelper.acceptLine("Nhap ten");
-        String[] queries = query.split(" ");
-        return IntStream.range(0, instance.size()).filter(
-                i -> Stream.of(instance.at(i).getName().split(" "))
-                        .anyMatch(word -> Stream.of(queries).anyMatch(qword -> word.startsWith(qword))))
-                .toArray();
+        String query = StringHelper.acceptLine("Nhap ten tac gia");
+        String[] entries = query.toLowerCase().split(" ");
+        return IntStream.range(0, instance.size()).filter(i -> {
+            String[] names = instance.at(i).getName().toLowerCase().split(" ");
+            for (int j = 0; j < names.length; j++) {
+                for (int k = 0; k < entries.length; k++) {
+                    if (names[j].startsWith(entries[k])) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }).toArray();
     }
     // public PFArray<String[]> toBatchBlob() {}; already implemented
 

@@ -9,7 +9,10 @@ public class KhoangThoiGian {
     public KhoangThoiGian(Duration instance) {
         this.instance = instance;
         formatterList = new formatter[] {
-                new formatter("ngay", instance::toDaysPart),
+                // new formatter("thap ki", () -> instance.toDaysPart() / 3600),
+                // new formatter("nam", () -> instance.toDaysPart() % 3600 / 360),
+                // new formatter("thang", () -> instance.toDaysPart() % 360 / 30),
+                new formatter("ngay", () -> instance.toDaysPart()),
                 // https://stackoverflow.com/questions/52130659/java-8-java-util-function-supplier
                 // Type mismatch (Long and int), and it doesn't auto convert so we have to do
                 // lambdas.
@@ -32,7 +35,8 @@ public class KhoangThoiGian {
         return Stream.of(formatterList).filter(e -> e.value.get() != 0)
                 .map(e -> String.join(" ", String.valueOf(Math.abs(e.value.get())), e.unit))
                 .collect(Collectors.collectingAndThen(Collectors.joining(", "),
-                        str -> StringHelper.isNullOrBlank(str) ? "no difference (" + formatterList[formatterList.length - 1].unit + ')'
+                        str -> StringHelper.isNullOrBlank(str)
+                                ? "no difference (" + formatterList[formatterList.length - 1].unit + ')'
                                 : instance.isNegative() ? "in " + str : str + " ago"));
     }
 
