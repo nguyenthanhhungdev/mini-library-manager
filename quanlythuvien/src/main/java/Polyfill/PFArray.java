@@ -43,10 +43,10 @@ public class PFArray<T> implements Iterable<T> {
 
     public T erase(int index) {
         indexCheck(index);
-        T ret = at(index);
+        T toRet = at(index);
         System.arraycopy(elements, index + 1, elements, index, size - index - 1);
         updateSize(size - 1);
-        return ret;
+        return toRet;
     }
 
     public void push_front(T element) {
@@ -92,6 +92,12 @@ public class PFArray<T> implements Iterable<T> {
 
     public int size() {
         return size;
+    }
+
+    public T[] toArray() {
+        T[] array = initOne4Me(size());
+        System.arraycopy(elements, 0, array, 0, size());
+        return array;
     }
 
     private void reserve(int reservedCapacity) {

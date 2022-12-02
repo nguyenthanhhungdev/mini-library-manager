@@ -1,22 +1,17 @@
 package com.doanoop;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.junit.Test;
 
 import Polyfill.KhoangThoiGian;
 import Polyfill.PFArray;
-import Polyfill.PFFileReader;
-import Polyfill.PFFileWriter;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
@@ -88,33 +83,36 @@ public class PolyfillTest {
         assertEquals(ktg2.toString(), "in 317 ngay, 9 gio, 12 phut, 9 giay");
         assertTrue(ktg3.toString().startsWith("no difference"));
     }
-
-    @Test
-    public void PFFileTest() {
-        PFFileReader fr = new PFFileReader("data", "List_NhanVien.csv");
-        // can throws exceptions and fail
-        PFArray<String[]> datain = fr.read();
-        // REMEMBER: DELETE BOM FROM CSV FILE IF IT's SAVED WITH BOM
-        assertArrayEquals(datain.front(), new String[] { "id", "username", "password", "name", "regtime", "borntime",
-                "phone", "email", "address" });
-        PFArray<String[]> dataout = new PFArray<>();
-        dataout.push_back(datain.at(0));
-        Random r = new Random();
-        for (int i = 0; i < 10; i++) {
-            dataout.push_back(datain.at(r.nextInt(datain.size() - 2) + 1));
-        }
-        PFFileWriter fw = new PFFileWriter("data", "List_NhanVien_out.csv");
-        fw.write(dataout);
-        PFFileReader fr2 = new PFFileReader("data", "List_NhanVien_out.csv");
-        PFArray<String[]> datain2 = fr2.read();
-        assertArrayEquals(datain2.front(), new String[] { "id", "username", "password", "name", "regtime", "borntime",
-                "phone", "email", "address" });
-        IntStream.range(0, 9).forEach(i -> assertArrayEquals(dataout.at(i), datain2.at(i)));
-    }
+    // Working no need rewrite
+    // @Test
+    // public void PFFileTest() {
+    // PFFileReader fr = new PFFileReader("data", "List_NhanVien.csv");
+    // // can throws exceptions and fail
+    // PFArray<String[]> datain = fr.read();
+    // // REMEMBER: DELETE BOM FROM CSV FILE IF IT's SAVED WITH BOM
+    // assertArrayEquals(datain.front(), new String[] { "id", "username",
+    // "password", "name", "regtime", "borntime",
+    // "phone", "email", "address" });
+    // PFArray<String[]> dataout = new PFArray<>();
+    // dataout.push_back(datain.at(0));
+    // Random r = new Random();
+    // for (int i = 0; i < 10; i++) {
+    // dataout.push_back(datain.at(r.nextInt(datain.size() - 2) + 1));
+    // }
+    // PFFileWriter fw = new PFFileWriter("data", "List_NhanVien_out.csv");
+    // fw.write(dataout);
+    // PFFileReader fr2 = new PFFileReader("data", "List_NhanVien_out.csv");
+    // PFArray<String[]> datain2 = fr2.read();
+    // assertArrayEquals(datain2.front(), new String[] { "id", "username",
+    // "password", "name", "regtime", "borntime",
+    // "phone", "email", "address" });
+    // IntStream.range(0, 9).forEach(i -> assertArrayEquals(dataout.at(i),
+    // datain2.at(i)));
+    // }
 
     @Test
     public void stringhelperTest() {
         String[] s = StringHelper.obj2str(new ThoiGian(1, 1, 1990), new ThoiGian(1, 1, 2000));
-        assertEquals("01/01/1990 00:00:00 01/01/2000 00:00:00", StringHelper.spacer(s));
+        assertEquals("01/01/1990 00:00:00 01/01/2000 00:00:00", StringHelper.spacer((Object[]) s));
     }
 }

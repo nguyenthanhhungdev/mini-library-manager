@@ -1,41 +1,74 @@
 package ThuVien;
 
-import Polyfill.PFArray;
 import Polyfill.StringHelper;
+import Polyfill.ThoiGian;
 
-public class Manager extends StaffImpl implements IDataProcess<Manager> {
-    public Manager(int id, String username, Cashiers cashiers_instance) {
-        super(id, username);
-        this.cashiers_instance = cashiers_instance;
+public class Manager extends StaffImpl implements IDataProcess<Manager>, IDashboard {
+    public Manager(int id, String username) {
+        this(id, username, ThoiGian.now());
     }
-    // thue them nhan vien
-    public Cashier employ() {
-        // TODO: accept user input
-        Cashier __ = cashiers_instance.add();
-        cashiers.push_back(__);
-        return __;
-    }
-    // duoi viec nhan vien
-    public boolean fire() {
-        // TODO: accept user input
-        Cashier __ = cashiers_instance.remove();
-        // find in this cashiers and delete
-        return false;
+
+    protected Manager(int id, String username, ThoiGian regtime) {
+        super(id, username, regtime);
     }
 
     public long calcSocialCredit() {
-        return getPureLuong() / 500 + cashiers.size() * cashierBonus;
+        return getPureLuong() / 500 + Global.cashiers.size() * cashierBonus;
+    }
+
+    public int dashboard() {
+        while (true) {
+            System.out.println("Dang dang nhap voi tu cach Quan Ly");
+            System.out.println(this.toString());
+            int n = StringHelper.acceptInput("Thue them nhan vien", "Duoi viec nhan vien", "Chinh sua nhan vien",
+                    "Dang xuat");
+            if (n <= 0) {
+                System.out.println("Unexpected input");
+                break;
+            }
+            switch (n) {
+                case 1 -> {
+                    Global.cashiers.add();
+                }
+                case 2 -> {
+                    Global.cashiers.remove();
+                }
+                case 3 -> {
+                    Global.cashiers.edit();
+                }
+                case 4 -> {
+                    System.out.println("Se dang xuat");
+                    return 0;
+                }
+            }
+        }
+        return 1;
     }
 
     public String[] toBlob() {
         return new String[] { String.valueOf(getId()), getUsername(), getPassword(), getName(),
                 getRegistration().toString(), getBirth().toString(), getPhone(), getEmail(), getAddress(),
-                getTruc().toString(), getLuong().toString(),
-                StringHelper.lv1Join(cashiers.stream().mapToInt(e -> e.getId())) };
+                getTruc().toString(), getLuong().toString() };
     }
 
-    // TODO: manager methods
-    private PFArray<Cashier> cashiers = new PFArray<>();
-    private Cashiers cashiers_instance;
-    private static final long cashierBonus = 5000;
+    public static Manager fromBlob(String[] inp) {
+        int id = Integer.parseInt(inp[0]);
+        String username = inp[1];
+        String password = inp[2];
+        String name = inp[3];
+        ThoiGian regtime = ThoiGian.parseTG(inp[4]);
+        ThoiGian borntime = ThoiGian.parseTG(inp[5]);
+        String phone = inp[6];
+        String email = inp[7];
+        String address = inp[8];
+        CaTruc catruc = CaTruc.parseCaTruc(inp[9]);
+        Luong luong = Luong.parseLuong(inp[10]);
+        Manager toRet = new Manager(id, username, regtime);
+        toRet.changePassword(null, password);
+        toRet.setName(name).setBirth(borntime).setPhone(phone).setEmail(email).setAddress(address);
+        toRet.setTruc(catruc).setLuong(luong);
+        return toRet;
+    }
+
+    private static final long cashierBonus = 500;
 }

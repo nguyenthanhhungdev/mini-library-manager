@@ -1,8 +1,16 @@
 package ThuVien;
 
-import Polyfill.PFArray;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
-public class Cashiers extends Management<Cashier> {
+import Polyfill.PFArray;
+import Polyfill.StringHelper;
+import Polyfill.ThoiGian;
+
+public class Cashiers extends Management<Cashier> implements ILogin {
+    private static final Logger LOGGER = Logger.getLogger(Cashiers.class.getName());
+
     public Cashiers() {
         super();
     }
@@ -19,27 +27,162 @@ public class Cashiers extends Management<Cashier> {
 
     @Override
     public Cashier add() {
-        // TODO Auto-generated method stub
-        return null;
+        String username = StringHelper.acceptLine("Ten tai khoan");
+        Cashier toAdd = new Cashier(genNextId(), username);
+        try {
+            toAdd.changePassword(null, StringHelper.acceptLine("Mat khau"));
+            toAdd.setName(StringHelper.acceptLine("Ten"));
+            toAdd.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Ngay sinh")));
+            toAdd.setPhone(StringHelper.acceptLine("So dien thoai"));
+            toAdd.setEmail(StringHelper.acceptLine("Email"));
+            toAdd.setAddress(StringHelper.acceptLine("Dia chi"));
+            toAdd.setTruc(CaTruc.parseCaTruc(StringHelper.acceptLine("Ca truc")));
+            String luong = StringHelper.acceptLine("Luong khoi dau");
+            toAdd.setLuong(StringHelper.isNullOrBlank(luong) ? new Luong() : new Luong(Long.parseLong(luong)));
+            instance.push_back(toAdd);
+        } catch (RuntimeException e) {
+            LOGGER.log(Level.WARNING, "Likely input parse error in Cashier::add", e);
+            LOGGER.info("The adding operation is cancelled");
+            LOGGER.fine(String.format("Id counter is %d", currentIdCount()));
+        }
+        return toAdd;
+    }
+
+    private int promptSearch() {
+        int id = StringHelper.acceptKey("Nhap id thu ngan");
+        if (id == -1) {
+            return -1;
+        }
+        int pos = search(id);
+        if (pos == -1) {
+            System.out.println("Tim kiem khong co ket qua");
+        } else {
+            System.out.println("Tim thay thu ngan:");
+            instance.at(pos).toString();
+        }
+        return pos;
     }
 
     @Override
     public Cashier remove() {
-        // TODO Auto-generated method stub
-        return null;
+        int n;
+        Cashier toRemove = null;
+        try {
+            n = promptSearch();
+            if (n == -1) {
+                System.out.println("Tim kiem that bai, remove thu ngan that bai");
+            } else {
+                System.out.println("Xac nhan xoa thu ngan:");
+                instance.at(n).toString();
+                int m = StringHelper.acceptInput("Co", "Suy nghi lai");
+                if (m == 1) {
+                    toRemove = instance.erase(n);
+                    System.out.println("Da xoa thu ngan");
+                    System.out.println(toRemove.toString());
+                }
+            }
+
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Co loi xay ra, remove thu ngan that bai", e);
+        }
+        return toRemove;
     }
 
     @Override
     public Cashier edit() {
-        // TODO Auto-generated method stub
-        return null;
+        int n;
+        Cashier toEdit = null;
+        try {
+            n = promptSearch();
+            if (n == -1) {
+                System.out.println("Tim kiem that bai, edit thu ngan that bai");
+            } else {
+                int m;
+                do {
+                    toEdit = instance.at(n);
+                    System.out.println("Dang thao tac edit thu ngan:");
+                    System.out.println(toEdit.toString());
+                    System.out.println("Chon thao tac");
+                    switch (m = StringHelper.acceptInput("Ten", "Ngay sinh", "So dien thoai", "Email", "Dia chi",
+                            "Ca truc", "Thay doi mat khau")) {
+                        case 1:
+                            toEdit.setName(StringHelper.acceptLine("Nhap ten"));
+                            break;
+                        case 2:
+                            toEdit.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay sinh")));
+                            break;
+                        case 3:
+                            toEdit.setPhone(StringHelper.acceptLine("Nhap sdt"));
+                            break;
+                        case 4:
+                            toEdit.setEmail(StringHelper.acceptLine("Nhap email"));
+                            break;
+                        case 5:
+                            toEdit.setAddress(StringHelper.acceptLine("Nhap dia chi"));
+                            break;
+                        case 6:
+                            toEdit.setTruc(CaTruc.parseCaTruc(StringHelper.acceptLine("Nhap ca truc")));
+                            break;
+                        case 7:
+                            String old = StringHelper.acceptLine("Nhap mat khau cu");
+                            if (toEdit.changePassword(old, StringHelper.acceptLine("Nhap mat khau moi")) == true) {
+                                System.out.println("Thay doi mat khau thanh cong");
+                            } else {
+                                System.out.println("Mat khau cu sai");
+                            }
+                            break;
+                        case -1:
+                        default:
+                            m = -1;
+                            System.out.println("Ket thuc edit thu ngan");
+                            break;
+                    }
+                } while (m > 0);
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Co loi xay ra, edit thu ngan that bai", e);
+        }
+        return toEdit;
+    }
+
+    public int login() {
+        String username = StringHelper.acceptLine("Nhap ten tai khoan (thu ngan)");
+        int found = IntStream.range(0, instance.size())
+                .filter(e -> username.equalsIgnoreCase(instance.at(e).getUsername())).findAny().orElse(-1);
+        if (found == -1) {
+            System.out.println("Khong tim thay ten dang nhap (thu ngan)");
+            return -1;
+        }
+        System.out.println("Tim thay thu ngan");
+        System.out.println(instance.at(found).toString());
+        String password = StringHelper.acceptLine("Nhap mat khau");
+        if (!instance.at(found).checkPassword(password)) {
+            System.out.println("Sai mat khau");
+            return -1;
+        }
+        System.out.println("Mat khau chinh xac");
+        instance.at(found).dashboard();
+        return found;
     }
 
     @Override
     public int[] search() {
-        // TODO Auto-generated method stub
-        return null;
+        String query = StringHelper.acceptLine("Nhap ten thu ngan");
+        String[] entries = query.toLowerCase().split(" ");
+        return IntStream.range(0, instance.size()).filter(i -> {
+            String[] names = instance.at(i).getName().toLowerCase().split(" ");
+            for (int j = 0; j < names.length; j++) {
+                for (int k = 0; k < entries.length; k++) {
+                    if (names[j].startsWith(entries[k])) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }).toArray();
     }
 
-    
+    public static Cashiers fromBatchBlob(PFArray<String[]> inp) {
+        return new Cashiers(inp);
+    }
 }

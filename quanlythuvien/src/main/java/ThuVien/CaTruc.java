@@ -2,13 +2,19 @@ package ThuVien;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import javax.management.RuntimeErrorException;
+
 import Polyfill.StringHelper;
 
 public class CaTruc {
+    private static final Logger LOGGER = Logger.getLogger(CaTruc.class.getName());
+
     public CaTruc() {
     }
 
@@ -29,9 +35,23 @@ public class CaTruc {
     }
 
     public record CaTrucNgay(LocalTime gioLam, LocalTime gioVe) {
+        private static final Logger LOGGER = Logger.getLogger(CaTrucNgay.class.getName());
+
         public static CaTrucNgay parseCaTrucNgay(String inp) {
-            String[] __ = StringHelper.splitThenTrim("~", inp);
-            return new CaTrucNgay(LocalTime.parse(__[0], formatter), LocalTime.parse(__[1], formatter));
+            CaTrucNgay toRet;
+            if (!StringHelper.isNullOrBlank(inp)) {
+                String[] timeMoment = StringHelper.splitThenTrim("~", inp);
+                try {
+                    toRet = new CaTrucNgay(LocalTime.parse(timeMoment[0], formatter),
+                            LocalTime.parse(timeMoment[1], formatter));
+                } catch (RuntimeException e) {
+                    LOGGER.log(Level.WARNING, "CaTrucNgay parsing error", e);
+                    throw e;
+                }
+            } else {
+                toRet = new CaTrucNgay(LocalTime.of(0, 0, 0), LocalTime.of(0, 0, 0));
+            }
+            return toRet;
         }
 
         public String toScreen() {
@@ -55,11 +75,18 @@ public class CaTruc {
     // 10:00:00~12:00:00|17:00:00~21:45:00|...
     // ^ monday | ^ tuesday ...
     public static CaTruc parseCaTruc(String inp) {
-        CaTruc __ = new CaTruc();
-        String[] _a = StringHelper.lv1Split(inp);
-        IntStream.range(0, 7).filter(i -> !StringHelper.isNullOrBlank(_a[i]))
-                .forEach(i -> __.setCaTrucNgay(i, CaTrucNgay.parseCaTrucNgay(_a[i])));
-        return __;
+        CaTruc toRet = new CaTruc();
+        if (!StringHelper.isNullOrBlank(inp)) {
+            String[] caTrucPerDay = StringHelper.lv1Split(inp);
+            try {
+                IntStream.range(0, 7).filter(i -> !StringHelper.isNullOrBlank(caTrucPerDay[i]))
+                        .forEach(i -> toRet.setCaTrucNgay(i, CaTrucNgay.parseCaTrucNgay(caTrucPerDay[i])));
+            } catch (RuntimeErrorException e) {
+                LOGGER.log(Level.WARNING, "CaTruc parsing error", e);
+                throw e;
+            }
+        }
+        return toRet;
     }
 
     public String toScreen() {

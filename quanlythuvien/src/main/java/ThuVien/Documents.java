@@ -1,33 +1,30 @@
 package ThuVien;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
 import Polyfill.PFArray;
+import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
-
-import static ThuVien.DangNhap.scanner;
 
 public class Documents extends Management<Document> {
     private static final Logger LOGGER = Logger.getLogger(Documents.class.getName());
 
-    public Documents(Authors authors_instance) {
+    public Documents() {
         super();
-        this.authors_instance = authors_instance;
     }
 
-    public Documents(Authors authors_instance, Document[] r) {
+    public Documents(Document[] r) {
         super(r);
-        this.authors_instance = authors_instance;
     }
 
-    public Documents(PFArray<String[]> blob, Authors authors_instance) {
-        this(authors_instance);
+    public Documents(PFArray<String[]> blob) {
         blob.stream().forEach(e -> instance.push_back(switch (Integer.parseInt(e[0])) {
-            case 1 -> Newspaper.fromBlob(e, authors_instance);
-            case 2 -> NativeBook.fromBlob(e, authors_instance);
-            case 3 -> ForeignNontranslatedBook.fromBlob(e, authors_instance);
-            case 4 -> ForeignTranslatedBook.fromBlob(e, authors_instance);
+            case 1 -> Newspaper.fromBlob(e);
+            case 2 -> NativeBook.fromBlob(e);
+            case 3 -> ForeignNontranslatedBook.fromBlob(e);
+            case 4 -> ForeignTranslatedBook.fromBlob(e);
             default -> {
                 LOGGER.severe(String.format("File read Document Blob type out of range"));
                 yield null;
@@ -36,96 +33,156 @@ public class Documents extends Management<Document> {
         updateCounter();
     }
 
-    private Document acccessInpDoc() {
-        Document document = null;
-        System.out.println("Nhap ten sach: ");
-        document.setName(scanner.nextLine());
-
-        System.out.println("Nhap so luong tac gia: ");
-        for (int i = 0; i < Integer.parseInt(scanner.nextLine()); i++)
-        {
-            Authors authors = new Authors();
-            System.out.println("Nhap ma tac gia: ");
-            Author author = new Author(Integer.parseInt(scanner.nextLine()));
-            authors.instance.at(search(author.getId()));
-            document.setAuthors((Author[]) instance.stream().toArray());
-        }
-
-        System.out.println("Nhap so luong ban sao: ");
-        document.setCopies(Integer.parseInt(scanner.nextLine()));
-
-        System.out.println("Nhap thoi gian xuat ban: ");
-        document.setPublication(ThoiGian.parseTG(scanner.nextLine()));
-
-        instance.push_back(document);
-
-        return document;
+    private int menuEdit() {
+        return StringHelper.acceptInput("Ten  sach", "Nam xuat ban", "So luong ban sao");
     }
 
-    public int menuEdit() {
-        System.out.println("1. Ten  sach");
-        System.out.println("2. Tac gia");
-        System.out.println("3. Nam xuat ban");
-        System.out.println("4. So luong ban sao");
-        return Integer.parseInt(scanner.nextLine());
+    private Author[] accessInpAuthor() {
+        int soLuongTacGia = Integer.parseInt(StringHelper.acceptLine("Nhap so luong tac gia: "));
+        Author[] authors = new Author[soLuongTacGia];
+        for (int i = 0; i < authors.length; ++i) {
+            boolean run = true;
+            do {
+                int userInp = StringHelper.acceptInput("Nhap ma tac gia da co", "Them tac gia moi");
+                switch (userInp) {
+                    case 1 -> {
+                        int index = Global.authors.promptSearch();
+                        if (index == -1) {
+                            System.out.println("Khong tim thay tac gia");
+                        } else {
+                            System.out.println("Da tim thay tac gia: ");
+                            System.out.println(Global.authors.instance.at(index).toString());
+                            authors[i] = Global.authors.instance.at(index);
+                            System.out.println("Them thanh cong");
+                            run = false;
+                        }
+                    }
+                    case 2 -> {
+                        authors[i] = Global.authors.add();
+                        System.out.println("Them thanh cong tac gia: ");
+                        System.out.println(authors[i].toString());
+                        run = false;
+                    }
+                }
+            } while (run);
+        }
+        return authors;
     }
 
     @Override
     public Document add() {
-        Document document = acccessInpDoc();
-        instance.push_back(document);
+        Document document;
+        int n = StringHelper.acceptInput("Bao", "Sach trong nuoc",
+                "Sach dich", "Sach chua dich");
+        switch (n) {
+            case 1 -> document = new Newspaper(genNextId());
+            case 2 -> document = new NativeBook(genNextId());
+            case 3 -> document = new ForeignTranslatedBook(genNextId());
+            case 4 -> document = new ForeignNontranslatedBook(genNextId());
+            default -> {
+                LOGGER.warning("Unexpected input");
+                return null;
+            }
+        }
+        document.setName(StringHelper.acceptLine("Nhap ten sach: "));
+        document.setAuthors(accessInpAuthor());
+        document.setPublication(ThoiGian.parseTG(StringHelper.acceptLine("Nhap thoi gian xuat ban")));
+        document.setCopies(Integer.parseInt(StringHelper.acceptLine("Nhap so luong ban sao: ")));
         return document;
+    }
+
+    public int promptSearch() {
+        int n = search(Integer.parseInt(StringHelper.acceptLine("Nhap ma tai lieu: ")));
+        if (n == -1) {
+            System.out.println("Tim kiem khong co ket qua: ");
+        } else {
+            System.out.println("Tim thay tai lieu: ");
+            System.out.println(instance.at(n).toString());
+        }
+        return n;
     }
 
     @Override
     public Document remove() {
-        Document document = acccessInpDoc();
-        int index = search(document.getId());
-        if (index != -1) {
-            instance.erase(index);
+        int n;
+        Document document = null;
+        try {
+            n = promptSearch();
+            if (n == -1) {
+                System.out.println("Tim kiem that bai, remove tai lieu khong thanh cong");
+            } else {
+                System.out.println("Xac nhan xoa tai lieu: ");
+                System.out.println(instance.at(n).toString());
+                int m = StringHelper.acceptInput("Co", "Suy nghi lai");
+                if (m == 1) {
+                    document = instance.erase(n);
+                    System.out.println("Da xoa tai lieu: ");
+                    System.out.println(document.toString());
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Co loi xay ra, remove tai lieu that bai", e);
         }
-
         return document;
     }
 
     @Override
     public Document edit() {
-        Document document = add();
-        int index = search(document.getId());
-        if (index != -1) {
-
-            document = instance.at(index);
-
-            switch (menuEdit()) {
-                case 1 -> document.setName(scanner.nextLine());
-                case 2 -> {
-                    System.out.println("Nhap so luong tac gia: ");
-                    Author[] authors = new Author[Integer.parseInt(scanner.nextLine())];
-                    IntStream.range(0, authors.length).forEach(i -> {
-                        System.out.println("Nhap ma tac gia: ");
-                        Author author = new Author(Integer.parseInt(scanner.nextLine()));
-                        Authors authors1 = new Authors();
-                        authors[i] = authors1.instance.at(search(author.getId()));
-                    });
-
-                    document.setAuthors(authors);
-                }
-                case 3 -> document.setPublication(ThoiGian.parseTG(scanner.nextLine()));
-                case 4 -> document.setCopies(Integer.parseInt(scanner.nextLine()));
+        int n;
+        Document document = null;
+        try {
+            n = promptSearch();
+            if (n == -1) {
+                System.out.println("Tim kiem that bai, edit tai lieu that bai");
+            } else {
+                int m;
+                do {
+                    document = instance.at(n);
+                    System.out.println("Dang thao tac edit tai lieu: ");
+                    System.out.println(document.toString());
+                    System.out.println("Chon thao tac: ");
+                    switch (m = StringHelper.acceptInput("Ten", "Tac gia", "Ngay xuat ban", "So luong ban sao")) {
+                        case 1 -> document.setName(StringHelper.acceptLine("Nhap ten tai lieu: "));
+                        case 2 -> {
+                            System.out.println("Nhap lai cac tac gia: ");
+                            document.setAuthors(accessInpAuthor());
+                        }
+                        case 3 ->
+                            document.setPublication(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay xuat ban: ")));
+                        case 4 ->
+                            document.setCopies(Integer.parseInt(StringHelper.acceptLine("Nhap so luong ban sao: ")));
+                        default -> {
+                            m = -1;
+                            System.out.println("Ket thuc edit tai lieu");
+                        }
+                    }
+                } while (m >= 0);
             }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Co loi xay ra, edit tai lieu khong thanh cong", e);
+            throw e;
         }
-
         return document;
     }
 
     @Override
     public int[] search() {
-        // TODO Auto-generated method stub
-        return null;
+        String query = StringHelper.acceptLine("Nhap ten tai lieu");
+        String[] entries = query.toLowerCase().split(" ");
+        return IntStream.range(0, instance.size()).filter(i -> {
+            String[] names = instance.at(i).getName().toLowerCase().split(" ");
+            for (int j = 0; j < names.length; j++) {
+                for (int k = 0; k < entries.length; k++) {
+                    if (names[j].startsWith(entries[k])) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }).toArray();
     }
 
     private PFArray<Document> instance;
-    private Authors authors_instance;
 
     public static final class Type {
         public static final int MAGAZINE = 1;

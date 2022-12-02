@@ -12,9 +12,12 @@ public class ForeignNontranslatedBook extends ForeignBook {
     public ForeignNontranslatedBook(int id) {
         super(id);
     }
+
     public static ForeignNontranslatedBook input() {
         // TODO:
+        return null;
     }
+
     public String[] toBlob() {
         return new String[] { String.valueOf(Documents.Type.FOREIGN_NONTRANSLATED_BOOK), String.valueOf(getId()),
                 getName(), StringHelper.lv1Join((Object) getAuthors()), getPublisher(), getOriginLanguage().toString(),
@@ -22,7 +25,7 @@ public class ForeignNontranslatedBook extends ForeignBook {
                 String.valueOf(getBorrowed()) };
     }
 
-    public static ForeignNontranslatedBook fromBlob(String[] inp, Authors authors_instance) {
+    public static ForeignNontranslatedBook fromBlob(String[] inp) {
         int type = Integer.parseInt(inp[0]);
         if (type != Documents.Type.FOREIGN_NONTRANSLATED_BOOK) {
             LOGGER.severe(
@@ -33,17 +36,17 @@ public class ForeignNontranslatedBook extends ForeignBook {
         int id = Integer.parseInt(inp[1]);
         String name = inp[2];
         Author[] authors = Stream.of(StringHelper.lv1Split(inp[3]))
-                .map(e -> authors_instance.getById(Integer.parseInt(e))).toArray(Author[]::new);
+                .map(e -> Global.authors.getById(Integer.parseInt(e))).toArray(Author[]::new);
         String publisher = inp[4];
         Language originLanguage = Languages.parseLang(inp[5]);
         ThoiGian publication = ThoiGian.parseTG(inp[6]);
         ThoiGian originPublication = ThoiGian.parseTG(inp[7]);
         int copies = Integer.parseInt(inp[8]);
         int borrowed = Integer.parseInt(inp[9]);
-        ForeignNontranslatedBook __ = new ForeignNontranslatedBook(id);
-        __.setOriginLanguage(originLanguage).setOriginPublication(originPublication).setPublication(publication);
-        __.setPublisher(publisher);
-        __.setName(name).setAuthors(authors).setPublication(publication).setCopies(copies).setBorrowed(borrowed);
-        return __;
+        ForeignNontranslatedBook toRet = new ForeignNontranslatedBook(id);
+        toRet.setOriginLanguage(originLanguage).setOriginPublication(originPublication).setPublication(publication);
+        toRet.setPublisher(publisher);
+        toRet.setName(name).setAuthors(authors).setPublication(publication).setCopies(copies).setBorrowed(borrowed);
+        return toRet;
     }
 }

@@ -1,12 +1,17 @@
 package ThuVien;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import Polyfill.PFArray;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
-import static ThuVien.DangNhap.scanner;
-
 public class Authors extends Management<Author> {
+    private static final Logger LOGGER = Logger.getLogger(Authors.class.getName());
+
     public Authors() {
         super();
     }
@@ -21,72 +26,120 @@ public class Authors extends Management<Author> {
         updateCounter();
     }
 
-    private Author accessInpAuthor() {
-        Author author = new Author(++id_counter);
-        System.out.println("Nhap ten tac gia: ");
-        author.setName(scanner.nextLine());
-        System.out.println("Nhap ngo ngu: ");
-        author.setLanguage(Languages.parseLang(scanner.nextLine()));
-        System.out.println("Nhap web: ");
-        author.setWebsite(scanner.nextLine());
-        System.out.println("Nhap ngay sinh: ");
-        author.setBirth(ThoiGian.parseTG(scanner.nextLine()));
-        author.setAddress(scanner.nextLine());
-        System.out.println("Nhap email: ");
-        author.setEmail(scanner.nextLine());
-        System.out.println("Nhap so dien thoai: ");
-        author.setPhone(scanner.nextLine());
+    public Author add() {
+        Author author = new Author(genNextId());
+        try {
+            author.setName(StringHelper.acceptLine("Nhap ten tac gia: "));
+            author.setLanguage(Languages.parseLang(StringHelper.acceptLine("Nhap ngon ngu: ")));
+            author.setWebsite(StringHelper.acceptLine("Nhap trang web"));
+            author.setBirth(ThoiGian.parseTG(StringHelper.acceptLine("Nhap ngay sinh")));
+            author.setAddress(StringHelper.acceptLine("Nhap dia chi: "));
+            author.setEmail(StringHelper.acceptLine("Nhap email: "));
+            author.setPhone(StringHelper.acceptLine("Nhap so dien thoai: "));
+            instance.push_back(author);
+        } catch (RuntimeException e) {
+            LOGGER.log(Level.WARNING, "Likely input parse error in Authors::add", e);
+            LOGGER.info("The adding operation is cancelled");
+            LOGGER.fine(String.format("Id counter is %d", currentIdCount()));
+        }
+        return author;
+    }
+
+    public int promptSearch() {
+        int id = StringHelper.acceptKey("Nhap id tac gia");
+        if (id == -1) {
+            return -1;
+        }
+        int pos = search(id);
+        if (pos == -1) {
+            System.out.println("Tim kiem khong co ket qua: ");
+        } else {
+            System.out.println("Tim thay tac gia: ");
+            System.out.println(instance.at(pos).toString());
+        }
+        return pos;
+    }
+
+    public Author remove() {
+        Author author = null;
+        int n;
+        try {
+            n = promptSearch();
+            if (n == -1) {
+                System.out.println("Tim kiem that bai, remove tac gia that bai");
+            } else {
+                System.out.println("Xac nhan xoa tac gia: ");
+                System.out.println(instance.at(n).toString());
+                int m = StringHelper.acceptInput("Co", "Suy nghi lai");
+                if (m == 1) {
+                    author = instance.erase(n);
+                    System.out.println("Da xoa tac gia: ");
+                    System.out.println(author.toString());
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Co loi xay ra, remove tac gia khong thanh cong", e);
+            throw e;
+        }
         return author;
     }
 
     public int menuEdit() {
-        StringHelper stringHelper = new StringHelper();
-        return stringHelper.acceptInput("Ten tac gia", "Ngon ngu", "Website", "Ngay sinh", "email", "Dia chi", "Dien thoai");
-    }
-
-    public Author add() {
-        // TODO: accept input
-        Author __ = accessInpAuthor();
-        instance.push_back(__);
-        return __;
-    }
-
-    public Author remove() {
-        Author author = accessInpAuthor();
-        int index = search(author.getId());
-        if (index != -1)
-        {
-            instance.erase(index);
-        }
-        return author;
+        return StringHelper.acceptInput("Ten tac gia", "Ngon ngu", "Website", "Ngay sinh", "email", "Dia chi",
+                "Dien thoai");
     }
 
     public Author edit() {
         // TODO:accept inpiut
         // abc = search()
         // if length == 1 instance[i].setAbc.setXyz
-        Author author = accessInpAuthor();
-        int index = search(author.getId());
-        if (index != -1)
-        {
-            author = instance.at(index);
-
-            switch (menuEdit()) {
-                case 1 -> author.setName(scanner.nextLine());
-                case 2 -> author.setLanguage(Languages.parseLang(scanner.nextLine()));
-                case 3 -> author.setWebsite(scanner.nextLine());
-                case 4 -> author.setBirth(ThoiGian.parseTG(scanner.nextLine()));
-                case 5 -> author.setEmail(scanner.nextLine());
-                case 6 -> author.setAddress(scanner.nextLine());
-                case 7 -> author.setPhone(scanner.nextLine());
+        Author author = null;
+        int n;
+        try {
+            n = promptSearch();
+            if (n == -1) {
+                System.out.println("Tim kiem that bai, edit tac gia that bai");
+            } else {
+                int m;
+                do {
+                    author = instance.at(n);
+                    System.out.println("Dang thao tac tac gia: ");
+                    System.out.println(author.toString());
+                    System.out.println("Chon thao tac");
+                    switch (m = menuEdit()) {
+                        case 1 -> author.setName(Global.scanner.nextLine());
+                        case 2 -> author.setLanguage(Languages.parseLang(Global.scanner.nextLine()));
+                        case 3 -> author.setWebsite(Global.scanner.nextLine());
+                        case 4 -> author.setBirth(ThoiGian.parseTG(Global.scanner.nextLine()));
+                        case 5 -> author.setEmail(Global.scanner.nextLine());
+                        case 6 -> author.setAddress(Global.scanner.nextLine());
+                        case 7 -> author.setPhone(Global.scanner.nextLine());
+                        default -> {
+                            m = -1;
+                            System.out.println("Ket thuc edit tac gia");
+                        }
+                    }
+                } while (m > 0);
             }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Co loi xay ra, edit doc gia that bai", e);
+            throw e;
         }
         return author;
     }
 
+    public int[] search() {
+        String query = StringHelper.acceptLine("Nhap ten");
+        String[] queries = query.split(" ");
+        return IntStream.range(0, instance.size()).filter(
+                i -> Stream.of(instance.at(i).getName().split(" "))
+                        .anyMatch(word -> Stream.of(queries).anyMatch(qword -> word.startsWith(qword))))
+                .toArray();
+    }
     // public PFArray<String[]> toBatchBlob() {}; already implemented
 
     public static Authors fromBatchBlob(PFArray<String[]> inp) {
+        LOGGER.info(String.format("Batching %d x %d blob", inp.size(), inp.at(0).length));
         return new Authors(inp);
     }
 }

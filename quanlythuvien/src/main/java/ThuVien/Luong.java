@@ -4,6 +4,10 @@ import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
 public class Luong {
+    public Luong() {
+        this(0L);
+    }
+
     public Luong(long hienTai) {
         this.hienTai = tuongLai = hienTai;
     }
@@ -46,9 +50,9 @@ public class Luong {
     // 2500000 |3000000| 7500000 |25/11/2022 23:15:00
     // ^hientai ^tuonglai ^tongdatra ^ last modified
     public static Luong parseLuong(String inp) {
-        String[] _a = StringHelper.lv1Split(inp);
-        return new Luong(Long.parseLong(_a[0]), Long.parseLong(_a[1]), Long.parseLong(_a[2]),
-                ThoiGian.parseTG(_a[3]));
+        String[] luongPart = StringHelper.lv1Split(inp);
+        return new Luong(Long.parseLong(luongPart[0]), Long.parseLong(luongPart[1]), Long.parseLong(luongPart[2]),
+                ThoiGian.parseTG(luongPart[3]));
     }
 
     public String toScreen() {

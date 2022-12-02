@@ -1,20 +1,24 @@
 package Polyfill;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
-import javax.sound.sampled.SourceDataLine;
+import java.util.stream.StreamSupport;
 
 import ThuVien.Global;
 
 public final class StringHelper {
+    private static final Logger LOGGER = Logger.getLogger(StringHelper.class.getName());
+
     public static boolean isNullOrBlank(String str) {
         return str == null || str.isBlank();
     }
 
     // this project's general single field seperator
     public static String[] lv1Split(String line) {
-        return splitThenTrim("|", line);
+        return lv1Sep.split(line);
     }
 
     public static String lv1Join(Object... words) {
@@ -22,7 +26,7 @@ public final class StringHelper {
     }
 
     public static String[] lv2Split(String line) {
-        return splitThenTrim("\\", line);
+        return lv2Sep.split(line);
     }
 
     public static String lv2Join(Object... words) {
@@ -62,13 +66,44 @@ public final class StringHelper {
         return Stream.of(objs).map(Object::toString).toArray(String[]::new);
     }
 
-    public int acceptInput(String... lines) {
+    public static String[] pfa2str(PFArray<Object> pfa) {
+        return StreamSupport.stream(pfa.spliterator(), false).map(Object::toString).toArray(String[]::new);
+    }
+
+    public static int acceptInput(String... lines) {
+        flushScanner();
         IntStream.range(0, lines.length).forEach(i -> System.out.println(StringHelper.concater(". ", i, lines[i])));
-        int n = Global.scanner.nextInt();
-        if (n < 1 || n > lines.length) {
+        int n = acceptKey("Number input");
+            if (n < 1 || n > lines.length) {
+                LOGGER.warning("Key out of range");
+                LOGGER.info("Default key (-1) is used");
+                n = -1;
+            }
+        return n;
+    }
+
+    public static String acceptLine(String prompt) {
+        flushScanner();
+        System.out.println(prompt + ": ");
+        return Global.scanner.nextLine().trim();
+    }
+
+    public static int acceptKey(String prompt) {
+        try {
+            return Integer.parseInt(acceptLine(prompt));
+        } catch (NumberFormatException e) {
+            LOGGER.log(Level.WARNING, "Unexpected key parse error", e);
+            LOGGER.info("Default key (-1) is used");
             return -1;
-        } else {
-            return n;
         }
     }
+
+    public static void flushScanner() {
+        while (Global.scanner.hasNextLine()) {
+            Global.scanner.nextLine();
+        }
+    }
+
+    public static final Pattern lv1Sep = Pattern.compile(Pattern.quote("|"));
+    public static final Pattern lv2Sep = Pattern.compile(Pattern.quote("\\"));
 }

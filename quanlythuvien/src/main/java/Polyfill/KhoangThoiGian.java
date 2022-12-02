@@ -29,10 +29,10 @@ public class KhoangThoiGian {
 
     @Override
     public String toString() {
-        return Stream.of(formatterList).filter(__ -> __.value.get() != 0)
-                .map(__ -> String.join(" ", String.valueOf(Math.abs(__.value.get())), __.unit))
+        return Stream.of(formatterList).filter(e -> e.value.get() != 0)
+                .map(e -> String.join(" ", String.valueOf(Math.abs(e.value.get())), e.unit))
                 .collect(Collectors.collectingAndThen(Collectors.joining(", "),
-                        str -> str.isEmpty() ? "no difference (" + formatterList[formatterList.length - 1].unit + ')'
+                        str -> StringHelper.isNullOrBlank(str) ? "no difference (" + formatterList[formatterList.length - 1].unit + ')'
                                 : instance.isNegative() ? "in " + str : str + " ago"));
     }
 

@@ -30,9 +30,12 @@ public class ForeignTranslatedBook extends ForeignBook {
         this.translator = translator;
         return this;
     }
+
     public static ForeignTranslatedBook input() {
         // TODO:
+        return null;
     }
+
     public String[] toBlob() {
         return new String[] { String.valueOf(Documents.Type.FOREIGN_TRANSLATED_BOOK), String.valueOf(getId()),
                 getName(), StringHelper.lv1Join((Object) getAuthors()), getPublisher(), getOriginLanguage().toString(),
@@ -40,7 +43,7 @@ public class ForeignTranslatedBook extends ForeignBook {
                 getOriginPublication().toString(), String.valueOf(getCopies()), String.valueOf(getBorrowed()) };
     }
 
-    public static ForeignTranslatedBook fromBlob(String[] inp, Authors authors_instance) {
+    public static ForeignTranslatedBook fromBlob(String[] inp) {
         int type = Integer.parseInt(inp[0]);
         if (type != Documents.Type.FOREIGN_TRANSLATED_BOOK) {
             LOGGER.severe(
@@ -51,7 +54,7 @@ public class ForeignTranslatedBook extends ForeignBook {
         int id = Integer.parseInt(inp[1]);
         String name = inp[2];
         Author[] authors = Stream.of(StringHelper.lv1Split(inp[3]))
-                .map(e -> authors_instance.getById(Integer.parseInt(e))).toArray(Author[]::new);
+                .map(e -> Global.authors.getById(Integer.parseInt(e))).toArray(Author[]::new);
         String publisher = inp[4];
         Language originLanguage = Languages.parseLang(inp[5]);
         Language translatedLanguage = Languages.parseLang(inp[6]);
@@ -60,12 +63,12 @@ public class ForeignTranslatedBook extends ForeignBook {
         ThoiGian originPublication = ThoiGian.parseTG(inp[9]);
         int copies = Integer.parseInt(inp[10]);
         int borrowed = Integer.parseInt(inp[11]);
-        ForeignTranslatedBook __ = new ForeignTranslatedBook(id).setTranslatedLanguage(translatedLanguage)
+        ForeignTranslatedBook toRet = new ForeignTranslatedBook(id).setTranslatedLanguage(translatedLanguage)
                 .setTranslator(translator);
-        __.setOriginLanguage(originLanguage).setOriginPublication(originPublication).setPublication(publication);
-        __.setPublisher(publisher);
-        __.setName(name).setAuthors(authors).setPublication(publication).setCopies(copies).setBorrowed(borrowed);
-        return __;
+        toRet.setOriginLanguage(originLanguage).setOriginPublication(originPublication).setPublication(publication);
+        toRet.setPublisher(publisher);
+        toRet.setName(name).setAuthors(authors).setPublication(publication).setCopies(copies).setBorrowed(borrowed);
+        return toRet;
     }
 
     private Language translatedLanguage;

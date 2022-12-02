@@ -85,9 +85,13 @@ public abstract class Document extends AnyId implements IDataProcess<Document> {
         }
     }
 
-    public abstract String[] toBlob();
+    // :'(
+    public void lost() {
+        returns();
+        changeCopies(-1);
+    }
 
-    public abstract Document fromBlob(String[] inp);
+    public abstract String[] toBlob();
 
     @Override
     public String toString() {
