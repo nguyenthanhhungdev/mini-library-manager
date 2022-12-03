@@ -80,7 +80,6 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
     }
 
     public int dashboard() {
-        // TODO: menu thu ngan
         while (true) {
             System.out.println("Dang nhap voi tu canh Thu Ngan");
             System.out.println(this.toString());

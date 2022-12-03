@@ -24,6 +24,9 @@ public abstract class Account extends People {
     }
 
     public boolean changePassword(String oldPassword, String newPassword) {
+        if (oldPassword == null) {
+            oldPassword = "";
+        }
         if (!checkPassword(oldPassword.trim())) {
             return false;
         }

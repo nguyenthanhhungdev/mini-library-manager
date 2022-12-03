@@ -49,6 +49,9 @@ public final class StringHelper {
 
     // boomer
     public static String itemer(Object key, Object value) {
+        if (value == null) {
+            value = "null";
+        }
         return spacer(key + ":", value);
     }
 

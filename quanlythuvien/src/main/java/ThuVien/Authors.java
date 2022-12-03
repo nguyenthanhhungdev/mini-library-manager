@@ -140,6 +140,7 @@ public class Authors extends Management<Author> {
             for (int j = 0; j < names.length; j++) {
                 for (int k = 0; k < entries.length; k++) {
                     if (names[j].startsWith(entries[k])) {
+                        System.out.println(instance.at(i));
                         return true;
                     }
                 }

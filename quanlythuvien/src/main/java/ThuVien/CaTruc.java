@@ -99,7 +99,7 @@ public class CaTruc {
         return Stream.of(instance).map(e -> e == null ? "" : e.toString()).collect(Collectors.joining("|"));
     }
 
-    private CaTrucNgay[] instance = new CaTrucNgay[6];
+    private CaTrucNgay[] instance = new CaTrucNgay[7];
     private static final String[] names = new String[] {
             "Thu 2", "Thu 3", "Thu 4", "Thu 5", "Thu 6", "Thu 7", "Chu Nhat"
     };

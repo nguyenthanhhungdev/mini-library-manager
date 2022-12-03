@@ -10,6 +10,7 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
 
     public Reader(int id, String username) {
         super(id, username);
+        setCard(Card.defaultCard);
     }
 
     protected Reader(int id, String username, ThoiGian registration) {
@@ -92,7 +93,7 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
         String email = inp[7];
         String address = inp[8];
         Card card = Global.cards.getById(Integer.parseInt(inp[9]));
-        Reader toRet = new Reader(id, username, regtime).setCard(card);
+        Reader toRet = new Reader(id, username, regtime).setCard(card == null ? Card.defaultCard : card);
         toRet.setName(name).setBirth(borntime).setPhone(phone).setEmail(email).setAddress(address);
         toRet.changePassword(null, password);
         return toRet;

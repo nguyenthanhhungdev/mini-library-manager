@@ -20,6 +20,7 @@ public class Main {
             case 4 -> LOGGER.setLevel(Level.OFF);
             default -> LOGGER.setLevel(Level.SEVERE);
         }
+        Global.trandan = new Owner();
         load();
         mainMenu();
         return 0;
@@ -37,7 +38,7 @@ public class Main {
             }
             switch (n) {
                 case 5 -> save();
-                default -> loginList[n].login();
+                default -> loginList[n - 1].login();
             }
         }
         return 1;
@@ -45,18 +46,18 @@ public class Main {
 
     public static int load() {
         try {
-            Global.cards = new Cards(PFTrim(new PFFileReader("quanlythuvien", "data", "List_The.csv").read()));
-            Global.authors = new Authors(PFTrim(new PFFileReader("quanlythuvien", "data", "List_TacGia.csv").read()));
-            Global.documents = new Documents(
-                    PFTrim(new PFFileReader("quanlythuvien", "data", "List_TaiLieu.csv").read()));
-            Global.readers = new Readers(PFTrim(new PFFileReader("quanlythuvien", "data", "List_DocGia.csv").read()));
-            Global.cashiers = new Cashiers(
-                    PFTrim(new PFFileReader("quanlythuvien", "data", "List_NhanVien.csv").read()));
-            Global.managers = new Managers(PFTrim(new PFFileReader("quanlythuvien", "data", "List_QuanLi.csv").read()));
+            Global.cards = Cards.fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_The.csv").read()));
+            Global.authors = Authors.fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_TacGia.csv").read()));
+            Global.documents = Documents.fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_TaiLieu.csv").read()));
+            Global.readers = Readers.fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_DocGia.csv").read()));
+            Global.cashiers = Cashiers.fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_NhanVien.csv").read()));
+            Global.managers = Managers.fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_QuanLi.csv").read()));
             LOGGER.info("Loaded without errors");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Load data error", e);
             throw e;
+        } finally {
+            loginList = new ILogin[] { Global.readers, Global.cashiers, Global.managers, Global.trandan };
         }
         return 0;
     }
@@ -86,6 +87,5 @@ public class Main {
         return inp;
     }
 
-    public static final ILogin[] loginList = new ILogin[] { Global.readers, Global.cashiers, Global.managers,
-            Global.trandan };
+    public static ILogin[] loginList;
 }
