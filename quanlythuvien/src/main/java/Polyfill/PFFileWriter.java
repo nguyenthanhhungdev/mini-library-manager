@@ -30,9 +30,14 @@ public class PFFileWriter extends PFFile {
             }
             return true; // success
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, "Error writing " + path, e);
+            LOGGER.log(Level.WARNING, "Error writing " + path.toAbsolutePath(), e);
+        } finally {
+            if (lines.size() > 0) {
+                LOGGER.info(String.format("Wrote %d records, %d columns each", lines.size(), lines.at(0).length));
+            } else {
+                LOGGER.warning("No data");
+            }
         }
-        LOGGER.info(String.format("Wrote %d records, %d columns each", lines.size(), lines.at(0).length));
         return false; // failure
     }
 }

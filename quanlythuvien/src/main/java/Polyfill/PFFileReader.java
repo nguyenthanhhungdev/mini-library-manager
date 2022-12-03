@@ -37,8 +37,13 @@ public class PFFileReader extends PFFile {
             LOGGER.log(Level.WARNING, "Error during read " + path.toAbsolutePath(), e);
         } catch (IOException e) {
             LOGGER.log(Level.WARNING, "Error opening " + path.toAbsolutePath(), e);
+        } finally {
+            if (lines.size() > 0) {
+                LOGGER.info(String.format("Read %d records, %d columns each", lines.size(), lines.at(0).length));
+            } else {
+                LOGGER.warning("No data");
+            }
         }
-        LOGGER.info(String.format("Read %d records, %d columns each", lines.size(), lines.at(0).length));
         return lines;
     }
 }

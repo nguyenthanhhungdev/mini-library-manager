@@ -192,7 +192,11 @@ public class Managers extends Management<Manager> implements ILogin {
     }
 
     public static Managers fromBatchBlob(PFArray<String[]> inp) {
-        LOGGER.info(String.format("Batching %d x %d blob", inp.size(), inp.at(0).length));
+        if (inp.size() < 1) {
+            LOGGER.warning("No entries");
+        } else {
+            LOGGER.info(String.format("Batching %d x %d blob", inp.size(), inp.at(0).length));
+        }
         return new Managers(inp);
     }
 }

@@ -3,6 +3,7 @@ package ThuVien;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import Polyfill.PFArray;
 import Polyfill.PFFileReader;
 import Polyfill.PFFileWriter;
 import Polyfill.StringHelper;
@@ -44,12 +45,24 @@ public class Main {
 
     public static int load() {
         try {
-            Global.cards = new Cards(new PFFileReader("data", "List_The.csv").read());
-            Global.authors = new Authors(new PFFileReader("data", "List_TacGia.csv").read());
-            Global.documents = new Documents(new PFFileReader("data", "List_TaiLieu.csv").read());
-            Global.readers = new Readers(new PFFileReader("data", "List_DocGia.csv").read());
-            Global.cashiers = new Cashiers(new PFFileReader("data", "List_NhanVien.csv").read());
-            Global.managers = new Managers(new PFFileReader("data", "List_QuanLi.csv").read());
+            PFArray<String[]> cards = new PFFileReader("quanlythuvien", "data", "List_The.csv").read();
+            cards.pop_front();
+            Global.cards = new Cards(cards);
+            PFArray<String[]> authors = new PFFileReader("quanlythuvien", "data", "List_TacGia.csv").read();
+            authors.pop_front();
+            Global.authors = new Authors(authors);
+            PFArray<String[]> documents = new PFFileReader("quanlythuvien", "data", "List_TaiLieu.csv").read();
+            documents.pop_front();
+            Global.documents = new Documents(documents);
+            PFArray<String[]> readers = new PFFileReader("quanlythuvien", "data", "List_DocGia.csv").read();
+            readers.pop_front();
+            Global.readers = new Readers(readers);
+            PFArray<String[]> cashiers = new PFFileReader("quanlythuvien", "data", "List_NhanVien.csv").read();
+            cashiers.pop_front();
+            Global.cashiers = new Cashiers(cashiers);
+            PFArray<String[]> managers = new PFFileReader("quanlythuvien", "data", "List_QuanLi.csv").read();
+            managers.pop_front();
+            Global.managers = new Managers(managers);
             LOGGER.info("Loaded without errors");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Load data error", e);
@@ -60,12 +73,12 @@ public class Main {
 
     public static int save() {
         try {
-            new PFFileWriter("data", "List_The.csv").write(Global.cards.toBatchBlob());
-            new PFFileWriter("data", "List_TacGia.csv").write(Global.authors.toBatchBlob());
-            new PFFileWriter("data", "List_TaiLieu.csv").write(Global.documents.toBatchBlob());
-            new PFFileWriter("data", "List_DocGia.csv").write(Global.readers.toBatchBlob());
-            new PFFileWriter("data", "List_NhanVien.csv").write(Global.cashiers.toBatchBlob());
-            new PFFileWriter("data", "List_QuanLi.csv").write(Global.managers.toBatchBlob());
+            new PFFileWriter("quanlythuvien", "data", "List_The_data.csv").write(Global.cards.toBatchBlob());
+            new PFFileWriter("quanlythuvien", "data", "List_TacGia_data.csv").write(Global.authors.toBatchBlob());
+            new PFFileWriter("quanlythuvien", "data", "List_TaiLieu_data.csv").write(Global.documents.toBatchBlob());
+            new PFFileWriter("quanlythuvien", "data", "List_DocGia_data.csv").write(Global.readers.toBatchBlob());
+            new PFFileWriter("quanlythuvien", "data", "List_NhanVien_data.csv").write(Global.cashiers.toBatchBlob());
+            new PFFileWriter("quanlythuvien", "data", "List_QuanLi_data.csv").write(Global.managers.toBatchBlob());
             LOGGER.info("Saved without errors");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Save data error", e);

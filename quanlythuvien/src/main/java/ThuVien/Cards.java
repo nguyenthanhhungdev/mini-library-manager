@@ -22,7 +22,7 @@ public class Cards extends Management<Card> {
     public Cards(PFArray<String[]> blob) {
         this();
         // default card not set
-        if (Integer.parseInt(blob.at(0)[0]) > 0) {
+        if (blob.size() < 1 || Integer.parseInt(blob.at(0)[0]) > 0) {
             instance.push_back(
                     new Card(0, new ThoiGian(LocalDateTime.MIN)).setExpiration(new ThoiGian(LocalDateTime.MAX)));
         }
@@ -154,7 +154,11 @@ public class Cards extends Management<Card> {
     }
 
     public static Cards fromBatchBlob(PFArray<String[]> inp) {
-        LOGGER.info(String.format("Batching %d x %d blob", inp.size(), inp.at(0).length));
+        if (inp.size() < 1) {
+            LOGGER.warning("No entries");
+        } else {
+            LOGGER.info(String.format("Batching %d x %d blob", inp.size(), inp.at(0).length));
+        }
         return new Cards(inp);
     }
 

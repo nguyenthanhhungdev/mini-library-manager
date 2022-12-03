@@ -172,6 +172,15 @@ public class Documents extends Management<Document> {
         return document;
     }
 
+    public static Documents fromBatchBlob(PFArray<String[]> inp) {
+        if (inp.size() < 1) {
+            LOGGER.warning("No entries");
+        } else {
+            LOGGER.info(String.format("Batching %d x %d blob", inp.size(), inp.at(0).length));
+        }
+        return new Documents(inp);
+    }
+
     @Override
     public int[] search() {
         String query = StringHelper.acceptLine("Nhap ten tai lieu");
@@ -188,8 +197,6 @@ public class Documents extends Management<Document> {
             return false;
         }).toArray();
     }
-
-    private PFArray<Document> instance;
 
     public static final class Type {
         public static final int MAGAZINE = 1;

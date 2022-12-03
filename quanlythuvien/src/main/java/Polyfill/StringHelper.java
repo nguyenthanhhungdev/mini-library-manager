@@ -71,20 +71,20 @@ public final class StringHelper {
     }
 
     public static int acceptInput(String... lines) {
-        flushScanner();
-        IntStream.range(0, lines.length).forEach(i -> System.out.println(StringHelper.concater(". ", i, lines[i])));
+        // flushScanner();
+        IntStream.range(0, lines.length).forEach(i -> System.out.println(StringHelper.concater(". ", i + 1, lines[i])));
         int n = acceptKey("Number input");
-            if (n < 1 || n > lines.length) {
-                LOGGER.warning("Key out of range");
-                LOGGER.info("Default key (-1) is used");
-                n = -1;
-            }
+        if (n < 1 || n > lines.length) {
+            LOGGER.warning("Key out of range");
+            LOGGER.info("Default key (-1) is used");
+            n = -1;
+        }
         return n;
     }
 
     public static String acceptLine(String prompt) {
-        flushScanner();
-        System.out.println(prompt + ": ");
+        // flushScanner();
+        System.out.print(prompt + ": ");
         return Global.scanner.nextLine().trim();
     }
 
@@ -98,11 +98,11 @@ public final class StringHelper {
         }
     }
 
-    public static void flushScanner() {
-        while (Global.scanner.hasNextLine()) {
-            Global.scanner.nextLine();
-        }
-    }
+    // public static void flushScanner() {
+    // while (Global.scanner.hasNext()) {
+    // Global.scanner.nextLine();
+    // }
+    // }
 
     public static final Pattern lv1Sep = Pattern.compile(Pattern.quote("|"));
     public static final Pattern lv2Sep = Pattern.compile(Pattern.quote("\\"));
