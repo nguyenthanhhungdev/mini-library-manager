@@ -23,16 +23,16 @@ public class Newspaper extends Document {
     }
 
     public String[] toBlob() {
-        return new String[] { String.valueOf(Documents.Type.MAGAZINE), String.valueOf(getId()), getName(),
+        return new String[] { String.valueOf(Documents.Type.NEWSPAPER), String.valueOf(getId()), getName(),
                 StringHelper.lv1Join((Object) getAuthors()), getEditorial(), getPublication().toString(),
                 String.valueOf(getCopies()), String.valueOf(getBorrowed()) };
     }
 
     public static Newspaper fromBlob(String[] inp) {
         int type = Integer.parseInt(inp[0]);
-        if (type != Documents.Type.MAGAZINE) {
+        if (type != Documents.Type.NEWSPAPER) {
             LOGGER.severe(
-                    String.format("Incorrect Document Blob type, got %d, expected %d", type, Documents.Type.MAGAZINE));
+                    String.format("Incorrect Document Blob type, got %d, expected %d", type, Documents.Type.NEWSPAPER));
             throw new IllegalArgumentException("Incorrect Document type");
         }
         int id = Integer.parseInt(inp[1]);

@@ -1,12 +1,13 @@
 package ThuVien;
 
+import java.time.Duration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import Polyfill.KhoangThoiGian;
 import Polyfill.PFArray;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
-
-import java.time.LocalDateTime;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Cards extends Management<Card> {
     private static final Logger LOGGER = Logger.getLogger(Cards.class.getName());
@@ -21,11 +22,6 @@ public class Cards extends Management<Card> {
 
     public Cards(PFArray<String[]> blob) {
         this();
-        // default card not set
-        if (blob.size() < 1 || Integer.parseInt(blob.at(0)[0]) > 0) {
-            instance.push_back(
-                    new Card(0, new ThoiGian(LocalDateTime.MIN)).setExpiration(new ThoiGian(LocalDateTime.MAX)));
-        }
         blob.stream().forEach(e -> instance.push_back(Card.fromBlob(e)));
         updateCounter();
     }
@@ -40,19 +36,19 @@ public class Cards extends Management<Card> {
         Card card = new Card(genNextId(), ThoiGian.now());
         switch (userInp) {
             case 1 -> {
-                card.setPrice_multiplier(regular);
+                card.setType(Card.regular);
                 card.setExpiration(card.getCreation().modNgay(180));
             }
             case 2 -> {
-                card.setPrice_multiplier(pro);
+                card.setType(Card.pro);
                 card.setExpiration(card.getCreation().modNgay(240));
             }
             case 3 -> {
-                card.setPrice_multiplier(vip);
+                card.setType(Card.vip);
                 card.setExpiration(card.getCreation().modNgay(300));
             }
             case 4 -> {
-                card.setPrice_multiplier(ultimate);
+                card.setType(Card.ultimate);
                 card.setExpiration(card.getCreation().modNgay(365));
             }
         }
@@ -111,27 +107,27 @@ public class Cards extends Management<Card> {
                     System.out.println("Dang thao tac edit the: ");
                     System.out.println(card.toString());
                     System.out.println("Chon thao tac: ");
-                    switch (m = StringHelper.acceptInput("Loai the", "Thoat")) {
+                    switch (m = StringHelper.acceptInput("Doi loai the", "Gia han the")) {
                         case 1 -> {
                             int a = StringHelper.acceptInput("regular", "pro", "vip", "ultimate");
                             switch (a) {
                                 case 1 -> {
-                                    card.setPrice_multiplier(regular);
-                                    card.setExpiration(card.getCreation().modNgay(180));
+                                    card.setType(Card.regular);
                                 }
                                 case 2 -> {
-                                    card.setPrice_multiplier(pro);
-                                    card.setExpiration(card.getCreation().modNgay(240));
+                                    card.setType(Card.pro);
                                 }
                                 case 3 -> {
-                                    card.setPrice_multiplier(vip);
-                                    card.setExpiration(card.getCreation().modNgay(300));
+                                    card.setType(Card.vip);
                                 }
                                 case 4 -> {
-                                    card.setPrice_multiplier(ultimate);
-                                    card.setExpiration(card.getCreation().modNgay(365));
+                                    card.setType(Card.ultimate);
                                 }
                             }
+                        }
+                        case 2 -> {
+                            int days = StringHelper.acceptKey("So ngay gia han");
+                            card.extendExpiration(new KhoangThoiGian(Duration.ofDays(days)));
                         }
                         default -> {
                             m = -1;
@@ -161,9 +157,4 @@ public class Cards extends Management<Card> {
         }
         return new Cards(inp);
     }
-
-    public static final float regular = 1.f;
-    public static final float pro = .9f;
-    public static final float vip = .75f;
-    public static final float ultimate = .5f;
 }

@@ -21,10 +21,10 @@ public class Documents extends Management<Document> {
 
     public Documents(PFArray<String[]> blob) {
         blob.stream().forEach(e -> instance.push_back(switch (Integer.parseInt(e[0])) {
-            case 1 -> Newspaper.fromBlob(e);
-            case 2 -> NativeBook.fromBlob(e);
-            case 3 -> ForeignNontranslatedBook.fromBlob(e);
-            case 4 -> ForeignTranslatedBook.fromBlob(e);
+            case Type.NEWSPAPER -> Newspaper.fromBlob(e);
+            case Type.NATIVE_BOOK -> NativeBook.fromBlob(e);
+            case Type.FOREIGN_NONTRANSLATED_BOOK -> ForeignNontranslatedBook.fromBlob(e);
+            case Type.FOREIGN_TRANSLATED_BOOK -> ForeignTranslatedBook.fromBlob(e);
             default -> {
                 LOGGER.severe(String.format("File read Document Blob type out of range"));
                 yield null;
@@ -74,18 +74,18 @@ public class Documents extends Management<Document> {
         int n = StringHelper.acceptInput("Bao", "Sach trong nuoc",
                 "Sach dich", "Sach chua dich");
         Document toRet = switch (n) {
-            case 1 -> {
+            case Type.NEWSPAPER -> {
                 String editorial = StringHelper.acceptLine("Nhap toa soan");
                 yield new Newspaper(genNextId()).setEditorial(editorial);
             }
-            case 2 -> new NativeBook(genNextId());
-            case 3 -> {
+            case Type.NATIVE_BOOK -> new NativeBook(genNextId());
+            case Type.FOREIGN_TRANSLATED_BOOK -> {
                 Language translatedLanguage = Languages.parseLang(StringHelper.acceptLine("Nhap ngon ngu da dich"));
                 String translator = StringHelper.acceptLine("Nhap ten nguoi dich");
                 yield new ForeignTranslatedBook(genNextId()).setTranslatedLanguage(translatedLanguage)
                         .setTranslator(translator);
             }
-            case 4 -> new ForeignNontranslatedBook(genNextId());
+            case Type.FOREIGN_NONTRANSLATED_BOOK -> new ForeignNontranslatedBook(genNextId());
             default -> {
                 LOGGER.warning("Unexpected input");
                 yield null;
@@ -199,7 +199,7 @@ public class Documents extends Management<Document> {
     }
 
     public static final class Type {
-        public static final int MAGAZINE = 1;
+        public static final int NEWSPAPER = 1;
         public static final int NATIVE_BOOK = 2;
         public static final int FOREIGN_TRANSLATED_BOOK = 3;
         public static final int FOREIGN_NONTRANSLATED_BOOK = 4;

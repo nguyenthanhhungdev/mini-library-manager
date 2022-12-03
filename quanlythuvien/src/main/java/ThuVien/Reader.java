@@ -14,6 +14,7 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
 
     protected Reader(int id, String username, ThoiGian registration) {
         super(id, username, registration);
+        setCard(Card.defaultCard);
     }
 
     public Card getCard() {

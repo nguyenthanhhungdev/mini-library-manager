@@ -45,24 +45,14 @@ public class Main {
 
     public static int load() {
         try {
-            PFArray<String[]> cards = new PFFileReader("quanlythuvien", "data", "List_The.csv").read();
-            cards.pop_front();
-            Global.cards = new Cards(cards);
-            PFArray<String[]> authors = new PFFileReader("quanlythuvien", "data", "List_TacGia.csv").read();
-            authors.pop_front();
-            Global.authors = new Authors(authors);
-            PFArray<String[]> documents = new PFFileReader("quanlythuvien", "data", "List_TaiLieu.csv").read();
-            documents.pop_front();
-            Global.documents = new Documents(documents);
-            PFArray<String[]> readers = new PFFileReader("quanlythuvien", "data", "List_DocGia.csv").read();
-            readers.pop_front();
-            Global.readers = new Readers(readers);
-            PFArray<String[]> cashiers = new PFFileReader("quanlythuvien", "data", "List_NhanVien.csv").read();
-            cashiers.pop_front();
-            Global.cashiers = new Cashiers(cashiers);
-            PFArray<String[]> managers = new PFFileReader("quanlythuvien", "data", "List_QuanLi.csv").read();
-            managers.pop_front();
-            Global.managers = new Managers(managers);
+            Global.cards = new Cards(PFTrim(new PFFileReader("quanlythuvien", "data", "List_The.csv").read()));
+            Global.authors = new Authors(PFTrim(new PFFileReader("quanlythuvien", "data", "List_TacGia.csv").read()));
+            Global.documents = new Documents(
+                    PFTrim(new PFFileReader("quanlythuvien", "data", "List_TaiLieu.csv").read()));
+            Global.readers = new Readers(PFTrim(new PFFileReader("quanlythuvien", "data", "List_DocGia.csv").read()));
+            Global.cashiers = new Cashiers(
+                    PFTrim(new PFFileReader("quanlythuvien", "data", "List_NhanVien.csv").read()));
+            Global.managers = new Managers(PFTrim(new PFFileReader("quanlythuvien", "data", "List_QuanLi.csv").read()));
             LOGGER.info("Loaded without errors");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Load data error", e);
@@ -86,6 +76,14 @@ public class Main {
             return 1;
         }
         return 0;
+    }
+
+    public static PFArray<String[]> PFTrim(PFArray<String[]> inp) {
+        while (StringHelper.isNullOrBlank(inp.back()[0])) {
+            inp.pop_back();
+        }
+        inp.pop_front();
+        return inp;
     }
 
     public static final ILogin[] loginList = new ILogin[] { Global.readers, Global.cashiers, Global.managers,

@@ -1,6 +1,8 @@
 package Polyfill;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class ThoiGian {
@@ -36,7 +38,7 @@ public class ThoiGian {
         if (inp.length() > 10) {
             return new ThoiGian(LocalDateTime.parse(inp, format_full));
         } else {
-            return new ThoiGian(LocalDateTime.parse(inp, format_min));
+            return new ThoiGian(LocalDateTime.of(LocalDate.parse(inp, format_min), LocalTime.of(0, 0, 0)));
         }
     }
 
