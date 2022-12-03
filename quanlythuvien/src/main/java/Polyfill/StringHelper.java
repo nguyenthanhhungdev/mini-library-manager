@@ -3,6 +3,8 @@ package Polyfill;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -18,6 +20,9 @@ public final class StringHelper {
 
     // this project's general single field seperator
     public static String[] lv1Split(String line) {
+        if (isNullOrBlank(line)) {
+            return new String[0];
+        }
         return lv1Sep.split(line);
     }
 
@@ -26,6 +31,9 @@ public final class StringHelper {
     }
 
     public static String[] lv2Split(String line) {
+        if (isNullOrBlank(line)) {
+            return new String[0];
+        }
         return lv2Sep.split(line);
     }
 
@@ -58,15 +66,19 @@ public final class StringHelper {
     // it's kinda weird tho
     public static String concater(String delim, Object... strings) {
         try {
-            return String.join(delim, obj2str(strings));
+            return String.join(delim, vararg2str(strings));
         } catch (NullPointerException e) {
             return "";
         }
     }
 
     // well this one is important
-    public static String[] obj2str(Object... objs) {
+    public static String[] vararg2str(Object... objs) {
         return Stream.of(objs).map(Object::toString).toArray(String[]::new);
+    }
+
+    public static String arr2str(Object[] objs) {
+        return Stream.of(objs).map(Object::toString).collect(Collectors.joining("\n"));
     }
 
     public static String[] pfa2str(PFArray<Object> pfa) {

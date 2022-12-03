@@ -112,7 +112,7 @@ public class PolyfillTest {
 
     @Test
     public void stringhelperTest() {
-        String[] s = StringHelper.obj2str(new ThoiGian(1, 1, 1990), new ThoiGian(1, 1, 2000));
+        String[] s = StringHelper.vararg2str(new ThoiGian(1, 1, 1990), new ThoiGian(1, 1, 2000));
         assertEquals("01/01/1990 00:00:00 01/01/2000 00:00:00", StringHelper.spacer((Object[]) s));
     }
 }

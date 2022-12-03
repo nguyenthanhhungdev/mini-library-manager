@@ -87,8 +87,8 @@ public class HoaDon extends VirtualHoaDon implements IDataProcess<HoaDon> {
 
     public String[] toBlob() {
         return new String[] { String.valueOf(getId()), String.valueOf(getCreator().getId()),
-                StringHelper.lv1Join(getBorrows().stream().map(Document::toBlob).toArray()),
-                StringHelper.lv1Join(getHoldings().stream().map(Document::toBlob).toArray()),
+                StringHelper.lv1Join(getBorrows().stream().map(Document::getId).toArray()),
+                StringHelper.lv1Join(getHoldings().stream().map(Document::getId).toArray()),
                 getDeadline().toString() };
     }
 
@@ -96,12 +96,14 @@ public class HoaDon extends VirtualHoaDon implements IDataProcess<HoaDon> {
         int id = Integer.parseInt(inp[0]);
         Reader creator = Global.readers.getById(Integer.parseInt(inp[1]));
         PFArray<Document> borrows = new PFArray<>();
-        Stream.of(StringHelper.lv1Split(inp[2])).forEach(e -> Global.readers.getById(Integer.parseInt(e)));
-        PFArray<Document> returns = new PFArray<>();
-        Stream.of(StringHelper.lv1Split(inp[3])).forEach(e -> Global.readers.getById(Integer.parseInt(e)));
+        Stream.of(StringHelper.lv1Split(inp[2]))
+                .forEach(e -> borrows.push_back(Global.documents.getById(Integer.parseInt(e))));
+        PFArray<Document> holdings = new PFArray<>();
+        Stream.of(StringHelper.lv1Split(inp[3]))
+                .forEach(e -> holdings.push_back(Global.documents.getById(Integer.parseInt(e))));
         ThoiGian deadline = ThoiGian.parseTG(inp[4]);
         HoaDon toRet = new HoaDon(id, borrows, creator);
-        toRet.setHoldings(returns).setDeadline(deadline);
+        toRet.setHoldings(holdings).setDeadline(deadline);
         return toRet;
     }
 

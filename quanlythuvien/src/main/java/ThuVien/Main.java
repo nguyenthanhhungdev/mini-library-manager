@@ -52,6 +52,7 @@ public class Main {
             Global.readers = Readers.fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_DocGia.csv").read()));
             Global.cashiers = Cashiers.fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_NhanVien.csv").read()));
             Global.managers = Managers.fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_QuanLi.csv").read()));
+            Global.hoadons = HoaDons.fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_HoaDon.csv").read()));
             LOGGER.info("Loaded without errors");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Load data error", e);
@@ -70,6 +71,7 @@ public class Main {
             new PFFileWriter("quanlythuvien", "data", "List_DocGia_data.csv").write(Global.readers.toBatchBlob());
             new PFFileWriter("quanlythuvien", "data", "List_NhanVien_data.csv").write(Global.cashiers.toBatchBlob());
             new PFFileWriter("quanlythuvien", "data", "List_QuanLi_data.csv").write(Global.managers.toBatchBlob());
+            new PFFileWriter("quanlythuvien", "data", "List_HoaDon_data.csv").write(Global.hoadons.toBatchBlob());
             LOGGER.info("Saved without errors");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Save data error", e);

@@ -97,7 +97,7 @@ public abstract class Document extends AnyId implements IDataProcess<Document> {
     public String toString() {
         return StringHelper.liner(super.toString(),
                 StringHelper.itemer("Name", name),
-                StringHelper.itemer("Authors", StringHelper.obj2str((Object) authors)),
+                StringHelper.itemer("Authors", StringHelper.arr2str(authors)),
                 StringHelper.itemer("Publication", publication),
                 StringHelper.itemer("Copies", copies),
                 StringHelper.itemer("Borrowed", borrowed));

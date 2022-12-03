@@ -77,7 +77,7 @@ public class HoaDons extends Management<HoaDon> {
                     int m = 0;
                     if (hd.length > 1) {
                         System.out.println("Chon trong cac hoa don");
-                        if ((m = StringHelper.acceptInput(StringHelper.obj2str((Object) hd))) < 1) {
+                        if ((m = StringHelper.acceptInput(StringHelper.arr2str(hd))) < 1) {
                             throw new IllegalArgumentException("Input error");
                         }
                     }
