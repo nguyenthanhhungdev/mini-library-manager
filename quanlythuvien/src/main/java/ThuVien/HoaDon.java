@@ -41,6 +41,10 @@ public class HoaDon extends VirtualHoaDon implements IDataProcess<HoaDon> {
         return this;
     }
 
+    public double calcBorrowingFee(int ngayTra) {
+        return getBorrows().size() * ngayTra * Global.ratePerDay + Global.ratePerDay;
+    }
+
     public HoaDon edit() {
         if (holdings.size() <= 0) {
             System.out.println("Hoa don nay da ket thuc");

@@ -30,6 +30,10 @@ public class KhoangThoiGian {
         return KhoangThoiGian.between(tg, ThoiGian.now());
     }
 
+    public boolean isNegative() {
+        return instance.isNegative();
+    }
+
     @Override
     public String toString() {
         return Stream.of(formatterList).filter(e -> e.value.get() != 0)

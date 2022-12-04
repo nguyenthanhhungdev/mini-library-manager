@@ -48,6 +48,10 @@ public class Card extends AnyId implements IDataProcess<Card> {
                 String.valueOf(type.code) };
     }
 
+    public float getMultiplier() {
+        return KhoangThoiGian.toNow(expiration).isNegative() ? none.multiplier : type.multiplier;
+    }
+
     public static Card fromBlob(String[] inp) {
         int id = Integer.parseInt(inp[0]);
         ThoiGian creation = ThoiGian.parseTG(inp[1]);
