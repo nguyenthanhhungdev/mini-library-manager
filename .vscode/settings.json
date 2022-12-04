@@ -2,4 +2,5 @@
     "java.configuration.updateBuildConfiguration": "interactive",
     "terminal.explorerKind": "external",
     "java.debug.settings.hotCodeReplace": "manual",
+    "java.debug.settings.showQualifiedNames": false,
 }

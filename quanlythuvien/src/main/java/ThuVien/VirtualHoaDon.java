@@ -36,7 +36,12 @@ public class VirtualHoaDon extends AnyId {
         return StringHelper.liner(super.toString(),
                 StringHelper.itemer("Creator", creator),
                 StringHelper.itemer("Borrows",
-                        borrows.stream().map(Object::toString).collect(Collectors.joining("\n"))));
+                        borrows.stream().map(Document::toString).collect(Collectors.joining("\n"))));
+    }
+
+    public String toStringMinified() {
+        return StringHelper.lv1Join(getId(),
+                borrows.stream().map(e -> String.valueOf(e.getId())).collect(Collectors.joining(", ")));
     }
 
     private Reader creator;

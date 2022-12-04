@@ -2,6 +2,7 @@ package ThuVien;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -15,6 +16,7 @@ public class HoaDon extends VirtualHoaDon implements IDataProcess<HoaDon> {
     public HoaDon(int id, PFArray<Document> borrows, Reader creator) {
         super(id, creator);
         setBorrows(borrows);
+        setHoldings(borrows);
     }
 
     public HoaDon(int id, VirtualHoaDon vhd) {
@@ -34,8 +36,8 @@ public class HoaDon extends VirtualHoaDon implements IDataProcess<HoaDon> {
         return holdings;
     }
 
-    protected HoaDon setHoldings(PFArray<Document> returns) {
-        this.holdings = returns;
+    protected HoaDon setHoldings(PFArray<Document> holdings) {
+        this.holdings = holdings;
         return this;
     }
 
@@ -107,6 +109,19 @@ public class HoaDon extends VirtualHoaDon implements IDataProcess<HoaDon> {
         return toRet;
     }
 
+    public String toString() {
+        return StringHelper.liner(super.toString(),
+                StringHelper.itemer("Holdings",
+                        holdings.stream().map(Document::toString).collect(Collectors.joining("\n"))),
+                StringHelper.itemer("Deadline", deadline));
+    }
+
+    public String toStringMinified() {
+        return StringHelper.lv1Join(getId(),
+                holdings.stream().map(e -> String.valueOf(e.getId())).collect(Collectors.joining(", ")));
+    }
+
     private ThoiGian deadline;
     private PFArray<Document> holdings = new PFArray<>();
+    public static final int blob_column = 5;
 }

@@ -74,4 +74,5 @@ public class Manager extends StaffImpl implements IDataProcess<Manager>, IDashbo
     }
 
     private static final long cashierBonus = 500;
+    public static final int blob_column = 11;
 }

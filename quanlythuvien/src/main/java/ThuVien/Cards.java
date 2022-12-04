@@ -153,7 +153,7 @@ public class Cards extends Management<Card> {
         if (inp.size() < 1) {
             LOGGER.warning("No entries");
         } else {
-            LOGGER.info(String.format("Batching %d x %d blob", inp.size(), inp.at(0).length));
+            LOGGER.info(String.format("Batching %d x %d blob", inp.size(), Card.blob_column));
         }
         return new Cards(inp);
     }

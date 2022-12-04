@@ -55,4 +55,6 @@ public class Author extends People implements IDataProcess<Author> {
 
     private String website;
     private Language language;
+
+    public static final int blob_column = 8; 
 }

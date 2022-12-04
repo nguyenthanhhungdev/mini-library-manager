@@ -57,7 +57,7 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
                         }
                     }
                     System.out.println("Xem lai danh sach chuan bi muon");
-                    System.out.println(vhd.toString());
+                    System.out.println(vhd.toStringMinified());
                     if (StringHelper.acceptInput("Ok", "Bo") == 1) {
                         Global.hoadons.acceptVirtual(vhd);
                         System.out.println("Dem id hoa don ao cho thu ngan de tiep tuc");
@@ -68,7 +68,7 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
                 }
                 case 3 -> {
                     Global.hoadons.instance.stream().filter(e -> e.getCreator().getId() == this.getId())
-                            .forEach(e -> System.out.println(e.toString()));
+                            .forEach(e -> System.out.println(e.toStringMinified()));
                 }
                 case 4 -> {
                     System.out.println("Se dang xuat");
@@ -107,11 +107,13 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
 
     @Override
     public String toString() {
-        return StringHelper.liner(super.toString(),
-                StringHelper.itemer("Username", getUsername()),
-                StringHelper.itemer("Registration date", getRegistration()),
-                StringHelper.itemer("Card", getCard()));
+        return StringHelper.liner(super.toString(), StringHelper.itemer("Card", getCard()));
+    }
+
+    public String toStringMinified() {
+        return StringHelper.lv1Join(getId(), getUsername());
     }
 
     private Card card;
+    public static final int blob_column = 10;
 }

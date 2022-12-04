@@ -21,5 +21,7 @@ public abstract class AnyId implements Comparable<AnyId> {
         return StringHelper.itemer("ID", id);
     }
 
+    public abstract String toStringMinified();
+
     private int id;
 }

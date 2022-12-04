@@ -61,9 +61,11 @@ public class Card extends AnyId implements IDataProcess<Card> {
                 StringHelper.itemer("Type", type.name),
                 StringHelper.itemer("Price multiplier", type.multiplier),
                 StringHelper.itemer("Creation", creation),
-                StringHelper.itemer("Expiration", expiration),
-                StringHelper.itemer("Created", KhoangThoiGian.between(creation, ThoiGian.now())),
-                StringHelper.itemer("Expired", KhoangThoiGian.between(ThoiGian.now(), expiration)));
+                StringHelper.itemer("Expiration", expiration));
+    }
+
+    public String toStringMinified() {
+        return StringHelper.lv1Join(getId(), type.name);
     }
 
     private ThoiGian creation, expiration;
@@ -80,4 +82,5 @@ public class Card extends AnyId implements IDataProcess<Card> {
     private Type type = none;
     public static final Card defaultCard = new Card(0, new ThoiGian(LocalDateTime.MIN))
             .setExpiration(new ThoiGian(LocalDateTime.MAX));
+    public static final int blob_column = 4;
 }

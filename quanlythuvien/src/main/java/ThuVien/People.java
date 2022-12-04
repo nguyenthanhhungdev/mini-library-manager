@@ -69,6 +69,10 @@ public abstract class People extends AnyId {
                 StringHelper.itemer("Born", KhoangThoiGian.between(birth, ThoiGian.now())));
     }
 
+    public String toStringMinified() {
+        return StringHelper.lv1Join(getId(), getName());
+    }
+
     private String name, email, phone, address;
     private ThoiGian birth;
 }

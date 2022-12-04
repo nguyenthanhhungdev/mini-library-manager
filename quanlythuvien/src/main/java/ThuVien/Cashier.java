@@ -157,4 +157,5 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
     private int completionCount = 0;
     // moi hoa don thanh toan dc them 5 tram
     private static final long completionBonus = 500;
+    public static final int blob_column = 12;
 }

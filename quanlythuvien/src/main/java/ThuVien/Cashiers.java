@@ -195,7 +195,7 @@ public class Cashiers extends Management<Cashier> implements ILogin {
         if (inp.size() < 1) {
             LOGGER.warning("No entries");
         } else {
-            LOGGER.info(String.format("Batching %d x %d blob", inp.size(), inp.at(0).length));
+            LOGGER.info(String.format("Batching %d x %d blob", inp.size(), Cashier.blob_column));
         }
         return new Cashiers(inp);
     }

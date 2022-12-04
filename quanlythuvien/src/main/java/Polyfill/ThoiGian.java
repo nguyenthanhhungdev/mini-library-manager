@@ -44,7 +44,7 @@ public class ThoiGian {
 
     @Override
     public String toString() {
-        return instance.format(format_full);
+        return instance.format(format_full) + " (" + KhoangThoiGian.toNow(this) + ")";
     }
 
     public static ThoiGian now() {

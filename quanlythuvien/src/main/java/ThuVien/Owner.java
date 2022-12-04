@@ -79,4 +79,8 @@ public class Owner extends Account implements ILogin, IDashboard {
         System.out.println("Mua lai cua hang gia uu dai ib");
         return 0;
     }
+
+    public String toStringMinified() {
+        return "Ta la admin";
+    }
 }

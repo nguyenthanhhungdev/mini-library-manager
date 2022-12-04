@@ -32,5 +32,9 @@ public class Language extends AnyId {
         return StringHelper.concater("|", code, name, tname);
     }
 
+    public String toStringMinified() {
+        return code;
+    }
+
     private String code, name, tname;
 }

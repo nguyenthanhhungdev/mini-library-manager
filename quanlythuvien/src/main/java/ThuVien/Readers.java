@@ -135,7 +135,7 @@ public class Readers extends Management<Reader> implements ILogin {
             return -1;
         }
         System.out.println("Tim thay doc gia");
-        System.out.println(instance.at(found).toString());
+        System.out.println(instance.at(found).toStringMinified());
         String password = StringHelper.acceptLine("Nhap mat khau");
         if (!instance.at(found).checkPassword(password)) {
             System.out.println("Sai mat khau");
@@ -167,7 +167,7 @@ public class Readers extends Management<Reader> implements ILogin {
         if (inp.size() < 1) {
             LOGGER.warning("No entries");
         } else {
-            LOGGER.info(String.format("Batching %d x %d blob", inp.size(), inp.at(0).length));
+            LOGGER.info(String.format("Batching %d x %d blob", inp.size(), Reader.blob_column));
         }
         return new Readers(inp);
     }

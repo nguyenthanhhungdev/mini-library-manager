@@ -44,4 +44,5 @@ public class ForeignNontranslatedBook extends ForeignBook {
         toRet.setName(name).setAuthors(authors).setPublication(publication).setCopies(copies).setBorrowed(borrowed);
         return toRet;
     }
+    public static final int blob_column = 10;
 }

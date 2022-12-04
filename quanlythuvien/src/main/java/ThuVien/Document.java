@@ -1,6 +1,9 @@
 package ThuVien;
 
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
@@ -103,9 +106,15 @@ public abstract class Document extends AnyId implements IDataProcess<Document> {
                 StringHelper.itemer("Borrowed", borrowed));
     }
 
+    public String toStringMinified() {
+        return StringHelper.concater(" / ", StringHelper.lv1Join(getId(), getName()),
+                Stream.of(getAuthors()).map(Author::toStringMinified).collect(Collectors.joining(", ")));
+    }
+
     private Author[] authors;
     private int copies = 0;
     private int borrowed = 0;
     private ThoiGian publication;
     private String name;
+    public static final int blob_column = 12;
 }

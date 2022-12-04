@@ -31,20 +31,16 @@ public class HoaDons extends Management<HoaDon> {
         if (id == -1) {
             return null;
         }
-        int pos = virtuals.stream().mapToInt(e -> e.getId()).filter(e -> e == id).findAny().orElse(-1);
+        int pos = IntStream.range(0, virtuals.size()).filter(i -> virtuals.at(i).getId() == id).findAny().orElse(-1);
         if (pos == -1) {
             System.out.println("Khong tim thay hoa don ao");
             return null;
         }
         System.out.println("Tim thay hoa don ao");
-        virtuals.at(pos).toString();
+        System.out.println(virtuals.at(pos).toStringMinified());
         HoaDon toAdd = new HoaDon(genNextId(), virtuals.at(pos));
         String ngayTra = StringHelper.acceptLine("Nhap ngay hoan tra (mac dinh 7 ngay)");
-        if (StringHelper.isNullOrBlank(ngayTra)) {
-            toAdd.setDeadline(ThoiGian.now().modNgay(7));
-        } else {
-            toAdd.setDeadline(ThoiGian.parseTG(ngayTra));
-        }
+        toAdd.setDeadline(ThoiGian.now().modNgay(StringHelper.isNullOrBlank(ngayTra) ? 7 : Integer.parseInt(ngayTra)));
         System.out.println("Xac nhan thanh toan:");
         int m = StringHelper.acceptInput("Da thu tien", "Chay tron roi");
         if (m == 1) {
@@ -152,7 +148,7 @@ public class HoaDons extends Management<HoaDon> {
         if (inp.size() < 1) {
             LOGGER.warning("No entries");
         } else {
-            LOGGER.info(String.format("Batching %d x %d blob", inp.size(), inp.at(0).length));
+            LOGGER.info(String.format("Batching %d x %d blob", inp.size(), HoaDon.blob_column));
         }
         return new HoaDons(inp);
     }

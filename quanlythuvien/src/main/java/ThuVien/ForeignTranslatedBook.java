@@ -68,5 +68,6 @@ public class ForeignTranslatedBook extends ForeignBook {
 
     private Language translatedLanguage;
     private String translator;
+    public static final int blob_column = 12;
 
 }

@@ -47,8 +47,7 @@ public abstract class Account extends People {
         return StringHelper.liner(super.toString(),
                 StringHelper.itemer("Username", username),
                 StringHelper.itemer("Password", StringHelper.spacer("[" + password.length(), "character]")),
-                StringHelper.itemer("Registration date", registration),
-                StringHelper.itemer("Registered", KhoangThoiGian.between(registration, ThoiGian.now())));
+                StringHelper.itemer("Registration date", registration));
     }
 
     private final String username;
