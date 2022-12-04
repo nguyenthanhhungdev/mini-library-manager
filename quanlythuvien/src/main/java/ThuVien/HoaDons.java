@@ -157,6 +157,6 @@ public class HoaDons extends Management<HoaDon> {
         return new HoaDons(inp);
     }
 
-    private PFArray<VirtualHoaDon> virtuals;
+    private PFArray<VirtualHoaDon> virtuals = new PFArray<>();
     private int id_virtuals_counter = 0;
 }

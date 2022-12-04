@@ -1,3 +1,5 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "terminal.explorerKind": "external",
+    "java.debug.settings.hotCodeReplace": "manual",
 }

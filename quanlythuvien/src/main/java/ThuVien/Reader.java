@@ -38,7 +38,7 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
             }
             switch (n) {
                 case 1 -> {
-                    VirtualHoaDon vhd = Global.hoadons.createVirtual(null);
+                    VirtualHoaDon vhd = Global.hoadons.createVirtual(this);
                     while (true) {
                         int dn = Integer.parseInt(StringHelper.acceptLine("Nhap id tai lieu"));
                         if (dn == 0) {
@@ -50,7 +50,7 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
                             continue;
                         }
                         System.out.println("Tim thay tai lieu");
-                        Document d = Global.documents.getById(dn);
+                        Document d = Global.documents.instance.at(dn);
                         System.out.println(d.toString());
                         if (!vhd.addBorrows(d)) {
                             System.out.println("Tai lieu khong kha dung cho muon");
