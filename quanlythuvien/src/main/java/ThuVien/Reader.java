@@ -70,7 +70,8 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
                 case 3 -> {
 //                    Global.hoadons.instance.stream().filter(e -> e.getCreator().getId() == this.getId())
 //                            .forEach(e -> System.out.println(e.toStringMinified()));
-                    int index = IntStream.range(0, Global.hoadons.instance.size()).filter(i -> Global.hoadons.instance.at(i).getId() == this.getId()).findAny().orElse(-1);
+                    int index = IntStream.range(0, Global.hoadons.instance.size()).filter(i -> Global.hoadons.instance.at(i).getCreator().getId() ==
+                            this.getId()).findAny().orElse(-1);
                     if (index != -1) {
                         System.out.println(Global.hoadons.instance.at(index).toString());
                     } else {
