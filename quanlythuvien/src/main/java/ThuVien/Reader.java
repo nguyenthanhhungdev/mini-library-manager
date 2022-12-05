@@ -1,6 +1,7 @@
 package ThuVien;
 
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
@@ -67,8 +68,14 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
                     System.out.println("Chua co chuc nang tu tra, hay dem id hoa don len cho thu ngan");
                 }
                 case 3 -> {
-                    Global.hoadons.instance.stream().filter(e -> e.getCreator().getId() == this.getId())
-                            .forEach(e -> System.out.println(e.toStringMinified()));
+//                    Global.hoadons.instance.stream().filter(e -> e.getCreator().getId() == this.getId())
+//                            .forEach(e -> System.out.println(e.toStringMinified()));
+                    int index = IntStream.range(0, Global.hoadons.instance.size()).filter(i -> Global.hoadons.instance.at(i).getId() == this.getId()).findAny().orElse(-1);
+                    if (index != -1) {
+                        System.out.println(Global.hoadons.instance.at(index).toString());
+                    } else {
+                        System.out.println("Khong co hoa don");
+                    }
                 }
                 case 4 -> {
                     System.out.println("Se dang xuat");

@@ -164,14 +164,24 @@ public class Cashiers extends Management<Cashier> implements ILogin {
         }
         System.out.println("Tim thay thu ngan");
         System.out.println(instance.at(found).toString());
-        String password = StringHelper.acceptLine("Nhap mat khau");
-        if (!instance.at(found).checkPassword(password)) {
-            System.out.println("Sai mat khau");
-            return -1;
+        int soLanNhapSai = 0;
+        int toiDa = 5;
+        while (true) {
+            String password = StringHelper.acceptLine("Nhap mat khau");
+            if (!instance.at(found).checkPassword(password)) {
+                System.out.println("Sai mat khau");
+                ++soLanNhapSai;
+                if (soLanNhapSai == toiDa) {
+                    System.out.println("Nhap sai qua nhieu lan");
+                    break;
+                }
+            } else {
+                System.out.println("Mat khau chinh xac");
+                instance.at(found).dashboard();
+                return found;
+            }
         }
-        System.out.println("Mat khau chinh xac");
-        instance.at(found).dashboard();
-        return found;
+        return -1;
     }
 
     @Override
