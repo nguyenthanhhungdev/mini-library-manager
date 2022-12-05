@@ -115,6 +115,12 @@ public final class StringHelper {
         }
     }
 
+    public static void phanCach() {
+        for(int i = 0; i < 30; i++) {
+            System.out.print("=");
+        }
+    }
+
     // public static void flushScanner() {
     // while (Global.scanner.hasNext()) {
     // Global.scanner.nextLine();

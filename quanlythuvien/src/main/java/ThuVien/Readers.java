@@ -81,7 +81,6 @@ public class Readers extends Management<Reader> implements ILogin {
                 System.out.println("Tim kiem that bai, remove doc gia that bai");
             } else {
                 System.out.println("Xac nhan xoa doc gia: ");
-                System.out.println(instance.at(n).toString());
                 int m = StringHelper.acceptInput("Co", "Suy nghi lai");
                 if (m == 1) {
                     reader = instance.erase(n);

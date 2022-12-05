@@ -18,6 +18,8 @@ public class Manager extends StaffImpl implements IDataProcess<Manager>, IDashbo
 
     public int dashboard() {
         while (true) {
+            StringHelper.phanCach();
+            StringHelper.phanCach();
             System.out.println("Dang dang nhap voi tu cach Quan Ly");
             System.out.println(this.toString());
             int n = StringHelper.acceptInput("Thue them nhan vien", "Duoi viec nhan vien", "Chinh sua nhan vien",
