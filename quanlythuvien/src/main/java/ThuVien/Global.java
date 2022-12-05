@@ -20,12 +20,12 @@ public class Global {
 
     public static void identityLookup() {
         System.out.println("Select an identity to lookup:");
-        Management<?> identity = null;
+        Management<?> identity = null;//Khởi tạo indentity
         int[] foundPos = switch (StringHelper.acceptInput("Authors", "Documents", "Readers", "Cashiers", "Managers",
                 "HoaDons")) {
             case 1 -> {
-                identity = authors;
-                yield authors.search();
+                identity = authors;//dùng đa hình (upcasting)
+                yield authors.search();//Trả về mảng vị trí
             }
             case 2 -> {
                 identity = documents;
@@ -49,9 +49,13 @@ public class Global {
             }
             default -> null;
         };
-        if (identity != null) {
-            for (int i : foundPos) {
-                System.out.println(identity.instance.at(i));
+        if (identity != null) {//Nếu indentity đã có tham chiếu đối tượng
+            if (foundPos.length == 0) {
+                System.out.println("Khong tim thay");
+            } else {
+                for (int i : foundPos) {
+                    System.out.println(identity.instance.at(i));//In ra tối tượng mà indenity đã tham chiếu tới, dựa vào vị trí đã tìm được
+                }
             }
         }
     }
