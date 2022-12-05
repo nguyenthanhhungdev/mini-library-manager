@@ -84,7 +84,7 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
             System.out.println("Dang nhap voi tu canh Thu Ngan");
             System.out.println(this.toString());
             System.out.println("Thao tac voi: ");
-            int n = StringHelper.acceptInput("Doc gia", "Tac gia", "Tai lieu", "Cho muon sach", "Nhan tra sach", "Lap the",
+            int n = StringHelper.acceptInput("Doc gia", "Tac gia", "Tai lieu", "Cho muon sach", "Nhan tra sach",
                     "Dang xuat", "Tim kiem");
             if (n <= 0) {
                 System.out.println("Unexpected input");
@@ -111,13 +111,10 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
                     }
                 }
                 case 6 -> {
-
-                }
-                case 7 -> {
                     System.out.println("Se dang xuat");
                     return 0;
                 }
-                case 8 -> {
+                case 7 -> {
                     Global.identityLookup();
                 }
             }
