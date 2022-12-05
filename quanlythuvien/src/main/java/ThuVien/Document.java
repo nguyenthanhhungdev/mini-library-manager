@@ -100,9 +100,10 @@ public abstract class Document extends AnyId implements IDataProcess<Document> {
     public String toString() {
         return StringHelper.liner(super.toString(),
                 StringHelper.itemer("Name", name),
-                StringHelper.itemer("Authors", StringHelper.arr2str(authors)),
+                StringHelper.itemer("Authors",
+                        StringHelper.arr2str(Stream.of(authors).map(Author::toStringMinified).toArray())),
                 StringHelper.itemer("Publication", publication.toScreen()),
-                StringHelper.itemer("Copies", StringHelper.concater(" / ", borrowed, copies)));
+                StringHelper.itemer("Copies", StringHelper.concater(" / ", copies - borrowed, copies)));
     }
 
     public String toStringMinified() {
