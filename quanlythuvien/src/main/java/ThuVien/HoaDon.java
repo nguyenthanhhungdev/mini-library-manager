@@ -117,7 +117,7 @@ public class HoaDon extends VirtualHoaDon implements IDataProcess<HoaDon> {
         return StringHelper.liner(super.toString(),
                 StringHelper.itemer("Holdings",
                         holdings.stream().map(Document::toString).collect(Collectors.joining("\n"))),
-                StringHelper.itemer("Deadline", deadline));
+                StringHelper.itemer("Deadline", deadline.toScreen()));
     }
 
     public String toStringMinified() {

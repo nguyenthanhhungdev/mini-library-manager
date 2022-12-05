@@ -20,13 +20,39 @@ public class Global {
 
     public static void identityLookup() {
         System.out.println("Select an identity to lookup:");
-        switch (StringHelper.acceptInput("Authors", "Documents", "Readers", "Cashiers", "Managers", "HoaDons")) {
-            case 1 -> authors.search();
-            case 2 -> documents.search();
-            case 3 -> readers.search();
-            case 4 -> cashiers.search();
-            case 5 -> managers.search();
-            case 6 -> hoadons.search();
+        Management<?> identity = null;
+        int[] foundPos = switch (StringHelper.acceptInput("Authors", "Documents", "Readers", "Cashiers", "Managers",
+                "HoaDons")) {
+            case 1 -> {
+                identity = authors;
+                yield authors.search();
+            }
+            case 2 -> {
+                identity = documents;
+                yield documents.search();
+            }
+            case 3 -> {
+                identity = readers;
+                yield readers.search();
+            }
+            case 4 -> {
+                identity = cashiers;
+                yield cashiers.search();
+            }
+            case 5 -> {
+                identity = managers;
+                yield managers.search();
+            }
+            case 6 -> {
+                identity = hoadons;
+                yield hoadons.search();
+            }
+            default -> null;
+        };
+        if (identity != null) {
+            for (int i : foundPos) {
+                System.out.println(identity.instance.at(i));
+            }
         }
     }
 }

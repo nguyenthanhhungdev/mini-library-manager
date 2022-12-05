@@ -24,7 +24,7 @@ public class Newspaper extends Document {
 
     public String[] toBlob() {
         return new String[] { String.valueOf(Documents.Type.NEWSPAPER), String.valueOf(getId()), getName(),
-                StringHelper.lv1Join((Object) getAuthors()), getEditorial(), getPublication().toString(),
+                StringHelper.lv1Join(Stream.of(getAuthors()).map(Author::getId).toArray()), getEditorial(), getPublication().toString(),
                 String.valueOf(getCopies()), String.valueOf(getBorrowed()) };
     }
 

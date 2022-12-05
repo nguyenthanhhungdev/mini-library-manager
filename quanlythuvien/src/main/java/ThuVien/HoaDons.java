@@ -43,11 +43,11 @@ public class HoaDons extends Management<HoaDon> {
             HoaDon toAdd = new HoaDon(genNextId(), virtuals.at(pos));
             String ngayTraStr = StringHelper.acceptLine("Nhap ngay hoan tra (mac dinh 7 ngay)");
             int ngayTra = StringHelper.isNullOrBlank(ngayTraStr) ? 7 : Integer.parseInt(ngayTraStr);
-            // toAdd.setDeadline(ThoiGian.now().modNgay(ngayTra));
             System.out.println(StringHelper.itemer("Thong bao le phi", toAdd.calcBorrowingFee(ngayTra)));
             System.out.println("Xac nhan thanh toan:");
             int m = StringHelper.acceptInput("Da thu tien", "Chay tron roi");
             if (m == 1) {
+                toAdd.setDeadline(ThoiGian.now().modNgay(ngayTra));
                 instance.push_back(toAdd);
                 virtuals.erase(pos);
                 System.out.println("Thanh toan da xac nhan");

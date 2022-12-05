@@ -64,8 +64,8 @@ public class Card extends AnyId implements IDataProcess<Card> {
         return StringHelper.liner(super.toString(),
                 StringHelper.itemer("Type", type.name),
                 StringHelper.itemer("Price multiplier", type.multiplier),
-                StringHelper.itemer("Creation", creation),
-                StringHelper.itemer("Expiration", expiration));
+                StringHelper.itemer("Creation", creation.toScreen()),
+                StringHelper.itemer("Expiration", expiration.toScreen()));
     }
 
     public String toStringMinified() {

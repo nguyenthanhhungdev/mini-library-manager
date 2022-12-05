@@ -36,8 +36,8 @@ public final class StringHelper {
         return lv2Sep.split(line);
     }
 
-    public static String lv2Join(Object... words) {
-        return concater("\\", words);
+    public static String lv2Join(String[] words) {
+        return String.join("\\", words);
     }
 
     public static String[] splitThenTrim(String sep, String line) {
@@ -65,6 +65,9 @@ public final class StringHelper {
     // it's kinda weird tho
     public static String concater(String delim, Object... strings) {
         try {
+            if (strings instanceof String[]) {
+                return String.join(delim, (String[]) strings);
+            }
             return String.join(delim, vararg2str(strings));
         } catch (NullPointerException e) {
             return "";

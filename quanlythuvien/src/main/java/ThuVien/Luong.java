@@ -59,7 +59,7 @@ public class Luong {
         return StringHelper.liner(StringHelper.itemer("Hien tai", hienTai),
                 StringHelper.itemer("Tuong lai", tuongLai),
                 StringHelper.itemer("Tong da tra", tongDaTra),
-                StringHelper.itemer("Cap nhat", modified));
+                StringHelper.itemer("Cap nhat", modified.toScreen()));
     }
 
     @Override
