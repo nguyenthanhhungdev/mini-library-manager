@@ -163,7 +163,7 @@ public class Cashiers extends Management<Cashier> implements ILogin {
             return -1;
         }
         System.out.println("Tim thay thu ngan");
-        System.out.println(instance.at(found).toString());
+        System.out.println(instance.at(found).toStringMinified());
         int soLanNhapSai = 0;
         int toiDa = 5;
         while (true) {

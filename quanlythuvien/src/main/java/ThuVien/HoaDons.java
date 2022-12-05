@@ -72,30 +72,38 @@ public class HoaDons extends Management<HoaDon> {
         HoaDon toEdit = null;
         try {
             int[] pos = search();
-            HoaDon[] found = IntStream.of(pos).mapToObj(i -> instance.at(i)).toArray(HoaDon[]::new);
-            int selectedPos = 1;
-            if (found.length > 1) {
-                System.out.println("Chon trong cac hoa don");
-                selectedPos = StringHelper.acceptInput(StringHelper.arr2str(found));
+            if (pos.length == 0) {
+                System.out.println("Khong co hoa don");
             }
-            System.out.println("Dang thuc hien edit hoa don");
-            System.out.println(found[selectedPos - 1].toString());
-            toEdit = found[selectedPos - 1].edit();
+            else {
+                HoaDon[] found = IntStream.of(pos).mapToObj(i -> instance.at(i)).toArray(HoaDon[]::new);
+                int selectedPos = 1;
+                if (found.length > 1) {
+                    System.out.println("Chon trong cac hoa don");
+                    selectedPos = StringHelper.acceptInput(StringHelper.arr2str(found));
+                }
+                System.out.println("Dang thuc hien edit hoa don");
+                System.out.println(found[selectedPos - 1].toString());
+                toEdit = found[selectedPos - 1].edit();
+            }
         } catch (RuntimeException e) {
             LOGGER.log(Level.WARNING, "Likely input parse error in HoaDons::edit", e);
             LOGGER.info("The editing operation is cancelled");
         }
         return toEdit;
+
     }
 
     public int[] search() {
         try {
+            int index;
             int id;
             switch (StringHelper.acceptInput("ID doc gia", "ID hoa don")) {
                 case 1 -> {
-                    id = Global.readers.promptSearch();
+                    index = Global.readers.promptSearch();//Tìm kiếm độc giả
+                    id = Global.readers.instance.at(index).getId();
                     return IntStream.range(0, instance.size()).filter(i -> instance.at(i).getCreator().getId() == id)
-                            .toArray();
+                            .toArray();//Mỗi độc giả có nhiều hóa đơn
                 }
                 case 2 -> {
                     id = Integer.parseInt(StringHelper.acceptLine("Nhap ID hoa don"));
