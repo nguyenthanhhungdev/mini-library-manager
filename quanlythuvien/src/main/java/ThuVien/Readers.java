@@ -35,13 +35,16 @@ public class Readers extends Management<Reader> implements ILogin {
             String email = StringHelper.acceptLine("Email");
             String address = StringHelper.acceptLine("Dia chi");
             Reader toAdd = new Reader(genNextId(), username);
+            Card card = Global.cards.add();
             toAdd.changePassword(null, password);
             toAdd.setName(name);
             toAdd.setBirth(birth);
             toAdd.setPhone(phone);
             toAdd.setEmail(email);
             toAdd.setAddress(address);
+            toAdd.setCard(card);
             instance.push_back(toAdd);
+            StringHelper.liner("Da them thanh cong doc gia", toAdd.toString());
             return toAdd;
         } catch (RuntimeException e) {
             LOGGER.log(Level.WARNING, "Likely input parse error in Managers::add", e);
