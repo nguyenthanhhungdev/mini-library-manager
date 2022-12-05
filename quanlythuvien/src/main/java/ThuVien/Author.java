@@ -48,7 +48,7 @@ public class Author extends People implements IDataProcess<Author> {
 
     @Override
     public String toString() {
-        return StringHelper.liner(super.toString(),
+        return StringHelper.phanCach() + StringHelper.liner(super.toString(),
                 StringHelper.itemer("Language", language),
                 StringHelper.itemer("Website", website));
     }

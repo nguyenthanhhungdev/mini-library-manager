@@ -115,10 +115,13 @@ public final class StringHelper {
         }
     }
 
-    public static void phanCach() {
-        for(int i = 0; i < 30; i++) {
-            System.out.print("=");
+    public static String phanCach() {
+        String s = "";
+        for(int i = 0; i < 100; i++) {
+            s += "=";
         }
+        if (s != "") s += "\n";
+        return s;
     }
 
     // public static void flushScanner() {

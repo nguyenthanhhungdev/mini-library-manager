@@ -14,7 +14,7 @@ public class Owner extends Account implements ILogin, IDashboard {
 
     public int dashboard() {
         while (true) {
-            StringHelper.phanCach();
+            System.out.println(StringHelper.phanCach());
             System.out.println("Dang dang nhap voi tu cach CEO");
             System.out.println(this.toString());
             int n = StringHelper.acceptInput("Thue them quan ly", "Duoi viec quan ly", "Chinh sua nhan vien",

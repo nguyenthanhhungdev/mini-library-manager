@@ -3,6 +3,8 @@ package ThuVien;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
+import java.util.Arrays;
+
 public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashboard {
     public Cashier(int id, String username) {
         super(id, username);
@@ -35,7 +37,8 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
     }
 
     private void menuDocGia() {
-        int choice = StringHelper.acceptInput("Them doc gia", "Xoa doc gia thanh vien", "Chinh sua doc gia");
+        System.out.println(StringHelper.phanCach());
+        int choice = StringHelper.acceptInput("Them doc gia", "Xoa doc gia thanh vien", "Chinh sua doc gia", "Xuat danh sach");
         switch (choice) {
             case 1 -> {
                 Global.readers.add();
@@ -46,11 +49,15 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
             case 3 -> {
                 Global.readers.edit();
             }
+            case 4 -> {
+                Global.readers.instance.stream().map(a -> a.toString()).forEach(System.out::println);
+            }
         }
     }
 
     private void menuTacGia() {
-        int choice = StringHelper.acceptInput("Them tac gia", "Xoa tac gia", "Chinh sua tac gia");
+        System.out.println(StringHelper.phanCach());
+        int choice = StringHelper.acceptInput("Them tac gia", "Xoa tac gia", "Chinh sua tac gia", "Xuat danh sach");
         switch (choice) {
             case 1 -> {
                 Global.authors.add();
@@ -61,11 +68,15 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
             case 3 -> {
                 Global.authors.edit();
             }
+            case 4 -> {
+                Global.authors.instance.stream().map(a -> a.toString()).forEach(System.out::println);
+            }
         }
     }
 
     private void menuTaiLieu() {
-        int choice = StringHelper.acceptInput("Them tai lieu", "Xoa tai lieu", "Sua tai lieu");
+        System.out.println(StringHelper.phanCach());
+        int choice = StringHelper.acceptInput("Them tai lieu", "Xoa tai lieu", "Sua tai lieu", "Xuat danh sach");
         switch (choice) {
             case 1 -> {
                 Global.documents.add();
@@ -76,14 +87,27 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
             case 3 -> {
                 Global.documents.edit();
             }
+            case 4 -> {
+                Global.documents.instance.stream().map(a -> a.toString()).forEach(System.out::println);
+            }
+        }
+    }
+
+    private void menuHoaDon() {
+        int choice = StringHelper.acceptInput("Xuat danh sach");
+        switch (choice) {
+            case 1 -> {
+                Global.hoadons.instance.stream().map(e -> e.toString()).forEach(System.out::println);
+            }
         }
     }
 
     public int dashboard() {
         while (true) {
-            StringHelper.phanCach();
+            System.out.println(StringHelper.phanCach());
             System.out.println("Dang nhap voi tu canh Thu Ngan");
             System.out.println(this.toString());
+            System.out.println(StringHelper.phanCach());
             System.out.println("Thao tac voi: ");
             int n = StringHelper.acceptInput("Doc gia", "Tac gia", "Tai lieu", "Cho muon sach", "Nhan tra sach",
                     "Dang xuat", "Tim kiem");
@@ -151,7 +175,7 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
     }
 
     public String toString() {
-        return StringHelper.liner(super.toString(),
+        return StringHelper.phanCach() + StringHelper.liner(super.toString(),
                 StringHelper.itemer("Completition count", getCompletionCount()));
     }
 

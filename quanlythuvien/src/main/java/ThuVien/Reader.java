@@ -30,7 +30,7 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
 
     public int dashboard() {
         while (true) {
-            StringHelper.phanCach();
+            System.out.println(StringHelper.phanCach());
             System.out.println("Dang dang nhap voi tu cach Doc Gia");
             System.out.println(this.toString());
             int n = StringHelper.acceptInput("Muon", "Tra", "Xem hoa don", "Dang xuat", "Tim kiem");
@@ -116,7 +116,7 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
 
     @Override
     public String toString() {
-        return StringHelper.liner(super.toString(), StringHelper.itemer("Card", getCard()));
+        return StringHelper.phanCach() + StringHelper.liner(super.toString(), StringHelper.itemer("Card", getCard()));
     }
 
     public String toStringMinified() {

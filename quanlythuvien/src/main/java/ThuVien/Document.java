@@ -98,7 +98,7 @@ public abstract class Document extends AnyId implements IDataProcess<Document> {
 
     @Override
     public String toString() {
-        return StringHelper.liner(super.toString(),
+        return StringHelper.phanCach() + StringHelper.liner(super.toString(),
                 StringHelper.itemer("Name", name),
                 StringHelper.itemer("Authors",
                         StringHelper.arr2str(Stream.of(authors).map(Author::toStringMinified).toArray())),

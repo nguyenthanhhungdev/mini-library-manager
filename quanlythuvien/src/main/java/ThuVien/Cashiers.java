@@ -162,8 +162,10 @@ public class Cashiers extends Management<Cashier> implements ILogin {
             System.out.println("Khong tim thay ten dang nhap (thu ngan)");
             return -1;
         }
+        System.out.println(StringHelper.phanCach());
         System.out.println("Tim thay thu ngan");
         System.out.println(instance.at(found).toStringMinified());
+        System.out.println(StringHelper.phanCach());
         int soLanNhapSai = 0;
         int toiDa = 5;
         while (true) {
@@ -177,6 +179,7 @@ public class Cashiers extends Management<Cashier> implements ILogin {
                 }
             } else {
                 System.out.println("Mat khau chinh xac");
+                System.out.println(StringHelper.phanCach());
                 instance.at(found).dashboard();
                 return found;
             }
