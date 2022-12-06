@@ -58,7 +58,7 @@ public class HoaDon extends VirtualHoaDon implements IDataProcess<HoaDon> {
                     String input = Global.scanner.nextLine().trim().toLowerCase();
                     if (input.equals("all")) {
                         holdings.stream().forEach(e -> e.returns());
-                        holdings.clear();
+                        holdings.clear();//Dọn sạch danh sách tài liệu đang giữ
                         System.out.println("Da tra het tai lieu");
                     } else {
                         Document d = holdings.erase(Integer.parseInt(StringHelper.acceptLine("Nhap stt tai lieu tra")));
@@ -87,6 +87,13 @@ public class HoaDon extends VirtualHoaDon implements IDataProcess<HoaDon> {
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Input error", e);
             throw e;
+        }
+        if (holdings.size() == 0) {
+            StringHelper.itemer("Da xoa tai lieu", this.toStringMinified());
+            int pos = IntStream.range(0, Global.hoadons.instance.size()).filter(e -> Global.hoadons.instance.at(e).getId() == this.getId()).findAny().orElse(-1);
+            if (pos != -1) {
+                Global.hoadons.instance.erase(pos);
+            }
         }
         return this;
     }
