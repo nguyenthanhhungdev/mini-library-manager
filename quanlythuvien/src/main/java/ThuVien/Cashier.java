@@ -4,6 +4,7 @@ import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashboard {
     public Cashier(int id, String username) {
@@ -94,10 +95,23 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
     }
 
     private void menuHoaDon() {
-        int choice = StringHelper.acceptInput("Xuat danh sach");
+        int choice = StringHelper.acceptInput("Xuat danh sach", "Danh sach hoa don chưa tra");
         switch (choice) {
             case 1 -> {
                 Global.hoadons.instance.stream().map(e -> e.toString()).forEach(System.out::println);
+            }
+            case 2 -> {
+                int pos[] = IntStream.range(0, Global.hoadons.instance.size()).filter(e -> {
+                    if (Global.hoadons.instance.at(e).getDeadline().compareTo(ThoiGian.now()) < 0) {
+                        System.out.println(Global.hoadons.instance.at(e).toString());
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }).toArray();
+                if (pos.length == 0) {
+                    System.out.println("Khong co hoa don qua han");
+                }
             }
         }
     }
@@ -109,7 +123,7 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
             System.out.println(this.toString());
             System.out.println(StringHelper.phanCach());
             System.out.println("Thao tac voi: ");
-            int n = StringHelper.acceptInput("Doc gia", "Tac gia", "Tai lieu", "Cho muon sach", "Nhan tra sach",
+            int n = StringHelper.acceptInput("Doc gia", "Tac gia", "Hoa don", "Tai lieu", "Cho muon sach", "Nhan tra sach",
                     "Dang xuat", "Tim kiem");
             if (n <= 0) {
                 System.out.println("Unexpected input");
@@ -117,29 +131,40 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
             }
             switch (n) {
                 case 1 -> {
+                    System.out.println(StringHelper.phanCach());
                     menuDocGia();
                 }
                 case 2 -> {
+                    System.out.println(StringHelper.phanCach());
                     menuTacGia();
                 }
                 case 3 -> {
-                    menuTaiLieu();
+                    System.out.println(StringHelper.phanCach());
+                    menuHoaDon();
                 }
                 case 4 -> {
+                    System.out.println(StringHelper.phanCach());
+                    menuTaiLieu();
+                }
+                case 5 -> {
+                    System.out.println(StringHelper.phanCach());
                     if (Global.hoadons.add() != null) {
                         cashDone();
                     }
                 }
-                case 5 -> {
+                case 6 -> {
+                    System.out.println(StringHelper.phanCach());
                     if (Global.hoadons.edit() != null) {
-                        cashDone();
+                        System.out.println("Da hoan thanh hoa don");
                     }
                 }
-                case 6 -> {
+                case 7 -> {
+                    System.out.println(StringHelper.phanCach());
                     System.out.println("Se dang xuat");
                     return 0;
                 }
-                case 7 -> {
+                case 8 -> {
+                    System.out.println(StringHelper.phanCach());
                     Global.identityLookup();
                 }
             }
@@ -169,9 +194,9 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
     }
 
     public String[] toBlob() {
-        return new String[] { String.valueOf(getId()), getUsername(), getPassword(), getName(),
+        return new String[]{String.valueOf(getId()), getUsername(), getPassword(), getName(),
                 getRegistration().toString(), getBirth().toString(), getPhone(), getEmail(), getAddress(),
-                getTruc().toString(), getLuong().toString(), String.valueOf(getCompletionCount()) };
+                getTruc().toString(), getLuong().toString(), String.valueOf(getCompletionCount())};
     }
 
     public String toString() {
