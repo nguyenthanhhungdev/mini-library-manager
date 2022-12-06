@@ -136,8 +136,10 @@ public class Readers extends Management<Reader> implements ILogin {
             System.out.println("Khong tim thay ten dang nhap (docgia)");
             return -1;
         }
+        System.out.println(StringHelper.phanCach());
         System.out.println("Tim thay doc gia");
         System.out.println(instance.at(found).toStringMinified());
+        System.out.println(StringHelper.phanCach());
         int soLanNhapSai = 0;
         int toiDa = 5;
         while (true) {

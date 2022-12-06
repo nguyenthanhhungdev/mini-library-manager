@@ -33,6 +33,7 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
             System.out.println(StringHelper.phanCach());
             System.out.println("Dang dang nhap voi tu cach Doc Gia");
             System.out.println(this.toString());
+            System.out.println(StringHelper.phanCach());
             int n = StringHelper.acceptInput("Muon", "Tra", "Xem hoa don", "Dang xuat", "Tim kiem");
             if (n <= 0) {
                 LOGGER.warning("Unexpected input");
@@ -42,8 +43,10 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
                 case 1 -> {
                     VirtualHoaDon vhd = Global.hoadons.createVirtual(this);
                     while (true) {
+                        System.out.println(StringHelper.phanCach());
                         int dn = Integer.parseInt(StringHelper.acceptLine("Nhap id tai lieu"));
                         if (dn == 0) {
+                            System.out.println("Dung muon tai lieu ");
                             break;
                         }
                         dn = Global.documents.search(dn);
@@ -51,13 +54,19 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
                             System.out.println("Khong tim thay tai lieu");
                             continue;
                         }
+                        System.out.println(StringHelper.phanCach());
                         System.out.println("Tim thay tai lieu");
                         Document d = Global.documents.instance.at(dn);
                         System.out.println(d.toString());
+                        System.out.println(StringHelper.phanCach());
                         if (!vhd.addBorrows(d)) {
                             System.out.println("Tai lieu khong kha dung cho muon");
                         }
+                        if (StringHelper.acceptInput("Tiep tuc muon", "Dung lai") == 2) {
+                            break;
+                        }
                     }
+                    System.out.println(StringHelper.phanCach());
                     System.out.println("Xem lai danh sach chuan bi muon");
                     System.out.println(vhd.toStringMinified());
                     if (StringHelper.acceptInput("Ok", "Bo") == 1) {
@@ -66,9 +75,11 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
                     }
                 }
                 case 2 -> {
+                    System.out.println(StringHelper.phanCach());
                     System.out.println("Chua co chuc nang tu tra, hay dem id hoa don len cho thu ngan");
                 }
                 case 3 -> {
+                    System.out.println(StringHelper.phanCach());
 //                    Global.hoadons.instance.stream().filter(e -> e.getCreator().getId() == this.getId())
 //                            .forEach(e -> System.out.println(e.toStringMinified()));
                     int index = IntStream.range(0, Global.hoadons.instance.size()).filter(i -> Global.hoadons.instance.at(i).getCreator().getId() ==
@@ -80,10 +91,12 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
                     }
                 }
                 case 4 -> {
+                    System.out.println(StringHelper.phanCach());
                     System.out.println("Se dang xuat");
                     return 0;
                 }
                 case 5 -> {
+                    System.out.println(StringHelper.phanCach());
                     Global.identityLookup();
                 }
             }
