@@ -1,6 +1,7 @@
 package ThuVien;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,7 +29,7 @@ public class Cards extends Management<Card> {
 
     @Override
     public Card add() {
-        int userInp = StringHelper.acceptInput("regular", "pro", "vip", "ultimate");
+        int userInp = StringHelper.acceptInput("regular", "pro", "vip", "ultimate", "none");
         if (userInp <= 0) {
             LOGGER.warning("Unexpected input");
             return null;
@@ -51,11 +52,15 @@ public class Cards extends Management<Card> {
                 card.setType(Card.ultimate);
                 card.setExpiration(card.getCreation().modNgay(365));
             }
+            case 5 -> {
+                card.setType(Card.none);
+                card.setExpiration(new ThoiGian(LocalDateTime.MAX));
+            }
         }
         return card;
     }
 
-    private int promptSearch() {
+    public int promptSearch() {
         int n = search(Integer.parseInt(StringHelper.acceptLine("Nhap ma the: ")));
         if (n == -1) {
             System.out.println("Tim kiem khong co ket qua: ");
