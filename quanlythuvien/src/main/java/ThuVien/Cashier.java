@@ -39,7 +39,9 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
 
     private void menuDocGia() {
         System.out.println(StringHelper.phanCach());
-        int choice = StringHelper.acceptInput("Them doc gia", "Xoa doc gia thanh vien", "Chinh sua doc gia", "Xuat danh sach");
+        int choice = StringHelper.acceptInput("Them doc gia", "Xoa doc gia thanh vien", "Chinh sua doc gia",
+                "Xuat danh sach", "Xem doc gia het han", "Gia han thanh vien cho doc gia");
+        System.out.println(StringHelper.phanCach());
         switch (choice) {
             case 1 -> {
                 Global.readers.add();
@@ -53,12 +55,21 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
             case 4 -> {
                 Global.readers.instance.stream().map(a -> a.toString()).forEach(System.out::println);
             }
+            case 5 -> {
+                Global.readers.instance.stream().filter(e -> e.getCard().getExpiration().compareTo(ThoiGian.now()) < 0)
+                        .map(e -> e.toStringMinified()).forEach(System.out::println);
+            }
+//            case 6 -> {
+//                int pos = Global.readers.promptSearch();
+//                Global.readers.instance.at(pos).getCard()
+//            }
         }
     }
 
     private void menuTacGia() {
         System.out.println(StringHelper.phanCach());
         int choice = StringHelper.acceptInput("Them tac gia", "Xoa tac gia", "Chinh sua tac gia", "Xuat danh sach");
+        System.out.println(StringHelper.phanCach());
         switch (choice) {
             case 1 -> {
                 Global.authors.add();
@@ -78,6 +89,7 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
     private void menuTaiLieu() {
         System.out.println(StringHelper.phanCach());
         int choice = StringHelper.acceptInput("Them tai lieu", "Xoa tai lieu", "Sua tai lieu", "Xuat danh sach");
+        System.out.println(StringHelper.phanCach());
         switch (choice) {
             case 1 -> {
                 Global.documents.add();
@@ -95,7 +107,9 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
     }
 
     private void menuHoaDon() {
+        System.out.println(StringHelper.phanCach());
         int choice = StringHelper.acceptInput("Xuat danh sach", "Danh sach hoa don chưa tra");
+        System.out.println(StringHelper.phanCach());
         switch (choice) {
             case 1 -> {
                 Global.hoadons.instance.stream().map(e -> e.toString()).forEach(System.out::println);

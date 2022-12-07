@@ -21,12 +21,14 @@ public class Manager extends StaffImpl implements IDataProcess<Manager>, IDashbo
             System.out.println(StringHelper.phanCach());
             System.out.println("Dang dang nhap voi tu cach Quan Ly");
             System.out.println(this.toString());
+            System.out.println(StringHelper.phanCach());
             int n = StringHelper.acceptInput("Thue them nhan vien", "Duoi viec nhan vien", "Chinh sua nhan vien",
                     "Dang xuat", "Tim kiem");
             if (n <= 0) {
                 System.out.println("Unexpected input");
                 break;
             }
+            System.out.println(StringHelper.phanCach());
             switch (n) {
                 case 1 -> {
                     Global.cashiers.add();

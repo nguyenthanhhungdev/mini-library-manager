@@ -155,6 +155,7 @@ public class Managers extends Management<Manager> implements ILogin {
     }
 
     public int login() {
+        System.out.println(StringHelper.phanCach());
         String username = StringHelper.acceptLine("Nhap ten tai khoan (quan ly)");
         int found = IntStream.range(0, instance.size())
                 .filter(e -> username.equalsIgnoreCase(instance.at(e).getUsername())).findAny().orElse(-1);
@@ -163,10 +164,12 @@ public class Managers extends Management<Manager> implements ILogin {
             return -1;
         }
         System.out.println("Tim thay quan ly");
-        System.out.println(instance.at(found).toString());
+        System.out.println(StringHelper.phanCach());
+        System.out.println(instance.at(found).toStringMinified());
         int soLanNhapSai = 0;
         int toiDa = 5;
         while (true) {
+            System.out.println(StringHelper.phanCach());
             String password = StringHelper.acceptLine("Nhap mat khau");
             if (!instance.at(found).checkPassword(password)) {
                 System.out.println("Sai mat khau");
@@ -177,6 +180,7 @@ public class Managers extends Management<Manager> implements ILogin {
                 }
             } else {
                 System.out.println("Mat khau chinh xac");
+                System.out.println(StringHelper.phanCach());
                 instance.at(found).dashboard();
                 return found;
             }
