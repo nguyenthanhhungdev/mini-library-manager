@@ -34,7 +34,7 @@ public class Card extends AnyId implements IDataProcess<Card> {
     }
 
     public Card extendExpiration(KhoangThoiGian ktg) {
-        expiration = expiration.plusKhoangThoiGian(ktg);
+        expiration = ThoiGian.now().plusKhoangThoiGian(ktg);
         return this;
     }
 
