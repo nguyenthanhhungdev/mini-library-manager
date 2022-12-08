@@ -45,6 +45,11 @@ public class Card extends AnyId implements IDataProcess<Card> {
         return this;
     }
 
+    public Card extendExpiration() {
+        this.expiration = ThoiGian.now().modNgay(this.type.hanSuDung);
+        return this;
+    }
+
     protected Card setExpiration(ThoiGian tg) {
         expiration = tg;
         return this;
