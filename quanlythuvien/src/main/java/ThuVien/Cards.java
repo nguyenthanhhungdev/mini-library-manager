@@ -119,27 +119,27 @@ public class Cards extends Management<Card> {
                     System.out.println(StringHelper.phanCach());
                     System.out.println("Dang thao tac edit the: ");
                     System.out.println(StringHelper.phanCach());
-                    System.out.println(card.toString());
+                    System.out.println(instance.at(n).toString());
                     System.out.println(StringHelper.phanCach());
                     System.out.println("Chon thao tac: ");
                     switch (m = StringHelper.acceptInput("Doi loai the", "Gia han the")) {
                         case 1 -> {
                             int a = StringHelper.acceptInput("regular", "pro", "vip", "ultimate");
-                            System.out.println(StringHelper.phanCach());
                             switch (a) {
                                 case 1 -> {
-                                    card = new Card(card.getId(), Card.regular, card.getCreation());
+                                    card.setType(Card.regular);
                                 }
                                 case 2 -> {
-                                    card = new Card(card.getId(), Card.pro, card.getCreation());
+                                    card.setType(Card.pro);
                                 }
                                 case 3 -> {
-                                    card = new Card(card.getId(), Card.vip, card.getCreation());
+                                    card.setType(Card.vip);
                                 }
                                 case 4 -> {
-                                    card = new Card(card.getId(), Card.ultimate, card.getCreation());
+                                    card.setType(Card.ultimate);
                                 }
                             }
+                            System.out.println(card.toString());
                         }
                         case 2 -> {
                             System.out.println(StringHelper.phanCach());

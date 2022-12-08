@@ -29,6 +29,7 @@ public class Card extends AnyId implements IDataProcess<Card> {
 
     protected Card setType(Type type) {
         this.type = type;
+        this.expiration = this.creation.modNgay(this.type.hanSuDung);//Dùng để thay đổi loại thẻ
         return this;
     }
 
@@ -45,7 +46,7 @@ public class Card extends AnyId implements IDataProcess<Card> {
         return this;
     }
 
-    public Card extendExpiration() {
+    public Card extendExpiration() {//Dùng cho gia hạn thẻ, dựa vào loại thẻ
         this.expiration = ThoiGian.now().modNgay(this.type.hanSuDung);
         return this;
     }
@@ -94,7 +95,7 @@ public class Card extends AnyId implements IDataProcess<Card> {
     public static final Type pro = new Type(2, "Pro", .9f, 240);
     public static final Type vip = new Type(3, "VIP", .8f, 300);
     public static final Type ultimate = new Type(4, "Ultimate", .7f, 365);
-    public static final Type[] types = new Type[] { none, regular, pro, vip, ultimate };
+    public static final Type[] types = new Type[] { none, regular, pro, vip, ultimate };//Dùng để đọc từ file chuyển thành Type
     private Type type = none;
     public static final Card defaultCard = new Card(0, new ThoiGian(LocalDateTime.MIN))
             .setExpiration(new ThoiGian(LocalDateTime.MAX));
