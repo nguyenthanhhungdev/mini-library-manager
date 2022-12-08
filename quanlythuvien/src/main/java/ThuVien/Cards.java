@@ -125,29 +125,31 @@ public class Cards extends Management<Card> {
                     switch (m = StringHelper.acceptInput("Doi loai the", "Gia han the")) {
                         case 1 -> {
                             int a = StringHelper.acceptInput("regular", "pro", "vip", "ultimate");
+                            System.out.println(StringHelper.phanCach());
                             switch (a) {
                                 case 1 -> {
-                                    card.setType(Card.regular);
+                                    card = new Card(card.getId(), Card.regular, card.getCreation());
                                 }
                                 case 2 -> {
-                                    card.setType(Card.pro);
+                                    card = new Card(card.getId(), Card.pro, card.getCreation());
                                 }
                                 case 3 -> {
-                                    card.setType(Card.vip);
+                                    card = new Card(card.getId(), Card.vip, card.getCreation());
                                 }
                                 case 4 -> {
-                                    card.setType(Card.ultimate);
+                                    card = new Card(card.getId(), Card.ultimate, card.getCreation());
                                 }
                             }
                         }
                         case 2 -> {
                             System.out.println(StringHelper.phanCach());
-                            int days = StringHelper.acceptKey("So ngay gia han");
-                            card.extendExpiration(new KhoangThoiGian(Duration.ofDays(days)));
+                            card.extendExpiration();
+                            System.out.println(StringHelper.itemer("Su dung den", card.getExpiration().toString()));
                         }
                         default -> {
                             m = -1;
                             System.out.println("Ket thuc edit the");
+                            System.out.println(StringHelper.phanCach());
                         }
                     }
                 } while (m >= 0);
@@ -156,7 +158,6 @@ public class Cards extends Management<Card> {
             LOGGER.log(Level.WARNING, "Coi loi xay ra, edit the that bai", e);
             throw e;
         }
-
         return card;
     }
 
