@@ -16,6 +16,13 @@ public class Card extends AnyId implements IDataProcess<Card> {
         creation = expiration = tg;
     }
 
+    public Card(int id, Type type, ThoiGian creation) {
+        super(id);
+        this.type = type;
+        this.creation = creation;
+        this.expiration = creation.modNgay(type.hanSuDung());
+    }
+
     public Type getType() {
         return type;
     }
@@ -74,14 +81,14 @@ public class Card extends AnyId implements IDataProcess<Card> {
 
     private ThoiGian creation, expiration;
 
-    public static final record Type(int code, String name, float multiplier) {
+    public static final record Type(int code, String name, float multiplier, int hanSuDung) {
     };
 
-    public static final Type none = new Type(0, "None", 1.2f);
-    public static final Type regular = new Type(1, "Regular", 1.f);
-    public static final Type pro = new Type(2, "Pro", .9f);
-    public static final Type vip = new Type(3, "VIP", .8f);
-    public static final Type ultimate = new Type(4, "Ultimate", .7f);
+    public static final Type none = new Type(0, "None", 1.2f, 0);
+    public static final Type regular = new Type(1, "Regular", 1.f, 180);
+    public static final Type pro = new Type(2, "Pro", .9f, 240);
+    public static final Type vip = new Type(3, "VIP", .8f, 300);
+    public static final Type ultimate = new Type(4, "Ultimate", .7f, 365);
     public static final Type[] types = new Type[] { none, regular, pro, vip, ultimate };
     private Type type = none;
     public static final Card defaultCard = new Card(0, new ThoiGian(LocalDateTime.MIN))

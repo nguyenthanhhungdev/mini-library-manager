@@ -34,29 +34,36 @@ public class Cards extends Management<Card> {
             LOGGER.warning("Unexpected input");
             return null;
         }
-        Card card = new Card(genNextId(), ThoiGian.now());
+//        Card card = new Card(genNextId(), ThoiGian.now());
+        Card.Type type = null;
         switch (userInp) {
             case 1 -> {
-                card.setType(Card.regular);
-                card.setExpiration(card.getCreation().modNgay(180));
+//                card.setType(Card.regular);
+//                card.setExpiration(card.getCreation().modNgay(180));
+                type = Card.regular;
             }
             case 2 -> {
-                card.setType(Card.pro);
-                card.setExpiration(card.getCreation().modNgay(240));
+//                card.setType(Card.pro);
+//                card.setExpiration(card.getCreation().modNgay(240));
+                type = Card.pro;
             }
             case 3 -> {
-                card.setType(Card.vip);
-                card.setExpiration(card.getCreation().modNgay(300));
+//                card.setType(Card.vip);
+//                card.setExpiration(card.getCreation().modNgay(300));
+                type = Card.vip;
             }
             case 4 -> {
-                card.setType(Card.ultimate);
-                card.setExpiration(card.getCreation().modNgay(365));
+//                card.setType(Card.ultimate);
+//                card.setExpiration(card.getCreation().modNgay(365));
+                type = Card.ultimate;
             }
             case 5 -> {
-                card.setType(Card.none);
-                card.setExpiration(new ThoiGian(LocalDateTime.MAX));
+//                card.setType(Card.none);
+//                card.setExpiration(new ThoiGian(LocalDateTime.MIN));
+                type = Card.none;
             }
         }
+        Card card = new Card(genNextId(), type, ThoiGian.now());
         return card;
     }
 
@@ -109,8 +116,11 @@ public class Cards extends Management<Card> {
                 int m;
                 do {
                     card = instance.at(n);
+                    System.out.println(StringHelper.phanCach());
                     System.out.println("Dang thao tac edit the: ");
+                    System.out.println(StringHelper.phanCach());
                     System.out.println(card.toString());
+                    System.out.println(StringHelper.phanCach());
                     System.out.println("Chon thao tac: ");
                     switch (m = StringHelper.acceptInput("Doi loai the", "Gia han the")) {
                         case 1 -> {
@@ -131,6 +141,7 @@ public class Cards extends Management<Card> {
                             }
                         }
                         case 2 -> {
+                            System.out.println(StringHelper.phanCach());
                             int days = StringHelper.acceptKey("So ngay gia han");
                             card.extendExpiration(new KhoangThoiGian(Duration.ofDays(days)));
                         }
