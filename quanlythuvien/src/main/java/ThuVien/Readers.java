@@ -44,7 +44,7 @@ public class Readers extends Management<Reader> implements ILogin {
             toAdd.setAddress(address);
             toAdd.setCard(card);
             instance.push_back(toAdd);
-            StringHelper.liner("Da them thanh cong doc gia", toAdd.toString());
+            System.out.println(StringHelper.itemer("Da them thanh cong doc gia", toAdd.toString()));
             instance.push_back(toAdd);
             return toAdd;
         } catch (RuntimeException e) {

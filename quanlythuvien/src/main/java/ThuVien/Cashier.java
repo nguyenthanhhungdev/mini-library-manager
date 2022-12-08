@@ -131,7 +131,6 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
 
     public int dashboard() {
         while (true) {
-            System.out.println(StringHelper.phanCach());
             System.out.println("Dang nhap voi tu canh Thu Ngan");
             System.out.println(this.toString());
             System.out.println(StringHelper.phanCach());
