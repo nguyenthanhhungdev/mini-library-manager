@@ -33,7 +33,7 @@ public class VirtualHoaDon extends AnyId {
     }
 
     public String toString() {
-        return StringHelper.liner(super.toString(),
+        return StringHelper.phanCach() + StringHelper.liner(super.toString(),
                 StringHelper.itemer("Creator", creator),
                 StringHelper.itemer("Borrows",
                         borrows.stream().map(Document::toString).collect(Collectors.joining("\n"))));

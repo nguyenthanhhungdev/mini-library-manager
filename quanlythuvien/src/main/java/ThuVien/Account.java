@@ -43,7 +43,7 @@ public abstract class Account extends People {
 
     @Override
     public String toString() {
-        return StringHelper.liner(super.toString(),
+        return StringHelper.phanCach() + StringHelper.liner(super.toString(),
                 StringHelper.itemer("Username", username),
                 StringHelper.itemer("Password", StringHelper.spacer("[" + password.length(), "character]")),
                 StringHelper.itemer("Registration", registration.toScreen()));

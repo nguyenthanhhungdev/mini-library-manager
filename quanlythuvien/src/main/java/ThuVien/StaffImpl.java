@@ -36,7 +36,7 @@ public abstract class StaffImpl extends Account {
 
     @Override
     public String toString() {
-        return StringHelper.liner(super.toString(),
+        return StringHelper.phanCach() + StringHelper.liner(super.toString(),
                 StringHelper.itemer("Ca truc", truc.toScreen()),
                 StringHelper.itemer("Luong", luong.toScreen()),
                 StringHelper.itemer("Social credit", calcSocialCredit()));

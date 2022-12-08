@@ -74,7 +74,7 @@ public class Card extends AnyId implements IDataProcess<Card> {
     }
 
     public String toString() {
-        return StringHelper.liner(super.toString(),
+        return StringHelper.phanCach() + StringHelper.liner(super.toString(),
                 StringHelper.itemer("Type", type.name),
                 StringHelper.itemer("Price multiplier", type.multiplier),
                 StringHelper.itemer("Creation", creation.toScreen()),
