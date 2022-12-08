@@ -47,6 +47,7 @@ public class Cashiers extends Management<Cashier> implements ILogin {
             toAdd.setAddress(address);
             toAdd.setTruc(truc);
             toAdd.setLuong(luong);
+            System.out.println(StringHelper.itemer("Da them thanh cong thu ngan", toAdd.toString()));
             instance.push_back(toAdd);
             return toAdd;
         } catch (RuntimeException e) {

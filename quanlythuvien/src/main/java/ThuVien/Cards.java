@@ -64,6 +64,8 @@ public class Cards extends Management<Card> {
             }
         }
         Card card = new Card(genNextId(), type, ThoiGian.now());
+        Global.cards.instance.push_back(card);
+        System.out.println(StringHelper.itemer("Da them thanh cong the", card.toString()));
         return card;
     }
 

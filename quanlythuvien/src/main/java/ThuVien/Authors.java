@@ -43,6 +43,7 @@ public class Authors extends Management<Author> {
             author.setEmail(email);
             author.setPhone(phone);
             instance.push_back(author);
+            System.out.println(StringHelper.itemer("Da them thanh cong tac gia", author.toString()));
             return author;
         } catch (RuntimeException e) {
             LOGGER.log(Level.WARNING, "Likely input parse error in Authors::add", e);

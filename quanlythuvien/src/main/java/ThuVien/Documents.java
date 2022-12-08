@@ -95,6 +95,8 @@ public class Documents extends Management<Document> {
         toRet.setAuthors(authors);
         toRet.setPublication(publication);
         toRet.setCopies(copies);
+        System.out.println(StringHelper.itemer("Da them thanh cong tai lieu", toRet.toString()));
+        instance.push_back(toRet);
         return toRet;
     }
 

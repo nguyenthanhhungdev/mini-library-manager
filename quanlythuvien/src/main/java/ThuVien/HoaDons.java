@@ -49,6 +49,7 @@ public class HoaDons extends Management<HoaDon> {
             if (m == 1) {
                 toAdd.setDeadline(ThoiGian.now().modNgay(ngayTra));
                 instance.push_back(toAdd);
+                System.out.println(StringHelper.itemer("Da them thanh cong hoa don", toAdd.toString()));
                 virtuals.erase(pos);
                 System.out.println("Thanh toan da xac nhan");
                 return toAdd;
@@ -59,6 +60,7 @@ public class HoaDons extends Management<HoaDon> {
             LOGGER.log(Level.WARNING, "Likely input parse error in HoaDons::add", e);
             LOGGER.info("The editing operation is cancelled");
         }
+        System.out.println(StringHelper.phanCach());
         return null;
     }
 

@@ -48,6 +48,7 @@ public class Managers extends Management<Manager> implements ILogin {
             toAdd.setTruc(truc);
             toAdd.setLuong(luong);
             instance.push_back(toAdd);
+            System.out.println(StringHelper.itemer("D athem thanh cong quan li", toAdd.toString()));
             return toAdd;
         } catch (RuntimeException e) {
             LOGGER.log(Level.WARNING, "Likely input parse error in Managers::add", e);
