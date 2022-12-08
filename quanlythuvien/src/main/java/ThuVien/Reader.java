@@ -41,37 +41,50 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
             }
             switch (n) {
                 case 1 -> {
-                    VirtualHoaDon vhd = Global.hoadons.createVirtual(this);
-                    while (true) {
+                    if (this.getCard().getExpiration().compareTo(ThoiGian.now()) < 0) {
+                        System.out.println(StringHelper.liner("The het han", "Ban co muon gia han the"));
+                        int m;
+                        switch (m = StringHelper.acceptInput("Co", "Khong")) {
+                            case 1 -> {
+                                this.card.extendExpiration();
+                            }
+                            case 2 -> {
+                                return 0;
+                            }
+                        }
+                    } else {
+                        VirtualHoaDon vhd = Global.hoadons.createVirtual(this);
+                        while (true) {
+                            System.out.println(StringHelper.phanCach());
+                            int dn = Integer.parseInt(StringHelper.acceptLine("Nhap id tai lieu"));
+                            if (dn == 0) {
+                                System.out.println("Dung muon tai lieu ");
+                                break;
+                            }
+                            dn = Global.documents.search(dn);
+                            if (dn == -1) {
+                                System.out.println("Khong tim thay tai lieu");
+                                continue;
+                            }
+                            System.out.println(StringHelper.phanCach());
+                            System.out.println("Tim thay tai lieu");
+                            Document d = Global.documents.instance.at(dn);
+                            System.out.println(d.toString());
+                            System.out.println(StringHelper.phanCach());
+                            if (!vhd.addBorrows(d)) {
+                                System.out.println("Tai lieu khong kha dung cho muon");
+                            }
+                            if (StringHelper.acceptInput("Tiep tuc muon", "Dung lai") == 2) {
+                                break;
+                            }
+                        }
                         System.out.println(StringHelper.phanCach());
-                        int dn = Integer.parseInt(StringHelper.acceptLine("Nhap id tai lieu"));
-                        if (dn == 0) {
-                            System.out.println("Dung muon tai lieu ");
-                            break;
+                        System.out.println("Xem lai danh sach chuan bi muon");
+                        System.out.println(vhd.toStringMinified());
+                        if (StringHelper.acceptInput("Ok", "Bo") == 1) {
+                            Global.hoadons.acceptVirtual(vhd);
+                            System.out.println("Dem id hoa don ao cho thu ngan de tiep tuc");
                         }
-                        dn = Global.documents.search(dn);
-                        if (dn == -1) {
-                            System.out.println("Khong tim thay tai lieu");
-                            continue;
-                        }
-                        System.out.println(StringHelper.phanCach());
-                        System.out.println("Tim thay tai lieu");
-                        Document d = Global.documents.instance.at(dn);
-                        System.out.println(d.toString());
-                        System.out.println(StringHelper.phanCach());
-                        if (!vhd.addBorrows(d)) {
-                            System.out.println("Tai lieu khong kha dung cho muon");
-                        }
-                        if (StringHelper.acceptInput("Tiep tuc muon", "Dung lai") == 2) {
-                            break;
-                        }
-                    }
-                    System.out.println(StringHelper.phanCach());
-                    System.out.println("Xem lai danh sach chuan bi muon");
-                    System.out.println(vhd.toStringMinified());
-                    if (StringHelper.acceptInput("Ok", "Bo") == 1) {
-                        Global.hoadons.acceptVirtual(vhd);
-                        System.out.println("Dem id hoa don ao cho thu ngan de tiep tuc");
                     }
                 }
                 case 2 -> {
@@ -122,9 +135,9 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
     }
 
     public String[] toBlob() {
-        return new String[] { String.valueOf(getId()), getUsername(), getPassword(), getName(),
+        return new String[]{String.valueOf(getId()), getUsername(), getPassword(), getName(),
                 getRegistration().toString(), getBirth().toString(), getPhone(), getEmail(), getAddress(),
-                String.valueOf(card.getId()) };
+                String.valueOf(card.getId())};
     }
 
     @Override
