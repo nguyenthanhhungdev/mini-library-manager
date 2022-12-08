@@ -212,7 +212,7 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
     }
 
     public String toString() {
-        return StringHelper.phanCach() + StringHelper.phanCach() + StringHelper.liner(super.toString(),
+        return StringHelper.phanCach() + StringHelper.liner(super.toString(),
                 StringHelper.itemer("Completition count", getCompletionCount()));
     }
 

@@ -109,6 +109,7 @@ public class Readers extends Management<Reader> implements ILogin {
                     reader = instance.at(n);
                     System.out.println("Dang thao tac voi doc gia: ");
                     System.out.println(reader.toString());
+                    System.out.println(StringHelper.phanCach());
                     switch (m = menuEdit()) {
                         case 1 -> reader.setName(StringHelper.acceptLine("Nhap ten doc gia: "));
                         case 2 ->
