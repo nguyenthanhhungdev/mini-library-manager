@@ -42,16 +42,7 @@ public class Reader extends Account implements IDataProcess<Reader>, IDashboard 
             switch (n) {
                 case 1 -> {
                     if (this.getCard().getExpiration().compareTo(ThoiGian.now()) < 0) {
-                        System.out.println(StringHelper.liner("The het han", "Ban co muon gia han the"));
-                        int m;
-                        switch (m = StringHelper.acceptInput("Co", "Khong")) {
-                            case 1 -> {
-                                this.card.extendExpiration();
-                            }
-                            case 2 -> {
-                                return 0;
-                            }
-                        }
+                        System.out.println("The het han, khong the muon sach, vui long gap thu ngan de gia han the");
                     } else {
                         VirtualHoaDon vhd = Global.hoadons.createVirtual(this);
                         while (true) {
