@@ -68,7 +68,7 @@ public class Managers extends Management<Manager> implements ILogin {
             System.out.println("Tim kiem khong co ket qua");
         } else {
             System.out.println("Tim thay quan ly:");
-            instance.at(pos).toString();
+            instance.at(pos).toStringMinified();
         }
         return pos;
     }

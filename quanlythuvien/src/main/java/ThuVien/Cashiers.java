@@ -68,7 +68,7 @@ public class Cashiers extends Management<Cashier> implements ILogin {
             System.out.println("Tim kiem khong co ket qua");
         } else {
             System.out.println("Tim thay thu ngan:");
-            instance.at(pos).toString();
+            instance.at(pos).toStringMinified();
         }
         return pos;
     }

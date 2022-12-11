@@ -63,7 +63,7 @@ public class Readers extends Management<Reader> implements ILogin {
                 System.out.println("Tim kiem khong co ket qua: ");
             } else {
                 System.out.println("Tim thay doc gia: ");
-                System.out.println(instance.at(n).toString());
+                System.out.println(instance.at(n).toStringMinified());
             }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Input error", e);

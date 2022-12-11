@@ -63,7 +63,7 @@ public class Authors extends Management<Author> {
             System.out.println("Tim kiem khong co ket qua: ");
         } else {
             System.out.println("Tim thay tac gia: ");
-            System.out.println(instance.at(pos).toString());
+            System.out.println(instance.at(pos).toStringMinified());
         }
         return pos;
     }
