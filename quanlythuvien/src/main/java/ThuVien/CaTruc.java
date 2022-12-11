@@ -60,7 +60,7 @@ public class CaTruc {
 
         @Override
         public String toString() {
-            return StringHelper.concater("~", gioLam, gioVe);
+            return String.join("~", gioLam.format(formatter), gioVe.format(formatter));
         }
 
         public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
