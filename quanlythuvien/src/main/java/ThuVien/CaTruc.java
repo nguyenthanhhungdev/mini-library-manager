@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import javax.management.RuntimeErrorException;
-
 import Polyfill.StringHelper;
 
 public class CaTruc {
@@ -55,7 +53,7 @@ public class CaTruc {
         }
 
         public String toScreen() {
-            return StringHelper.itemer("TG truc", this.toString());
+            return String.join(" ~ ", gioLam.format(formatter), gioVe.format(formatter));
         }
 
         @Override
@@ -81,7 +79,7 @@ public class CaTruc {
             try {
                 IntStream.range(0, 7).filter(i -> !StringHelper.isNullOrBlank(caTrucPerDay[i]))
                         .forEach(i -> toRet.setCaTrucNgay(i, CaTrucNgay.parseCaTrucNgay(caTrucPerDay[i])));
-            } catch (RuntimeErrorException e) {
+            } catch (RuntimeException e) {
                 LOGGER.log(Level.WARNING, "CaTruc parsing error", e);
                 throw e;
             }
@@ -90,8 +88,10 @@ public class CaTruc {
     }
 
     public String toScreen() {
-        return IntStream.range(0, 7).filter(i -> instance[i] == null)
-                .mapToObj(i -> StringHelper.itemer(names[i], instance[i])).collect(Collectors.joining("\n"));
+        return IntStream.range(0, 7).filter(i -> instance[i] != null)
+                .mapToObj(i -> StringHelper.itemer(names[i], instance[i].toScreen()))
+                .collect(Collectors.collectingAndThen(
+                        Collectors.joining(", "), toRet -> StringHelper.isNullOrBlank(toRet) ? "Khong" : toRet));
     }
 
     @Override
