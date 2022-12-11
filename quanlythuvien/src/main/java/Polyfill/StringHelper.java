@@ -115,15 +115,21 @@ public final class StringHelper {
         }
     }
 
-    public static String phanCach() {
+    public static String initPhanCach() {
         String s = "";
-        for(int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {
             s += "=";
         }
-        if (s != "") s += "\n";
+        if (s != "")
+            s += "\n";
         return s;
     }
 
+    private static final String PHANCACH = initPhanCach();
+
+    public static String phanCach() {
+        return PHANCACH;
+    }
     // public static void flushScanner() {
     // while (Global.scanner.hasNext()) {
     // Global.scanner.nextLine();
