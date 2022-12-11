@@ -25,7 +25,7 @@ public class Author extends People implements IDataProcess<Author> {
         this.language = language;
         return this;
     }
-
+    //lấy thông tin của tác giả
     public static Author fromBlob(String[] inp) {
         int id = Integer.parseInt(inp[0]);
         String name = inp[1];

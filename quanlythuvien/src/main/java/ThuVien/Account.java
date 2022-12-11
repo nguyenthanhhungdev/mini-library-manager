@@ -17,11 +17,11 @@ public abstract class Account extends People { //account kế thừa people
     public String getUsername() {
         return username;
     }
-
+    //kiểm tra mật khẩu
     public boolean checkPassword(String password) {
         return StringHelper.isNullOrBlank(this.password) || this.password.equals(password);
     }
-
+    //đổi mật khẩu, trước đó check mật khẩu cũ có đúng ko
     public boolean changePassword(String oldPassword, String newPassword) {
         if (oldPassword == null) {
             oldPassword = "";
