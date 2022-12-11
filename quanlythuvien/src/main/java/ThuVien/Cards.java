@@ -61,7 +61,7 @@ public class Cards extends Management<Card> {
         try {
             n = promptSearch();
             if (n == -1) {
-                System.out.println("Ti kiem that bai, remove the that bai");
+                System.out.println("Tim kiem that bai, remove the that bai");
             } else {
                 System.out.println("Xac nhan xoa the: ");
                 System.out.println(instance.at(n).toString());
