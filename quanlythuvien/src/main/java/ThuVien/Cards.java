@@ -1,11 +1,8 @@
 package ThuVien;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Polyfill.KhoangThoiGian;
 import Polyfill.PFArray;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
@@ -34,36 +31,13 @@ public class Cards extends Management<Card> {
             LOGGER.warning("Unexpected input");
             return null;
         }
-//        Card card = new Card(genNextId(), ThoiGian.now());
-        Card.Type type = null;
-        switch (userInp) {
-            case 1 -> {
-//                card.setType(Card.regular);
-//                card.setExpiration(card.getCreation().modNgay(180));
-                type = Card.regular;
-            }
-            case 2 -> {
-//                card.setType(Card.pro);
-//                card.setExpiration(card.getCreation().modNgay(240));
-                type = Card.pro;
-            }
-            case 3 -> {
-//                card.setType(Card.vip);
-//                card.setExpiration(card.getCreation().modNgay(300));
-                type = Card.vip;
-            }
-            case 4 -> {
-//                card.setType(Card.ultimate);
-//                card.setExpiration(card.getCreation().modNgay(365));
-                type = Card.ultimate;
-            }
-            case 5 -> {
-//                card.setType(Card.none);
-//                card.setExpiration(new ThoiGian(LocalDateTime.MIN));
-                type = Card.none;
-            }
-        }
-        Card card = new Card(genNextId(), type, ThoiGian.now());
+        Card card = new Card(genNextId(), switch (userInp) {
+            case 1 -> Card.regular;
+            case 2 -> Card.pro;
+            case 3 -> Card.vip;
+            case 4 -> Card.ultimate;
+            default -> Card.none;
+        }, ThoiGian.now());
         Global.cards.instance.push_back(card);
         System.out.println(StringHelper.itemer("Da them thanh cong the", card.toString()));
         return card;
