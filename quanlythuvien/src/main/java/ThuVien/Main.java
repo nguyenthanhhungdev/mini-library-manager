@@ -62,25 +62,27 @@ public class Main {
         try {
             Global.cards = Cards
                     .fromBatchBlob(
-                            PFTrim(new PFFileReader("quanlythuvien", "data", "List_The" + annex + ".csv").read()));
+                            dataTrim(new PFFileReader("quanlythuvien", "data", "List_The" + annex + ".csv").read()));
             Global.authors = Authors
                     .fromBatchBlob(
-                            PFTrim(new PFFileReader("quanlythuvien", "data", "List_TacGia" + annex + ".csv").read()));
+                            dataTrim(new PFFileReader("quanlythuvien", "data", "List_TacGia" + annex + ".csv").read()));
             Global.documents = Documents
                     .fromBatchBlob(
-                            PFTrim(new PFFileReader("quanlythuvien", "data", "List_TaiLieu" + annex + ".csv").read()));
+                            dataTrim(
+                                    new PFFileReader("quanlythuvien", "data", "List_TaiLieu" + annex + ".csv").read()));
             Global.readers = Readers
                     .fromBatchBlob(
-                            PFTrim(new PFFileReader("quanlythuvien", "data", "List_DocGia" + annex + ".csv").read()));
+                            dataTrim(new PFFileReader("quanlythuvien", "data", "List_DocGia" + annex + ".csv").read()));
             Global.cashiers = Cashiers
                     .fromBatchBlob(
-                            PFTrim(new PFFileReader("quanlythuvien", "data", "List_NhanVien" + annex + ".csv").read()));
+                            dataTrim(new PFFileReader("quanlythuvien", "data", "List_NhanVien" + annex + ".csv")
+                                    .read()));
             Global.managers = Managers
                     .fromBatchBlob(
-                            PFTrim(new PFFileReader("quanlythuvien", "data", "List_QuanLi" + annex + ".csv").read()));
+                            dataTrim(new PFFileReader("quanlythuvien", "data", "List_QuanLi" + annex + ".csv").read()));
             Global.hoadons = HoaDons
                     .fromBatchBlob(
-                            PFTrim(new PFFileReader("quanlythuvien", "data", "List_HoaDon" + annex + ".csv").read()));
+                            dataTrim(new PFFileReader("quanlythuvien", "data", "List_HoaDon" + annex + ".csv").read()));
             LOGGER.info("Loaded without errors");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Load data error", e);
@@ -115,18 +117,20 @@ public class Main {
         return 0;
     }
 
-    public static PFArray<String[]> PFTrim(PFArray<String[]> inp) {
+    public static PFArray<String[]> dataTrim(PFArray<String[]> inp) {
         while (StringHelper.isNullOrBlank(inp.back()[0])) {
             inp.pop_back();
         }
-        inp.pop_front();
+        if (Settings.skipFirstRow) {
+            inp.pop_front();
+        }
         return inp;
     }
 
     public static ILogin[] loginList;
 
     public static final class Settings {
-        public static boolean loadFromData = false, saveToData = true;
+        public static boolean loadFromData = false, saveToData = true, skipFirstRow = true;
         public static int logLevel = 1;
     }
 }
