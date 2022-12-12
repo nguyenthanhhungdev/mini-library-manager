@@ -56,7 +56,8 @@ public class Luong {
     }
 
     public String toScreen() {
-        return StringHelper.liner(StringHelper.itemer("Hien tai", hienTai),
+        return StringHelper.concater(", ",
+                StringHelper.itemer("Hien tai", hienTai),
                 StringHelper.itemer("Tuong lai", tuongLai),
                 StringHelper.itemer("Tong da tra", tongDaTra),
                 StringHelper.itemer("Cap nhat", modified.toScreen()));

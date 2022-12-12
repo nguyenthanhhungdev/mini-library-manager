@@ -11,9 +11,8 @@ import Polyfill.StringHelper;
 public class Main {
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
-    public static int runApp(String[] args) {
-        int logLevel = Integer.parseInt(args[0]);
-        switch (logLevel) {
+    public static int runApp() {
+        switch (Settings.logLevel) {
             case 1 -> LOGGER.setLevel(Level.ALL);
             case 2 -> LOGGER.setLevel(Level.WARNING);
             case 3 -> LOGGER.setLevel(Level.FINE);
@@ -21,7 +20,13 @@ public class Main {
             default -> LOGGER.setLevel(Level.SEVERE);
         }
         Global.trandan = new Owner();
-        load();
+        if (Settings.loadFromData) {
+            LOGGER.info("Loading from _data");
+            load("_data");
+        } else {
+            LOGGER.info("Loading from default");
+            load("");
+        }
         int ret = mainMenu();
         LOGGER.info("Exiting application with menu code " + ret);
         return 0;
@@ -38,29 +43,46 @@ public class Main {
                 break;
             }
             switch (n) {
-                case 5 -> save();
+                case 5 -> {
+                    if (Settings.saveToData) {
+                        LOGGER.info("Saving to _data");
+                        save("_data");
+                    } else {
+                        LOGGER.info("Saving to default");
+                        save("");
+                    }
+                }
                 default -> loginList[n - 1].login();
             }
         }
         return 1;
     }
 
-    public static int load() {
+    public static int load(String annex) {
         try {
             Global.cards = Cards
-                    .fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_The.csv").read()));
+                    .fromBatchBlob(
+                            dataTrim(new PFFileReader("quanlythuvien", "data", "List_The" + annex + ".csv").read()));
             Global.authors = Authors
-                    .fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_TacGia.csv").read()));
+                    .fromBatchBlob(
+                            dataTrim(new PFFileReader("quanlythuvien", "data", "List_TacGia" + annex + ".csv").read()));
             Global.documents = Documents
-                    .fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_TaiLieu.csv").read()));
+                    .fromBatchBlob(
+                            dataTrim(
+                                    new PFFileReader("quanlythuvien", "data", "List_TaiLieu" + annex + ".csv").read()));
             Global.readers = Readers
-                    .fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_DocGia.csv").read()));
+                    .fromBatchBlob(
+                            dataTrim(new PFFileReader("quanlythuvien", "data", "List_DocGia" + annex + ".csv").read()));
             Global.cashiers = Cashiers
-                    .fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_NhanVien.csv").read()));
+                    .fromBatchBlob(
+                            dataTrim(new PFFileReader("quanlythuvien", "data", "List_NhanVien" + annex + ".csv")
+                                    .read()));
             Global.managers = Managers
-                    .fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_QuanLi.csv").read()));
+                    .fromBatchBlob(
+                            dataTrim(new PFFileReader("quanlythuvien", "data", "List_QuanLi" + annex + ".csv").read()));
             Global.hoadons = HoaDons
-                    .fromBatchBlob(PFTrim(new PFFileReader("quanlythuvien", "data", "List_HoaDon.csv").read()));
+                    .fromBatchBlob(
+                            dataTrim(new PFFileReader("quanlythuvien", "data", "List_HoaDon" + annex + ".csv").read()));
             LOGGER.info("Loaded without errors");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Load data error", e);
@@ -71,15 +93,21 @@ public class Main {
         return 0;
     }
 
-    public static int save() {
+    public static int save(String annex) {
         try {
-            new PFFileWriter("quanlythuvien", "data", "List_The_data.csv").write(Global.cards.toBatchBlob());
-            new PFFileWriter("quanlythuvien", "data", "List_TacGia_data.csv").write(Global.authors.toBatchBlob());
-            new PFFileWriter("quanlythuvien", "data", "List_TaiLieu_data.csv").write(Global.documents.toBatchBlob());
-            new PFFileWriter("quanlythuvien", "data", "List_DocGia_data.csv").write(Global.readers.toBatchBlob());
-            new PFFileWriter("quanlythuvien", "data", "List_NhanVien_data.csv").write(Global.cashiers.toBatchBlob());
-            new PFFileWriter("quanlythuvien", "data", "List_QuanLi_data.csv").write(Global.managers.toBatchBlob());
-            new PFFileWriter("quanlythuvien", "data", "List_HoaDon_data.csv").write(Global.hoadons.toBatchBlob());
+            new PFFileWriter("quanlythuvien", "data", "List_The" + annex + ".csv").write(Global.cards.toBatchBlob());
+            new PFFileWriter("quanlythuvien", "data", "List_TacGia" + annex + ".csv")
+                    .write(Global.authors.toBatchBlob());
+            new PFFileWriter("quanlythuvien", "data", "List_TaiLieu" + annex + ".csv")
+                    .write(Global.documents.toBatchBlob());
+            new PFFileWriter("quanlythuvien", "data", "List_DocGia" + annex + ".csv")
+                    .write(Global.readers.toBatchBlob());
+            new PFFileWriter("quanlythuvien", "data", "List_NhanVien" + annex + ".csv")
+                    .write(Global.cashiers.toBatchBlob());
+            new PFFileWriter("quanlythuvien", "data", "List_QuanLi" + annex + ".csv")
+                    .write(Global.managers.toBatchBlob());
+            new PFFileWriter("quanlythuvien", "data", "List_HoaDon" + annex + ".csv")
+                    .write(Global.hoadons.toBatchBlob());
             LOGGER.info("Saved without errors");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Save data error", e);
@@ -89,13 +117,20 @@ public class Main {
         return 0;
     }
 
-    public static PFArray<String[]> PFTrim(PFArray<String[]> inp) {
+    public static PFArray<String[]> dataTrim(PFArray<String[]> inp) {
         while (StringHelper.isNullOrBlank(inp.back()[0])) {
             inp.pop_back();
         }
-        inp.pop_front();
+        if (Settings.skipFirstRow) {
+            inp.pop_front();
+        }
         return inp;
     }
 
     public static ILogin[] loginList;
+
+    public static final class Settings {
+        public static boolean loadFromData = false, saveToData = true, skipFirstRow = true;
+        public static int logLevel = 1;
+    }
 }

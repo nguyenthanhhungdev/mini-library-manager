@@ -24,7 +24,7 @@ public class Authors extends Management<Author> {
         blob.stream().forEach(e -> instance.push_back(Author.fromBlob(e)));
         updateCounter();
     }
-
+    //thêm vào thông tin của tác giả
     public Author add() {
         try {
             String name = StringHelper.acceptLine("Nhap ten tac gia");
@@ -52,7 +52,7 @@ public class Authors extends Management<Author> {
             return null;
         }
     }
-
+    //tìm kiếm tác giả dựa trên id sau đó có thể thực hiện thao tác xóa hoặc edit lại
     public int promptSearch() {
         int id = StringHelper.acceptKey("Nhap id tac gia");
         if (id == -1) {
@@ -63,7 +63,7 @@ public class Authors extends Management<Author> {
             System.out.println("Tim kiem khong co ket qua: ");
         } else {
             System.out.println("Tim thay tac gia: ");
-            System.out.println(instance.at(pos).toString());
+            System.out.println(instance.at(pos).toStringMinified());
         }
         return pos;
     }

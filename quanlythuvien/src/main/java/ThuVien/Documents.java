@@ -18,7 +18,7 @@ public class Documents extends Management<Document> {
     public Documents(Document[] r) {
         super(r);
     }
-
+    //Chọn loại sách dựa trên type
     public Documents(PFArray<String[]> blob) {
         blob.stream().forEach(e -> instance.push_back(switch (Integer.parseInt(e[0])) {
             case Type.NEWSPAPER -> Newspaper.fromBlob(e);

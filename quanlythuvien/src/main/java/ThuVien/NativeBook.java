@@ -15,7 +15,7 @@ public class NativeBook extends Book {
     }
 
     public String[] toBlob() {
-        return new String[] { String.valueOf(Documents.Type.NEWSPAPER), String.valueOf(getId()), getName(),
+        return new String[] { String.valueOf(Documents.Type.NATIVE_BOOK), String.valueOf(getId()), getName(),
                 StringHelper.lv1Join(Stream.of(getAuthors()).map(Author::getId).toArray()), getPublisher(), getLanguage().toString(),
                 getPublication().toString(), String.valueOf(getCopies()), String.valueOf(getBorrowed()) };
     }

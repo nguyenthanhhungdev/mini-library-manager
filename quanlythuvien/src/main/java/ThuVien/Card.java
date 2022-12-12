@@ -89,7 +89,7 @@ public class Card extends AnyId implements IDataProcess<Card> {
 
     public static final record Type(int code, String name, float multiplier, int hanSuDung) {
     };
-
+    //Loại thẻ
     public static final Type none = new Type(0, "None", 1.2f, 0);
     public static final Type regular = new Type(1, "Regular", 1.f, 180);
     public static final Type pro = new Type(2, "Pro", .9f, 240);

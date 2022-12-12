@@ -1,10 +1,9 @@
 package ThuVien;
 
+import java.util.stream.IntStream;
+
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
-
-import java.util.Arrays;
-import java.util.stream.IntStream;
 
 public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashboard {
     public Cashier(int id, String username) {
@@ -135,7 +134,8 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
             System.out.println(this.toString());
             System.out.println(StringHelper.phanCach());
             System.out.println("Thao tac voi: ");
-            int n = StringHelper.acceptInput("Doc gia", "Tac gia", "Hoa don", "Tai lieu", "Cho muon sach", "Nhan tra sach",
+            int n = StringHelper.acceptInput("Doc gia", "Tac gia", "Hoa don", "Tai lieu", "Cho muon sach",
+                    "Nhan tra sach",
                     "Dang xuat", "Tim kiem");
             if (n <= 0) {
                 System.out.println("Unexpected input");
@@ -206,9 +206,9 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
     }
 
     public String[] toBlob() {
-        return new String[]{String.valueOf(getId()), getUsername(), getPassword(), getName(),
+        return new String[] { String.valueOf(getId()), getUsername(), getPassword(), getName(),
                 getRegistration().toString(), getBirth().toString(), getPhone(), getEmail(), getAddress(),
-                getTruc().toString(), getLuong().toString(), String.valueOf(getCompletionCount())};
+                getTruc().toString(), getLuong().toString(), String.valueOf(getCompletionCount()) };
     }
 
     public String toString() {
