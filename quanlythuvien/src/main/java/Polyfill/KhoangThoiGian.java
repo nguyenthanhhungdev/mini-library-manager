@@ -34,6 +34,11 @@ public class KhoangThoiGian {
         return instance.isNegative();
     }
 
+    public static long toDays(ThoiGian thoiGian) {
+        Duration duration = Duration.between(thoiGian.getInstance(), ThoiGian.now().getInstance());
+        return duration.toDays();
+    }
+
     @Override
     public String toString() {
         return Stream.of(formatterList).filter(e -> e.value.get() != 0)
@@ -53,5 +58,5 @@ public class KhoangThoiGian {
     private record formatter(String unit, Supplier<Long> value) {
     }
 
-    private final formatter[] formatterList;
+    private final formatter[] formatterList;//Lưu lại tất cả khoảng thời gian
 }

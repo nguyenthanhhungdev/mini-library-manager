@@ -168,6 +168,8 @@ public class Cashier extends StaffImpl implements IDataProcess<Cashier>, IDashbo
                     System.out.println(StringHelper.phanCach());
                     if (Global.hoadons.edit() != null) {
                         System.out.println("Da hoan thanh hoa don");
+                    } else {
+                        System.out.println("Chua hoan thanh hoa don");
                     }
                 }
                 case 7 -> {

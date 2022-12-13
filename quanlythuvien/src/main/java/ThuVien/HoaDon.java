@@ -1,11 +1,16 @@
 package ThuVien;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.Temporal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import Polyfill.KhoangThoiGian;
 import Polyfill.PFArray;
 import Polyfill.StringHelper;
 import Polyfill.ThoiGian;
@@ -60,6 +65,24 @@ public class HoaDon extends VirtualHoaDon implements IDataProcess<HoaDon> {
                         holdings.stream().forEach(e -> e.returns());
                         holdings.clear();//Dọn sạch danh sách tài liệu đang giữ
                         System.out.println("Da tra het tai lieu");
+                        if (ThoiGian.now().compareTo(this.deadline) > 0) {
+                            System.out.println("Tra tre: \n" + KhoangThoiGian.toNow(this.deadline).toString());
+                            System.out.println("Tien phat: \n" + (holdings.size() + 1) * (KhoangThoiGian.toDays(this.deadline) * 5000));
+                            switch (StringHelper.acceptInput("Da nop tien phat roi", "Bo chay")) {
+                                case 1 -> {
+                                    return this;
+                                }
+                                case 2 -> {
+                                    Reader creator = getCreator();
+                                    System.out.println(StringHelper.liner("Thong tin doc gia vo trach nhiem:", creator.toString()));
+                                    int index = Global.readers.search(creator.getId());
+                                    if (index != -1) {
+                                        Global.readers.instance.erase(index);
+                                        Global.readers_black.instance.push_back(creator);
+                                    }
+                                }
+                            }
+                        }
                     } else {
                         Document d = holdings.erase(Integer.parseInt(StringHelper.acceptLine("Nhap stt tai lieu tra")));
                         d.returns();
@@ -88,21 +111,21 @@ public class HoaDon extends VirtualHoaDon implements IDataProcess<HoaDon> {
             LOGGER.log(Level.WARNING, "Input error", e);
             throw e;
         }
-        if (holdings.size() == 0) {
-            StringHelper.itemer("Da xoa tai lieu", this.toStringMinified());
+        if (holdings.size() == 0) {//Nếu đã trả hết tài liệu thì xóa hóa đơn
+            StringHelper.itemer("Da xoa hoa don", this.toStringMinified());
             int pos = IntStream.range(0, Global.hoadons.instance.size()).filter(e -> Global.hoadons.instance.at(e).getId() == this.getId()).findAny().orElse(-1);
             if (pos != -1) {
                 Global.hoadons.instance.erase(pos);
             }
         }
-        return this;
+        return null;
     }
 
     public String[] toBlob() {
-        return new String[] { String.valueOf(getId()), String.valueOf(getCreator().getId()),
+        return new String[]{String.valueOf(getId()), String.valueOf(getCreator().getId()),
                 StringHelper.lv1Join(getBorrows().stream().map(Document::getId).toArray()),
                 StringHelper.lv1Join(getHoldings().stream().map(Document::getId).toArray()),
-                getDeadline().toString() };
+                getDeadline().toString()};
     }
 
     public static HoaDon fromBlob(String[] inp) {

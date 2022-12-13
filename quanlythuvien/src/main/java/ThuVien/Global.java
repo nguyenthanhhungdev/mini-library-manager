@@ -14,6 +14,7 @@ public class Global {
     public static Managers managers;
     public static HoaDons hoadons;
     public static Owner trandan;
+    public static Readers readers_black;
     public static final int ratePerDay = 5000;
     public static final Scanner scanner = new Scanner(System.in);
     public static final Random random = new Random();
